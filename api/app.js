@@ -1,17 +1,25 @@
 var express = require("express");
 var body_parser = require("body-parser");
 var uuid = require('uuid');
-var cors = require('cors');
 var fs = require('fs');
 var path = require('path');
 
 var app = express();
 app.use(body_parser.json());
-app.use(cors());
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
 });
+
+// =========================================================================
+// START cors - FOR DEVELOPMENT ONLY
+// =========================================================================
+var cors = require('cors');
+app.use(cors());
+// =========================================================================
+// START cors - FOR DEVELOPMENT ONLY
+// =========================================================================
+
 
 // =========================================================================
 // START utility functions
