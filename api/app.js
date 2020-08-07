@@ -1,9 +1,13 @@
 var express = require("express");
 var body_parser = require("body-parser");
 var uuid = require('uuid');
+var cors = require('cors');
+var fs = require('fs');
+var path = require('path');
 
 var app = express();
-app.use(body_parser.json())
+app.use(body_parser.json());
+app.use(cors());
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
@@ -123,7 +127,7 @@ app.post("/fetch-image-tokens", (req, res, next) => {
   var page_size = req.body.pageSize;
   var gallery_access_token = req.body.token;
 
-  if(page_size > 0) {
+  if(page_size < 1) {
     ErrorResponse(res, "Page size must be greater than 0");
     return;
   }
@@ -148,7 +152,7 @@ app.post("/fetch-image-tokens", (req, res, next) => {
     index++;
   }
 
-  if(page_image_ids.length > 0) {
+  if(page_image_ids.length < 1) {
     ErrorResponse(res, "No images found on this page");
     return;
   }
@@ -205,7 +209,16 @@ app.get("/image", (req, res, next) => {
 
   var file_name = GetFileNameByImageToken(token);
 
-  res.sendFile("C:/Users/looph/Documents/phtgrphr-images/" + file_name);
+  fs.readFile("C:/Users/looph/Documents/phtgrphr-images/" + file_name, function (err, data) {
+
+    var extensionName = path.extname(file_name);
+    var base64Image = new Buffer(data, 'binary').toString('base64');
+    var base64String = "data:image/" + extensionName.split('.').pop()+ ";base64," + base64Image;
+
+    res.json({
+      "base64": base64String
+    });
+  })
 });
 
 // TODO
