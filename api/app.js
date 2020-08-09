@@ -1,11 +1,16 @@
 var express = require("express");
 var body_parser = require("body-parser");
-var uuid = require('uuid');
-var fs = require('fs');
-var path = require('path');
+var express_wetland = require("express-wetland");
+var _wetland = required("wetland").Wetland;
+var uuid = require("uuid");
+var fs = require("fs");
+var path = require("path");
 
 var app = express();
+var wetland = new Wetland(require("./wetland"));
+
 app.use(body_parser.json());
+app.use(express_wetland(wetland));
 
 app.listen(3000, () => {
   console.log("Server running on port 3000");
@@ -98,6 +103,7 @@ app.post("/gallery-auth", (req, res, next) => {
     return;
   }
 
+  // TODO: make sure this uses hashing
   if(!ValidateGuidPassword(guid, password)) {
       ErrorResponse(res, "Incorrect password");
       return;
