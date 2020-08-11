@@ -3,7 +3,7 @@ class User {
   static setMapping(mapping) {
     mapping.forProperty("id").primary().increments();
 
-    mapping.oneToMany("galleries", {targetEntity: "Gallery", inversedBy: "user"});
+    mapping.oneToMany("galleries", {targetEntity: "Gallery", mappedBy: "user"});
 
     mapping.field("name", {type: "string"});
     mapping.field("username", {type: "string"});

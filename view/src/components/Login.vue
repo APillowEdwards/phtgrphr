@@ -25,7 +25,7 @@
       authorise: function () {
         // Get auth token for this gallery
         var v = this;
-        API.post("/gallery-auth", {
+        API.post("/gallery/auth", {
             guid: v.guid,
             password: v.password
           })
