@@ -102,7 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
-api/defaultStore.js
 
 # Wetland migrations
 .data
+
+# Other
+api/defaultStore.js
