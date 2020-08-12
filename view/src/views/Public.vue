@@ -22,9 +22,9 @@
 </template>
 
 <script>
-  import GalleryExists from "@/components/GalleryExists.vue"
-  import ImageGallery from "@/components/ImageGallery.vue"
-  import Login from "@/components/Login.vue"
+  import GalleryExists from "@/components/public/GalleryExists.vue"
+  import ImageGallery from "@/components/public/ImageGallery.vue"
+  import Login from "@/components/public/Login.vue"
 
   let urlParams = new URLSearchParams(window.location.search);
 
@@ -38,8 +38,7 @@
     data: function () {
       return {
         galleryExistsResponseData: null,
-        galleryAuthToken: null,
-        loginPassword: ""
+        galleryAuthToken: null
       }
     },
     methods: {

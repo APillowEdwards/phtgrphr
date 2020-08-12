@@ -13,7 +13,7 @@
 </template>
 
 <script>
-  import API from '../api'
+  import API from '@/api'
 
   import GalleryImage from './GalleryImage.vue'
 

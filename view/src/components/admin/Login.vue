@@ -1,14 +1,15 @@
 <template>
   <div>
-    <p>Login</p>
+    <p>Admin Login</p>
     <p v-if="errorMessage.length > 0" style="color: red">{{errorMessage}}</p>
-    <input v-model="password">
+    <p>Username: <input v-model="username"></p>
+    <p>Password: <input v-model="password"></p>
     <button v-on:click="authorise">Submit</button>
   </div>
 </template>
 
 <script>
-  import API from '../api'
+  import API from '@/api'
 
   export default {
     name: 'Login',
@@ -17,23 +18,24 @@
     },
     data: function() {
       return {
+        username: "",
         password: "",
         errorMessage: ""
       }
     },
     methods: {
       authorise: function () {
-        // Get auth token for this gallery
+        // Attempt to get an auth token
         var v = this;
-        API.post("/gallery/auth", {
-            guid: v.guid,
-            password: v.password
+        API.post("/admin/auth", {
+            username: this.username,
+            password: this.password
           })
           .then(function (response) {
             if (response.data.hasError) {
               v.errorMessage = response.data.error.message;
             } else {
-              v.$emit("galleryauthresponse", response.data.token)
+              v.$emit("adminauthresponse", response.data.token)
             }
           });
       }
