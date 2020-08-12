@@ -10,14 +10,12 @@
   export default {
     name: 'GalleryImage',
     props: {
-      token: String
+      token: String,
+      imageId: Number
     },
-    asyncComputed: {
+    computed: {
       source: function() {
-        return API.get("/image?token=" + this.token)
-          .then(function (response) {
-            return response.data.base64
-          });
+        return API.defaults.baseURL + "image?token=" + this.token + "&id=" + this.imageId
       }
     }
   }

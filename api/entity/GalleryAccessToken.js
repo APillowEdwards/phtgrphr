@@ -7,7 +7,6 @@ class GalleryAccessToken {
     mapping.forProperty("id").primary().increments();
 
     mapping.manyToOne("gallery", {targetEntity: "Gallery", inversedBy: "galleryAccessTokens"});
-    mapping.oneToMany("imageAccessTokens", {targetEntity: "ImageAccessToken", mappedBy: "galleryAccessToken"});
 
     mapping.field("token", {type: "uuid"});
     mapping.field("expiry", {type: "dateTime"});

@@ -1,10 +1,13 @@
 <template>
   <div>
-    <p>Size: <input v-model="pageSize"><br />#: <input v-model="page"></p>
+    <h2>{{ galleryName }}</h2>
+    <p>Size: <input v-model="pageSize"><br />
+    #: <input v-model="page"></p>
     <gallery-image
-      v-for="token in imageTokens"
+      v-for="image in images"
       :token="token"
-      :key="token">
+      :image-id="image.id"
+      :key="image.id">
     </gallery-image>
   </div>
 </template>
@@ -20,7 +23,7 @@
       GalleryImage
     },
     props: {
-      authToken: String
+      token: String
     },
     data: function () {
       return {
@@ -29,21 +32,25 @@
       }
     },
     asyncComputed: {
-      imageTokens: function() {
-        if (this.authToken !== null) {
-          // Get the list of image tokens based on the page size and number
-          var v = this;
-          return API.post("/fetch-image-tokens", {
-              page: v.page - 1, // pages are zero-indexed server-side
-              pageSize: v.pageSize,
-              token: v.authToken
-            })
+      images: function() {
+        if (this.token !== null) {
+          // Get the list of image ids based on the page size and number
+          return API.get("/gallery/images?page=" + this.page + "&pageSize=" + this.pageSize + "&token=" + this.token)
             .then(function (response) {
-              console.log(response.data)
-              return response.data.imageTokens;
+              return response.data.images;
             });
         }
         return [];
+      },
+      galleryName: function() {
+        if (this.token !== null) {
+          // Get gallery metadata
+          return API.get("/gallery?token=" + this.token)
+            .then(function (response) {
+              return response.data.name;
+            });
+        }
+        return "...";
       }
     }
   }

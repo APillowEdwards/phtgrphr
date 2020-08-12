@@ -1,4 +1,4 @@
-const ImageRepository = require('../repository/ImageRepository');
+const ImageRepository = require("../repository/ImageRepository");
 
 class Image {
   static setMapping(mapping) {
@@ -6,11 +6,10 @@ class Image {
 
     mapping.forProperty("id").primary().increments();
 
-    mapping.oneToMany("imageAccessTokens", {targetEntity: "ImageAccessToken", mappedBy: "image"});
     mapping.manyToOne("gallery", {targetEntity: "Gallery", inversedBy: "images"});
 
     mapping.field("fileName", {type: "string"});
-    mapping.field("order", {type: "integer"});
+    mapping.field("sort", {type: "integer"});
   }
 }
 

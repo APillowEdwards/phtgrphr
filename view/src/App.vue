@@ -16,7 +16,7 @@
 
     <image-gallery
       v-if="haveGalleryAuthToken"
-      :auth-token="galleryAuthToken">
+      :token="galleryAuthToken">
     </image-gallery>
   </div>
 </template>

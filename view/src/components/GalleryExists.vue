@@ -18,7 +18,7 @@
     created: function() {
       // Check Guid Exists
       var v = this;
-      API.get("/check-exists?guid=" + this.guid)
+      API.get("/gallery/exists?guid=" + this.guid)
         .then(function (response) {
           v.$emit("galleryexistsresponse", response.data)
         });
