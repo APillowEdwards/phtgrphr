@@ -10,7 +10,7 @@ app.use(body_parser.json());
 app.use(express_wetland(wetland));
 
 // cors - FOR DEVELOPMENT ONLY
-const cors = require('cors');
+const cors = require("cors");
 app.use(cors());
 
 wetland.getMigrator().devMigrations().then(function() {

@@ -1,9 +1,9 @@
-const express = require('express');
+const express = require("express");
 const utility = require("../utility");
 
 const router = express.Router();
 
-const GalleryAccessToken = require('../entity/GalleryAccessToken');
+const GalleryAccessToken = require("../entity/GalleryAccessToken");
 
 // =========================================================================
 // START Shared Functions
@@ -65,7 +65,7 @@ router.get("/exists", (req, res, next) => {
     return;
   }
 
-  manager.getRepository('Gallery').findByGuid(guid)
+  manager.getRepository("Gallery").findByGuid(guid)
     .then(function(result) {
       var guid_exists = result ? true : false;
 
@@ -98,7 +98,7 @@ router.post("/auth", (req, res, next) => {
   }
 
   // TODO: make sure this uses hashing
-  manager.getRepository('Gallery').findByGuid(guid)
+  manager.getRepository("Gallery").findByGuid(guid)
     .then(function(gallery) {
       if (!gallery) {
         utility.ErrorResponse(res, "Gallery does not exist");

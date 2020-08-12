@@ -13,12 +13,12 @@
 </template>
 
 <script>
-  import API from '@/api'
+  import API from "@/api"
 
-  import GalleryImage from './GalleryImage.vue'
+  import GalleryImage from "./GalleryImage.vue"
 
   export default {
-    name: 'ImageGallery',
+    name: "ImageGallery",
     components: {
       GalleryImage
     },

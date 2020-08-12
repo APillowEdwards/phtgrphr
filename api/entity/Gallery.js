@@ -1,4 +1,4 @@
-const GalleryRepository = require('../repository/GalleryRepository');
+const GalleryRepository = require("../repository/GalleryRepository");
 
 class Gallery {
   static setMapping(mapping) {

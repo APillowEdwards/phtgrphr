@@ -1,4 +1,4 @@
-const {EntityRepository} = require('wetland');
+const {EntityRepository} = require("wetland");
 
 class GalleryAccessTokenRepository extends EntityRepository {
   findByToken(token) {

@@ -1,9 +1,9 @@
-var path = require('path');
-var defaultStore = require('./defaultStore');
+var path = require("path");
+var defaultStore = require("./defaultStore");
 
 
 module.exports = {
-  entityPath: path.resolve(process.cwd(), 'entity'),
+  entityPath: path.resolve(process.cwd(), "entity"),
   stores: {
     defaultStore: defaultStore
   }

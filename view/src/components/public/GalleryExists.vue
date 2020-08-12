@@ -6,10 +6,10 @@
 </template>
 
 <script>
-  import API from '@/api'
+  import API from "@/api"
 
   export default {
-    name: 'GalleryExists',
+    name: "GalleryExists",
     props: {
       guid: String,
       reponseReceived: Boolean,

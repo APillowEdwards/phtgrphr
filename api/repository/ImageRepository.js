@@ -1,4 +1,4 @@
-const {EntityRepository} = require('wetland');
+const {EntityRepository} = require("wetland");
 
 class ImageRepository extends EntityRepository {
   findIdsByGalleryIdAndSort(galleryId, firstSort, lastSort) {

@@ -1,4 +1,4 @@
-const GalleryAccessTokenRepository = require('../repository/GalleryAccessTokenRepository');
+const GalleryAccessTokenRepository = require("../repository/GalleryAccessTokenRepository");
 
 class GalleryAccessToken {
   static setMapping(mapping) {
