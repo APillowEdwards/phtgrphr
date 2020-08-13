@@ -13,9 +13,6 @@
 
   export default {
     name: "Login",
-    props: {
-      guid: String
-    },
     data: function() {
       return {
         username: "",
