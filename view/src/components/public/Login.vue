@@ -3,7 +3,7 @@
     <p>Login</p>
     <p v-if="errorMessage.length > 0" style="color: red">{{errorMessage}}</p>
     <input v-model="password">
-    <button v-on:click="authorise">Submit</button>
+    <button @click="authorise">Submit</button>
   </div>
 </template>
 

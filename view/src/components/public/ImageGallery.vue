@@ -33,24 +33,18 @@
     },
     asyncComputed: {
       images: function() {
-        if (this.token !== null) {
-          // Get the list of image ids based on the page size and number
-          return API.get("/gallery/images?page=" + this.page + "&pageSize=" + this.pageSize + "&token=" + this.token)
-            .then(function (response) {
-              return response.data.images;
-            });
-        }
-        return [];
+        // Get the list of image ids based on the page size and number
+        return API.get("/gallery/images?page=" + this.page + "&pageSize=" + this.pageSize + "&token=" + this.token)
+          .then(function (response) {
+            return response.data.images;
+          });
       },
       galleryName: function() {
-        if (this.token !== null) {
-          // Get gallery metadata
-          return API.get("/gallery?token=" + this.token)
-            .then(function (response) {
-              return response.data.name;
-            });
-        }
-        return "...";
+        // Get gallery metadata
+        return API.get("/gallery?token=" + this.token)
+          .then(function (response) {
+            return response.data.name;
+          });
       }
     }
   }

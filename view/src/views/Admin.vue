@@ -13,17 +13,29 @@
       @menuselectionmade="SetPageState($event)">
     </admin-menu>
 
-    <gallery-add
+    <gallery-add-edit
       v-if="IsPageState(PAGE_STATES.ADD_GALLERY)"
-      @backbuttonpressed="SetPageState(PAGE_STATES.MENU)">
-    </gallery-add>
+      :id="0"
+      :token="adminAuthToken"
+      @backbuttonpressed="SetPageState(PAGE_STATES.MENU)"
+      @gallerysaved="SetPageState(PAGE_STATES.VIEW_ALL_GALLERIES)">
+    </gallery-add-edit>
+
+    <gallery-add-edit
+      v-if="IsPageState(PAGE_STATES.EDIT_GALLERY)"
+      :id="galleryEditId"
+      :token="adminAuthToken"
+      @backbuttonpressed="SetPageState(PAGE_STATES.VIEW_ALL_GALLERIES)"
+      @gallerysaved="SetPageState(PAGE_STATES.VIEW_ALL_GALLERIES)">
+    </gallery-add-edit>
 
     <gallery-view-all
       v-if="IsPageState(PAGE_STATES.VIEW_ALL_GALLERIES)"
-      @backbuttonpressed="SetPageState(PAGE_STATES.MENU)">
+      :token="adminAuthToken"
+      @backbuttonpressed="SetPageState(PAGE_STATES.MENU)"
+      @editgallerypressed="SetGalleryEditId">
     </gallery-view-all>
 
-    <!--  -->
   </div>
 </template>
 
@@ -32,16 +44,15 @@
   import Login from "@/components/admin/Login.vue"
   import AdminMenu from "@/components/admin/AdminMenu.vue"
 
-  import GalleryAdd from "@/components/admin/gallery/Add.vue"
+  import GalleryAddEdit from "@/components/admin/gallery/AddEdit.vue"
   import GalleryViewAll from "@/components/admin/gallery/ViewAll.vue"
-
 
   export default {
     name: "Admin",
     components: {
       Login,
       AdminMenu,
-      GalleryAdd,
+      GalleryAddEdit,
       GalleryViewAll
     },
     data: function () {
@@ -50,9 +61,11 @@
         PAGE_STATES: {
           MENU: 1,
           ADD_GALLERY: 2,
-          VIEW_ALL_GALLERIES: 3
+          EDIT_GALLERY: 3,
+          VIEW_ALL_GALLERIES: 4
         },
-        pageState: ""
+        pageState: -1,
+        galleryEditId: null
       }
     },
     methods: {
@@ -64,9 +77,12 @@
         this.pageState = e;
       },
       IsPageState: function (state) {
-        console.log("Comparing " + this.pageState + " to " + state);
         return this.pageState == state;
-      }
+      },
+      SetGalleryEditId: function (e) {
+        this.galleryEditId = e;
+        this.pageState = this.PAGE_STATES.EDIT_GALLERY
+      },
     },
     computed: {
       haveAdminAuthToken: function () {

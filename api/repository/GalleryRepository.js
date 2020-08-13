@@ -8,12 +8,33 @@ class GalleryRepository extends EntityRepository {
   findByGalleryAccessToken(token) {
     return this.getQueryBuilder("g")
       .select("g")
+      .innerJoin("g.galleryAccessTokens", "gat")
+      .where({"gat.token": token})
+      .getQuery()
+      .getResult();
+  }
+
+  findByUserAccessToken(token) {
+    return this.getQueryBuilder("g")
+      .select("g")
+      .innerJoin("g.user", "u")
+      .innerJoin("u.userAccessTokens", "uat")
+      .where({"uat.token": token})
+      .getQuery()
+      .getResult();
+  }
+
+  findByUserAccessTokenAndId(token, id) {
+    return this.getQueryBuilder("g")
+      .select("g")
+      .innerJoin("g.user", "u")
+      .innerJoin("u.userAccessTokens", "uat")
       .where({
         and: [
-          {"gat.token": token}
+          {"uat.token": token},
+          {"g.id": id}
         ]
       })
-      .innerJoin("g.galleryAccessTokens", "gat")
       .getQuery()
       .getResult();
   }

@@ -2,8 +2,8 @@
   <div>
     <h2>Admin Menu</h2>
     <ul>
-      <li><a v-on:click="selectAddGallery">Add Gallery</a></li>
-      <li><a v-on:click="selectViewAllGalleries">View All Galleries</a></li>
+      <li><a @click="selectAddGallery">Add Gallery</a></li>
+      <li><a @click="selectViewAllGalleries">View All Galleries</a></li>
     </ul>
   </div>
 </template>
