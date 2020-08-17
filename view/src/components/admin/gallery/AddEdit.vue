@@ -30,7 +30,7 @@
       },
       submit: function () {
         var v = this;
-        API.post("/admin/gallery", {data: {
+        API.post("/admin/gallery", {
             id: this.id,
             name: this.name,
             password: this.password,
@@ -45,7 +45,7 @@
                 v.$emit("gallerysaved");
               }, 2000);
             }
-          }});
+          });
       }
     },
     created: function() {

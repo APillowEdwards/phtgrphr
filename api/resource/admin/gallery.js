@@ -99,10 +99,8 @@ router.post("/", (req, res, next) => {
 router.delete("/", (req, res, next) => {
   let manager = req.wetland.getManager();
 
-  let id = req.body.id;
-  let token = req.body.token;
-
-  console.log(id)
+  let id = req.query.id;
+  let token = req.query.token;
 
   if(!utility.ValidateUUID(token)) {
     utility.ErrorResponse(res, "Invalid token format");
@@ -111,15 +109,19 @@ router.delete("/", (req, res, next) => {
 
   manager.getRepository("Gallery").findByUserAccessTokenAndId(token, id)
     .then(function(gallery) {
-        if (!gallery) {
-          utility.ErrorResponse(res, "Invalid token or id");
-          return;
-        }
+      if (!gallery) {
+        utility.ErrorResponse(res, "Invalid token or id");
+        return;
+      }
 
-        return manager.remove(gallery).flush().then(function () {
-          utility.JsonResponse(res, {});
-        });
-    });
+      manager.getRepository("Gallery").findOne(id)
+        .then(function(result) {
+          return manager.remove(result).flush()
+            .then(() => utility.JsonResponse(res, {}));
+        })
+        .catch(error => res.status(500).json({error}));
+    })
+    .catch(error => res.status(500).json({error}));
 });
 
 module.exports = router;
