@@ -87,8 +87,6 @@ router.post("/", (req, res, next) => {
           gallery[0].name = name;
           gallery[0].password = password;
 
-          console.log(gallery)
-
           return manager.flush().then(function () {
             utility.JsonResponse(res, gallery[0]);
           });
