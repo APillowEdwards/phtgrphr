@@ -139,17 +139,17 @@ router.post("/auth", (req, res, next) => {
 router.get("/images", (req, res, next) => {
   let manager = req.wetland.getManager()
 
-  var page = req.query.page; // zero-indexed
-  var page_size = req.query.pageSize;
+  var page = parseInt(req.query.page);
+  var pageSize = parseInt(req.query.pageSize);
   var token = req.query.token;
 
-  if(!page_size || page_size < 1) {
+  if(pageSize < 1) {
     utility.ErrorResponse(res, "Page size must be greater than 0");
     return;
   }
 
-  if(!page || page < 0) {
-    utility.ErrorResponse(res, "Page number must be 0 or greater");
+  if(page < 1) {
+    utility.ErrorResponse(res, "Page number must be greater than 0");
     return;
   }
 
@@ -165,8 +165,9 @@ router.get("/images", (req, res, next) => {
         return;
       }
 
-      var firstSort = page * page_size;
-      var lastSort = ((page + 1) * page_size) - 1
+      var firstSort = (page - 1) * pageSize;
+      var lastSort = firstSort + (pageSize - 1);
+
 
       manager.getRepository("Image").findIdsByGalleryIdAndSort(gat.gallery.id, firstSort, lastSort)
         .then(function(images) {
