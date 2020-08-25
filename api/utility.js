@@ -21,5 +21,9 @@ module.exports = {
         "message": message
       }
     })
+  },
+
+  GetFileExtension: function(filename) {
+    return filename.slice((filename.lastIndexOf(".") - 1 >>> 0) + 2);
   }
 }

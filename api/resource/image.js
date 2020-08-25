@@ -29,7 +29,7 @@ router.get("/", (req, res, next) => {
             return;
           }
 
-          res.sendFile("C:/Users/looph/Documents/phtgrphr-images/" + image[0].fileName);
+          res.sendFile("C:/Users/looph/Documents/GitHub/phtgrphr/image-store/" + image[0].fileName);
         })
         .catch(error => res.status(500).json({error}));
     })
