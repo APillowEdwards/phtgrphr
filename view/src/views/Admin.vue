@@ -21,6 +21,14 @@
       @gallerysaved="SetPageState(PAGE_STATES.VIEW_ALL_GALLERIES)">
     </gallery-add-edit>
 
+    <gallery-view-all
+      v-if="IsPageState(PAGE_STATES.VIEW_ALL_GALLERIES)"
+      :token="adminAuthToken"
+      @backbuttonpressed="SetPageState(PAGE_STATES.MENU)"
+      @editgallerypressed="SetGalleryEditId"
+      @updateimagespressed="SetGalleryImagesId">
+    </gallery-view-all>
+
     <gallery-add-edit
       v-if="IsPageState(PAGE_STATES.EDIT_GALLERY)"
       :id="galleryEditId"
@@ -29,12 +37,12 @@
       @gallerysaved="SetPageState(PAGE_STATES.VIEW_ALL_GALLERIES)">
     </gallery-add-edit>
 
-    <gallery-view-all
-      v-if="IsPageState(PAGE_STATES.VIEW_ALL_GALLERIES)"
+    <gallery-images
+      v-if="IsPageState(PAGE_STATES.GALLERY_IMAGES)"
+      :id="galleryImagesId"
       :token="adminAuthToken"
-      @backbuttonpressed="SetPageState(PAGE_STATES.MENU)"
-      @editgallerypressed="SetGalleryEditId">
-    </gallery-view-all>
+      @backbuttonpressed="SetPageState(PAGE_STATES.VIEW_ALL_GALLERIES)">
+    </gallery-images>
 
   </div>
 </template>
@@ -47,13 +55,16 @@
   import GalleryAddEdit from "@/components/admin/gallery/AddEdit.vue"
   import GalleryViewAll from "@/components/admin/gallery/ViewAll.vue"
 
+  import GalleryImages from "@/components/admin/gallery/images/Index.vue"
+
   export default {
     name: "Admin",
     components: {
       Login,
       AdminMenu,
       GalleryAddEdit,
-      GalleryViewAll
+      GalleryViewAll,
+      GalleryImages
     },
     data: function () {
       return {
@@ -62,10 +73,12 @@
           MENU: 1,
           ADD_GALLERY: 2,
           EDIT_GALLERY: 3,
-          VIEW_ALL_GALLERIES: 4
+          VIEW_ALL_GALLERIES: 4,
+          GALLERY_IMAGES: 5
         },
         pageState: -1,
-        galleryEditId: null
+        galleryEditId: null,
+        galleryImagesId: null
       }
     },
     methods: {
@@ -79,9 +92,13 @@
       IsPageState: function (state) {
         return this.pageState == state;
       },
-      SetGalleryEditId: function (e) {
-        this.galleryEditId = e;
+      SetGalleryEditId: function (id) {
+        this.galleryEditId = id;
         this.pageState = this.PAGE_STATES.EDIT_GALLERY
+      },
+      SetGalleryImagesId: function (id) {
+        this.galleryImagesId = id;
+        this.pageState = this.PAGE_STATES.GALLERY_IMAGES
       },
     },
     computed: {

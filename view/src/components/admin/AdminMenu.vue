@@ -12,7 +12,7 @@
   export default {
     name: "AdminMenu",
     props: {
-      states: Array
+      states: Object
     },
     methods: {
       selectAddGallery: function () {

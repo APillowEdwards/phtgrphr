@@ -10,7 +10,7 @@
       <tr v-for="gallery in galleries" :key="gallery.id">
         <td>{{gallery.name}}</td>
         <td>{{baseUrl + "?gallery=" + gallery.guid}}</td>
-        <td><a @click="editGallery(gallery.id)">Edit</a> | <a @click="deleteGallery(gallery.id, gallery.name)">Delete</a></td>
+        <td><a @click="editGallery(gallery.id)">Edit</a> | <a @click="updateImages(gallery.id)">Update Images</a> | <a @click="deleteGallery(gallery.id, gallery.name)">Delete</a></td>
       </tr>
     </table>
   </div>
@@ -43,8 +43,10 @@
       editGallery: function(id) {
         this.$emit("editgallerypressed", id)
       },
+      updateImages: function(id) {
+        this.$emit("updateimagespressed", id)
+      },
       deleteGallery: function(id, name) {
-        console.log(id + " " + name)
         if(confirm(`Are you sure you wish to delete gallery "${name}"?`)) {
           var v = this;
           return API.delete(`/admin/gallery?id=${id}&token=${this.token}`)

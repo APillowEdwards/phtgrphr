@@ -5,6 +5,7 @@
     <p>Name: <input type="text" v-model="name"></p>
     <p>Password: <input type="text" v-model="password"></p>
     <p><a @click="submit">Submit</a></p>
+
   </div>
 </template>
 
@@ -21,7 +22,13 @@
       return {
         name: null,
         password: null,
-        errorMessage: ""
+        errorMessage: "",
+        imageState: 1,
+        IMAGES_STATES: {
+          ADD: 1,
+          DELETE: 2,
+          SORT: 3
+        }
       }
     },
     methods: {
