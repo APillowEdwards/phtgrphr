@@ -165,11 +165,9 @@ router.get("/images", (req, res, next) => {
         return;
       }
 
-      var firstSort = (page - 1) * pageSize;
-      var lastSort = firstSort + (pageSize - 1);
+      var offset = (page - 1) * pageSize;
 
-
-      manager.getRepository("Image").findIdsByGalleryIdAndSort(gat.gallery.id, firstSort, lastSort)
+      manager.getRepository("Image").findIdsByGalleryIdAndOffsetAndLimit(gat.gallery.id, offset, pageSize)
         .then(function(images) {
           if(!images) {
             utility.ErrorResponse(res, "No images found on this page");

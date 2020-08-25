@@ -12,17 +12,14 @@ class ImageRepository extends EntityRepository {
       .getResult();
   }
 
-  findIdsByGalleryIdAndSort(galleryId, firstSort, lastSort) {
+  findIdsByGalleryIdAndOffsetAndLimit(galleryId, offset, limit) {
     return this.getQueryBuilder("i")
       .select("i.id")
-      .where({
-        and: [
-          {"i.sort": {between: [firstSort, lastSort]}},
-          {"g.id": galleryId}
-        ]
-      })
+      .where({"g.id": galleryId})
       .innerJoin("i.gallery", "g")
       .orderBy("sort")
+      .offset(offset)
+      .limit(limit)
       .getQuery()
       .getResult();
   }

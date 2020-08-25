@@ -49,7 +49,7 @@
       deleteGallery: function(id, name) {
         if(confirm(`Are you sure you wish to delete gallery "${name}"?`)) {
           var v = this;
-          return API.delete(`/admin/gallery?id=${id}&token=${this.token}`)
+          API.delete(`/admin/gallery?id=${id}&token=${this.token}`)
             .then(function (response) {
               if (!response.data.hasError) {
                 v.refresh();

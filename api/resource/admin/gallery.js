@@ -213,10 +213,10 @@ router.post("/images", upload.array("images", 20), (req, res, next) => {
               console.log("Persisted")
               utility.JsonResponse(res, {});
             })
-            .catch(error => console.log(error));
+            .catch(error => res.status(500).json({error}));
 
         })
-        .catch(error => console.log(error));
+        .catch(error => res.status(500).json({error}));
 
     })
     .catch(error =>console.log(error));
@@ -238,7 +238,30 @@ router.get("/image", (req, res, next) => {
 
       res.sendFile("C:/Users/looph/Documents/GitHub/phtgrphr/image-store/" + image[0].fileName);
     })
-    .catch(error => console.log(error));
+    .catch(error => res.status(500).json({error}));
+});
+
+router.delete("/image", (req, res, next) => {
+  let manager = req.wetland.getManager();
+
+  var token = req.query.token;
+  var id = req.query.id;
+
+  manager.getRepository("Image").findByUserAccessTokenAndId(token, id)
+    .then(function(image) {
+      if (!image) {
+        utility.ErrorResponse(res, "Invalid token or id");
+        return;
+      }
+
+      manager.getRepository("Image").findOne(id)
+        .then(function(result) {
+          return manager.remove(result).flush()
+            .then(() => utility.JsonResponse(res, {}));
+        })
+        .catch(error => res.status(500).json({error}));
+    })
+    .catch(error => res.status(500).json({error}));
 });
 
 
