@@ -42,7 +42,6 @@
           var v = this;
           API.delete(`/admin/gallery/image?id=${id}&token=${this.token}`)
             .then(function (response) {
-              console.log(response)
               if (!response.data.hasError) {
                 v.refresh();
               }

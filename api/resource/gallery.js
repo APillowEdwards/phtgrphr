@@ -143,12 +143,12 @@ router.get("/images", (req, res, next) => {
   var pageSize = parseInt(req.query.pageSize);
   var token = req.query.token;
 
-  if(pageSize < 1) {
+  if(pageSize < 1 || Number.isNaN(pageSize)) {
     utility.ErrorResponse(res, "Page size must be greater than 0");
     return;
   }
 
-  if(page < 1) {
+  if(page < 1|| Number.isNaN(page)) {
     utility.ErrorResponse(res, "Page number must be greater than 0");
     return;
   }
