@@ -108,7 +108,7 @@ router.post("/", (req, res, next) => {
           gallery[0].name = name;
           gallery[0].password = password;
 
-          return manager.flush().then(function () {
+          manager.flush().then(function () {
             utility.JsonResponse(res, gallery[0]);
           });
       });
@@ -135,7 +135,7 @@ router.delete("/", (req, res, next) => {
 
       manager.getRepository("Gallery").findOne(id)
         .then(function(result) {
-          return manager.remove(result).flush()
+          manager.remove(result).flush()
             .then(() => utility.JsonResponse(res, {}));
         })
         .catch(error => res.status(500).json({error}));
@@ -241,6 +241,35 @@ router.get("/image", (req, res, next) => {
     .catch(error => res.status(500).json({error}));
 });
 
+router.post("/images/sort", (req, res, next) => {
+  let manager = req.wetland.getManager();
+
+  var token = req.body.token;
+  var queryImages = req.body.images; // expecting {id, sort}
+  var galleryId = req.body.galleryId;
+
+  manager.getRepository("Image").findByUserAccessTokenAndGalleryId(token, galleryId)
+    .then(function(dbImages) {
+      if (!dbImages) {
+        utility.ErrorResponse(res, "Invalid token or id");
+        return;
+      }
+
+      for (var i = 0; i < dbImages.length; i++) {
+        let dbImage = dbImages[i];
+        // use the index of the corresponding image in the parameter array 
+        let newSort = queryImages.findIndex(image => image.id == dbImage.id);
+
+        dbImage.sort = newSort;
+      }
+
+      manager.flush().then(function () {
+        utility.JsonResponse(res, {});
+      });
+    })
+    .catch(error => res.status(500).json({error}));
+});
+
 router.delete("/image", (req, res, next) => {
   let manager = req.wetland.getManager();
 
@@ -256,7 +285,7 @@ router.delete("/image", (req, res, next) => {
 
       manager.getRepository("Image").findOne(id)
         .then(function(result) {
-          return manager.remove(result).flush()
+          manager.remove(result).flush()
             .then(() => utility.JsonResponse(res, {}));
         })
         .catch(error => res.status(500).json({error}));

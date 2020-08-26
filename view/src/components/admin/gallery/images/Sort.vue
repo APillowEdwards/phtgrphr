@@ -1,28 +1,39 @@
 <template>
   <div>
     <h2>SORT</h2>
-    <div
-      v-for="image in images"
-      :key="image.id">
 
-      <img :src="imageUrl(image.id)" style="max-width:250px" />
+    <a @click="saveOrder" :disabled="saving">Save Order</a>
+    <p v-if="showSuccess">Success!</p>
 
-    </div>
+    <draggable v-model="images">
+      <div
+        v-for="image in images"
+        :key="image.id">
+        <img :src="imageUrl(image.id)" style="max-width:250px" />
+      </div>
+    </draggable>
   </div>
 </template>
 
 <script>
   import API from "@/api"
 
+  import Draggable from 'vuedraggable'
+
   export default {
     name: "GalleryImagesSort",
+    components: {
+      Draggable
+    },
     props: {
       token: String,
       galleryId: Number
     },
     data: function() {
       return {
-        images: []
+        images: [],
+        saving: false,
+        showSuccess: false
       }
     },
     methods: {
@@ -35,6 +46,27 @@
       },
       imageUrl: function(id) {
         return API.defaults.baseURL + "admin/gallery/image?token=" + this.token + "&id=" + id;
+      },
+      saveOrder: function() {
+        this.saving = true;
+
+        var v = this;
+        return API.post("/admin/gallery/images/sort", {
+            token: this.token,
+            images: this.images,
+            galleryId: this.galleryId
+          })
+          .then(function (response) {
+            v.saving = false;
+
+            if (!response.data.hasError) {
+              v.showSuccess = true;
+
+              setTimeout(function() {
+                v.showSuccess = false;
+              }, 2000);
+            }
+          });
       }
     },
     created: function() {

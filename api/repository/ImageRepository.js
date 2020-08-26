@@ -53,6 +53,22 @@ class ImageRepository extends EntityRepository {
       .getQuery()
       .getResult();
   }
+
+  findByUserAccessTokenAndGalleryId(token, galleryId) {
+    return this.getQueryBuilder("i")
+      .select("i")
+      .innerJoin("i.gallery", "g")
+      .innerJoin("g.user", "u")
+      .innerJoin("u.userAccessTokens", "uat")
+      .where({
+        and: [
+          {"uat.token": token},
+          {"g.id": galleryId}
+        ]
+      })
+      .getQuery()
+      .getResult();
+  }
 }
 
 module.exports = ImageRepository;
