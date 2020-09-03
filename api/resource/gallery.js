@@ -67,7 +67,7 @@ router.get("/exists", (req, res, next) => {
 
   manager.getRepository("Gallery").findByGuid(guid)
     .then(function(result) {
-      var guid_exists = result ? true : false;
+      var guid_exists = (result && !result.isDeleted) ? true : false;
 
       utility.JsonResponse(res, {
         "exists": guid_exists
@@ -163,6 +163,11 @@ router.get("/images", (req, res, next) => {
       if(!gat) {
         utility.ErrorResponse(res, "Token does not exist or has expired");
         return;
+      }
+
+      if (gat.gallery.isDeleted) {
+          utility.ErrorResponse(res, "Gallery no longer exists");
+          return;
       }
 
       var offset = (page - 1) * pageSize;

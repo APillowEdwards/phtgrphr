@@ -15,7 +15,7 @@ class ImageRepository extends EntityRepository {
   findIdsByGalleryIdAndOffsetAndLimit(galleryId, offset, limit) {
     return this.getQueryBuilder("i")
       .select("i.id")
-      .where({"g.id": galleryId})
+      .where({"g.id": galleryId, "g.IsDeleted": false})
       .innerJoin("i.gallery", "g")
       .orderBy("sort")
       .offset(offset)
@@ -30,7 +30,8 @@ class ImageRepository extends EntityRepository {
       .where({
         and: [
           {"i.id": id},
-          {"g.id": galleryId}
+          {"g.id": galleryId},
+          {"g.IsDeleted": false}
         ]
       })
       .innerJoin("i.gallery", "g")
@@ -47,7 +48,8 @@ class ImageRepository extends EntityRepository {
       .where({
         and: [
           {"uat.token": token},
-          {"i.id": id}
+          {"i.id": id},
+          {"g.IsDeleted": false}
         ]
       })
       .getQuery()
@@ -63,7 +65,8 @@ class ImageRepository extends EntityRepository {
       .where({
         and: [
           {"uat.token": token},
-          {"g.id": galleryId}
+          {"g.id": galleryId},
+          {"g.IsDeleted": false}
         ]
       })
       .getQuery()

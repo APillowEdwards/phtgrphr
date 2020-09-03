@@ -9,7 +9,7 @@ class GalleryRepository extends EntityRepository {
     return this.getQueryBuilder("g")
       .select("g")
       .innerJoin("g.galleryAccessTokens", "gat")
-      .where({"gat.token": token})
+      .where({"gat.token": token, "g.IsDeleted": false})
       .getQuery()
       .getResult();
   }
@@ -19,7 +19,7 @@ class GalleryRepository extends EntityRepository {
       .select("g")
       .innerJoin("g.user", "u")
       .innerJoin("u.userAccessTokens", "uat")
-      .where({"uat.token": token})
+      .where({"uat.token": token, "g.IsDeleted": false})
       .getQuery()
       .getResult();
   }
@@ -31,8 +31,7 @@ class GalleryRepository extends EntityRepository {
       .innerJoin("u.userAccessTokens", "uat")
       .where({
         and: [
-          {"uat.token": token},
-          {"g.id": id}
+          {"uat.token": token, "g.id": id, "g.IsDeleted": false}
         ]
       })
       .getQuery()

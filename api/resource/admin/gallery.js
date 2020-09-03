@@ -134,8 +134,10 @@ router.delete("/", (req, res, next) => {
       }
 
       manager.getRepository("Gallery").findOne(id)
-        .then(function(result) {
-          manager.remove(result).flush()
+        .then(function(g) {
+          g.isDeleted = true;
+
+          manager.flush()
             .then(() => utility.JsonResponse(res, {}));
         })
         .catch(error => res.status(500).json({error}));
@@ -257,7 +259,7 @@ router.post("/images/sort", (req, res, next) => {
 
       for (var i = 0; i < dbImages.length; i++) {
         let dbImage = dbImages[i];
-        // use the index of the corresponding image in the parameter array 
+        // use the index of the corresponding image in the parameter array
         let newSort = queryImages.findIndex(image => image.id == dbImage.id);
 
         dbImage.sort = newSort;

@@ -13,6 +13,7 @@ class Gallery {
     mapping.field("name", {type: "string"});
     mapping.field("password", {type: "string"});
     mapping.field("guid", {type: "uuid"});
+    mapping.field("isDeleted", {type: "boolean", defaultTo: false});
   }
 }
 
