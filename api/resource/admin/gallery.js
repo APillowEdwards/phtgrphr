@@ -17,7 +17,7 @@ const upload = multer({
   }),
   fileFilter: function (req, file, cb) {
     var extension = utility.GetFileExtension(file.originalname).toLowerCase();
-    var acceptable = ["png", "jpg"];
+    var acceptable = ["png", "jpg", "jpeg"];
 
     cb(null, acceptable.includes(extension))
   }
@@ -173,7 +173,7 @@ router.get("/images", (req, res, next) => {
 
 });
 
-router.post("/images", upload.array("images", 20), (req, res, next) => {
+router.post("/images", upload.array("images", 100), (req, res, next) => {
   let manager = req.wetland.getManager();
 
   let id = req.query.id;

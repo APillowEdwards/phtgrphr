@@ -1,13 +1,15 @@
 <template>
   <div>
     <h2>DELETE</h2>
-    <div
-      v-for="image in images"
-      :key="image.id">
+    <div class="gallery-wrapper">
+      <div
+        v-for="image in images"
+        :key="image.id">
 
-      <img :src="imageUrl(image.id)" style="max-width:250px" />
-      <a @click="deleteImage(image.id)">Delete Image</a>
+        <img class="gallery-image" :src="imageUrl(image.id)" />
+        <a @click="deleteImage(image.id)">&lt;- Delete</a>
 
+      </div>
     </div>
   </div>
 </template>
@@ -57,5 +59,26 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+  .gallery-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+
+    margin-bottom: 30px;
+  }
+
+  .gallery-image {
+    max-width: 250px;
+    margin: 10px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+
+    border: 2px solid rgba(255,255,255,0.25);
+
+    -webkit-box-shadow: 5px 5px 2px 0px rgba(255,255,255,0.25);
+    -moz-box-shadow: 5px 5px 2px 0px rgba255,255,255,0.25);
+    box-shadow: 5px 5px 2px 0px rgba(255,255,255,0.25);
+  }
 
 </style>

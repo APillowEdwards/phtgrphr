@@ -2,14 +2,14 @@
   <div>
     <h2>SORT</h2>
 
-    <a @click="saveOrder" :disabled="saving">Save Order</a>
+    <a class="btn btn-primary px-4 py-2 btn-sm" @click="saveOrder" :disabled="saving">Save Order</a>
     <p v-if="showSuccess">Success!</p>
 
-    <draggable v-model="images">
+    <draggable class="gallery-wrapper" v-model="images">
       <div
         v-for="image in images"
         :key="image.id">
-        <img :src="imageUrl(image.id)" style="max-width:250px" />
+        <img class="gallery-image" :src="imageUrl(image.id)" style="max-width:250px" />
       </div>
     </draggable>
   </div>
@@ -77,5 +77,30 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+  .gallery-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+
+    margin-bottom: 30px;
+  }
+
+  .gallery-wrapper div {
+    min-height: 100%;
+  }
+
+  .gallery-image {
+    max-width: 250px;
+    margin: 10px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+
+    border: 2px solid rgba(255,255,255,0.25);
+
+    -webkit-box-shadow: 5px 5px 2px 0px rgba(255,255,255,0.25);
+    -moz-box-shadow: 5px 5px 2px 0px rgba255,255,255,0.25);
+    box-shadow: 5px 5px 2px 0px rgba(255,255,255,0.25);
+  }
 
 </style>

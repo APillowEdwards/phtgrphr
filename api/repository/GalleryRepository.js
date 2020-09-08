@@ -37,6 +37,15 @@ class GalleryRepository extends EntityRepository {
       .getQuery()
       .getResult();
   }
+
+  getImageCount(id) {
+    return this.getQueryBuilder("g")
+      .select({count: "i.id"})
+      .innerJoin("g.images", "i")
+      .where({"g.id": id})
+      .getQuery()
+      .getSingleScalarResult();
+  }
 }
 
 module.exports = GalleryRepository;

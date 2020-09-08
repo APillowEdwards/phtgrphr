@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p><a @click="back">Back</a></p>
+    <p><a class="btn btn-primary px-4 py-2 btn-sm" @click="back">&lt; Back</a></p>
     <table>
       <tr>
         <th>Name</th>
@@ -9,8 +9,12 @@
       </tr>
       <tr v-for="gallery in galleries" :key="gallery.id">
         <td>{{gallery.name}}</td>
-        <td>{{baseUrl + "?gallery=" + gallery.guid}}</td>
-        <td><a @click="editGallery(gallery.id)">Edit</a> | <a @click="updateImages(gallery.id)">Update Images</a> | <a @click="deleteGallery(gallery.id, gallery.name)">Delete</a></td>
+        <td><a :href="baseUrl + '?gallery=' + gallery.guid" target="_blank">{{baseUrl + "?gallery=" + gallery.guid}}</a></td>
+        <td>
+          <a class="btn btn-primary px-4 py-2 btn-sm" @click="editGallery(gallery.id)">Edit</a>
+          <a class="btn btn-primary px-4 py-2 btn-sm" @click="updateImages(gallery.id)">Update Images</a>
+          <a class="btn btn-primary px-4 py-2 btn-sm" @click="deleteGallery(gallery.id, gallery.name)">Delete</a>
+        </td>
       </tr>
     </table>
   </div>
@@ -66,5 +70,10 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+  td, tr {
+    padding: 8px;
+    border: 1px solid white;
+  }
 
 </style>

@@ -179,11 +179,14 @@ router.get("/images", (req, res, next) => {
             return;
           }
 
-          utility.JsonResponse(res, {
-            images: images
-          })
+          manager.getRepository("Gallery").getImageCount(gat.gallery.id)
+            .then(count => utility.JsonResponse(res, {
+              images: images,
+              count: count
+            }))
+            .catch(error => console.log(error));
         })
-        .catch(error => res.status(500).json({error}));
+        .catch(error => console.log(error));
     })
     .catch(error => res.status(500).json({error}));
 

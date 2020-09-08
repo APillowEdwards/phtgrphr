@@ -1,10 +1,11 @@
 <template>
   <div>
-    <p>Login</p>
+    <h2>Your Gallery Login</h2>
     <p v-if="errorMessage.length > 0" style="color: red">{{errorMessage}}</p>
-    <input v-model="password">
-    <button @click="authorise">Submit</button>
-  </div>
+    <label for="password">Please enter the password you were provided with and press Go:</label><br/>
+    <input id="password" v-model="password" type="password">
+    <button class="btn btn-primary px-4 py-2 btn-sm" @click="authorise">Go</button>
+	</div>
 </template>
 
 <script>

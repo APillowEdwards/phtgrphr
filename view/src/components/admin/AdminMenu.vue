@@ -1,10 +1,8 @@
 <template>
   <div>
     <h2>Admin Menu</h2>
-    <ul>
-      <li><a @click="selectAddGallery">Add Gallery</a></li>
-      <li><a @click="selectViewAllGalleries">View All Galleries</a></li>
-    </ul>
+    <p><a @click="selectAddGallery">Add Gallery</a></p>
+    <p><a @click="selectViewAllGalleries">View All Galleries</a></p>
   </div>
 </template>
 

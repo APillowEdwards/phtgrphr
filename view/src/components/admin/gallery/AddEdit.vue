@@ -1,10 +1,27 @@
 <template>
   <div>
-    <p><a @click="back">Back</a></p>
+    <p><a class="btn btn-primary px-4 py-2 btn-sm" @click="back">&lt; Back</a></p>
     <p v-if="errorMessage.length > 0" style="color: red">{{errorMessage}}</p>
-    <p>Name: <input type="text" v-model="name"></p>
-    <p>Password: <input type="text" v-model="password"></p>
-    <p><a @click="submit">Submit</a></p>
+
+    <div class="row">
+      <div class="col-6 text-right">
+        <label for="name">Name: </label>
+      </div>
+      <div class="col-6 text-left">
+        <input id="name" v-model="name">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6 text-right">
+        <label for="password">Password: </label>
+      </div>
+      <div class="col-6 text-left">
+        <input id="password" v-model="password">
+      </div>
+    </div>
+
+    <button class="mt-2" @click="submit">Submit</button>
 
   </div>
 </template>

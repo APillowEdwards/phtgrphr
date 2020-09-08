@@ -1,10 +1,27 @@
 <template>
   <div>
-    <p>Admin Login</p>
+    <h2>Login</h2>
     <p v-if="errorMessage.length > 0" style="color: red">{{errorMessage}}</p>
-    <p>Username: <input v-model="username"></p>
-    <p>Password: <input v-model="password"></p>
-    <button @click="authorise">Submit</button>
+
+    <div class="row">
+      <div class="col-6 text-right">
+        <label for="username">Username: </label>
+      </div>
+      <div class="col-6 text-left">
+        <input id="username" v-model="username">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6 text-right">
+        <label for="password">Password: </label>
+      </div>
+      <div class="col-6 text-left">
+        <input id="password" v-model="password" type="password">
+      </div>
+    </div>
+
+    <button class="btn btn-primary px-4 py-2 btn-sm mt-2" @click="authorise">Submit</button>
   </div>
 </template>
 
