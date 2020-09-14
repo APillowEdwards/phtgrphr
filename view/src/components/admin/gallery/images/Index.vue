@@ -4,8 +4,8 @@
     <p><a class="btn btn-primary px-4 py-2 btn-sm" @click="back">&lt; Back</a></p>
 
     <div class="image-options">
-      <a @click="changeView(IMAGES_STATES.ADD)" :class="imageState == IMAGES_STATES.ADD ? 'active' : ''">Add</a>
-      <a @click="changeView(IMAGES_STATES.SORT)" :class="imageState == IMAGES_STATES.SORT ? 'active' : ''">Sort</a>
+      <a @click="changeView(IMAGES_STATES.ADD)" :class="imageState == IMAGES_STATES.ADD ? 'active' : ''">Upload</a>
+      <a @click="changeView(IMAGES_STATES.SORT)" :class="imageState == IMAGES_STATES.SORT ? 'active' : ''">Order</a>
       <a @click="changeView(IMAGES_STATES.DELETE)" :class="imageState == IMAGES_STATES.DELETE ? 'active' : ''">Delete</a>
     </div>
 

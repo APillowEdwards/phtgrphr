@@ -29,6 +29,18 @@
         :key="image.id">
       </gallery-image>
     </div>
+
+    <div class="row">
+      <div class="col-6">
+        
+      </div>
+      <div class="col-6">
+        <label for="page-size">Page Number: </label>
+        <select v-model="page">
+          <option v-for="n in Math.ceil(numberOfPages / pageSize)" :key="n" :value="n">{{n}}</option>
+        </select>
+      </div>
+    </div>
   </div>
 </template>
 

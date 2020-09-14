@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <button class="mt-2" @click="submit">Submit</button>
+    <button class="btn btn-primary px-4 py-2 btn-sm mt-3" @click="submit">Submit</button>
 
   </div>
 </template>
@@ -66,7 +66,7 @@
             } else {
               v.errorMessage = "Success";
               setTimeout(function() {
-                v.$emit("gallerysaved");
+                v.$emit("gallerysaved", response.data.id);
               }, 2000);
             }
           });

@@ -1,8 +1,7 @@
 <template>
   <div>
-    <h2>Admin Menu</h2>
-    <p><a @click="selectAddGallery">Add Gallery</a></p>
-    <p><a @click="selectViewAllGalleries">View All Galleries</a></p>
+    <p><a class="btn btn-primary px-4 py-2 btn-sm" @click="selectAddGallery">Add Gallery</a></p>
+    <p><a class="btn btn-primary px-4 py-2 btn-sm" @click="selectViewAllGalleries">View All Galleries</a></p>
   </div>
 </template>
 
