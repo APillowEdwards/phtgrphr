@@ -2,29 +2,29 @@
   <div>
     <img class="gallery-image" :src="source" @click="openModal"/>
 
-    <div @click="closeModal">
-      <modal
-        :name="'image-' + imageId"
-        classes="modal-box"
-        height="auto"
-        width="80%"
-        reset="true">
-
-        <img class="modal-image" :src="source"/>
-
-      </modal>
-    </div>
+    <LightBox
+      ref="lightbox"
+      :media="media"
+      :show-caption="true"
+      :show-light-box="false">
+    </LightBox>
   </div>
 </template>
 
 <script>
   import API from "@/api"
+  import LightBox from 'vue-image-lightbox'
 
   export default {
     name: "GalleryImage",
+    components: {
+      LightBox
+    },
     props: {
       token: String,
-      imageId: Number
+      imageId: Number,
+      media: Array,
+      index: Number
     },
     computed: {
       source: function() {
@@ -33,10 +33,7 @@
     },
     methods: {
       openModal: function() {
-        this.$modal.show("image-" + this.imageId);
-      },
-      closeModal: function() {
-        this.$modal.hide("image-" + this.imageId);
+         this.$refs.lightbox.showImage(this.index)
       }
     }
   }

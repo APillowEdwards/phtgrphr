@@ -21,9 +21,11 @@
 
     <div class="gallery-wrapper">
       <gallery-image
-        v-for="image in images"
+        v-for="(image, index) in images"
         :token="token"
         :image-id="image.id"
+        :media="media"
+        :index="index"
         :key="image.id">
       </gallery-image>
     </div>
@@ -34,6 +36,8 @@
   import API from "@/api"
 
   import GalleryImage from "./GalleryImage.vue"
+
+  require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
 
   export default {
     name: "ImageGallery",
@@ -48,6 +52,22 @@
         pageSize: 16,
         page: 1,
         numberOfPages: 1
+      }
+    },
+    computed: {
+      media: function() {
+        if (typeof this.images == `undefined`) {
+          return []
+        }
+
+        var v = this;
+
+        return this.images.map(function(image) {
+          return {
+            thumb: API.defaults.baseURL + "image?token=" + v.token + "&id=" + image.id,
+            src: API.defaults.baseURL + "image?token=" + v.token + "&id=" + image.id,
+          }
+        });
       }
     },
     asyncComputed: {
