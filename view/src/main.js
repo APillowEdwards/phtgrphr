@@ -1,12 +1,12 @@
 import Vue from "vue"
 import App from "./App.vue"
 import AsyncComputed from "vue-async-computed"
-import Modal from "vue-js-modal"
+import VueLazyLoad from 'vue-lazyload'
 
 import router from "./router"
 
 Vue.use(AsyncComputed)
-Vue.use(Modal, {dialog: true})
+Vue.use(VueLazyLoad)
 
 Vue.prototype.baseUrl = window.location.protocol + "//" + window.location.host + "/"
 
