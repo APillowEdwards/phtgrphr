@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>ADD</h2>
+    <h2>UPLOAD</h2>
     <div class="gallery-wrapper">
       <div
         v-for="image in images"
@@ -70,8 +70,17 @@
 <style scoped>
 
   .gallery-wrapper {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
     display: flex;
-    flex-wrap: wrap;
+
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+
+    justify-content: center;
 
     margin-bottom: 30px;
   }

@@ -3,12 +3,14 @@ import App from "./App.vue"
 import AsyncComputed from "vue-async-computed"
 import VueLazyLoad from 'vue-lazyload'
 import Clipboard from 'v-clipboard'
+import BootstrapVue from 'bootstrap-vue'
 
 import router from "./router"
 
 Vue.use(AsyncComputed)
 Vue.use(VueLazyLoad)
 Vue.use(Clipboard)
+Vue.use(BootstrapVue)
 
 Vue.prototype.baseUrl = window.location.protocol + "//" + window.location.host + "/"
 

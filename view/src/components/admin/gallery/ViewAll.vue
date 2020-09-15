@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p><a class="btn btn-primary px-4 py-2 btn-sm" @click="back">&lt; Back</a></p>
+    <p class="text-left"><a class="btn btn-primary px-4 py-2 btn-sm" @click="back">&lt; Back</a></p>
     <table>
       <tr>
         <th>Name</th>
@@ -10,7 +10,7 @@
       <tr v-for="gallery in galleries" :key="gallery.id">
         <td>{{gallery.name}}</td>
         <td>
-          <a class="text-center" :href="makeUrl(gallery.guid)" v-html="makeUrl(gallery.guid)" target="_blank"></a>
+          <a class="text-center mr-3" :href="makeUrl(gallery.guid)" v-html="makeUrl(gallery.guid)" target="_blank"></a>
           <a class="float-right btn btn-primary px-4 py-2 btn-sm" v-clipboard="() => makeUrl(gallery.guid)">Copy</a>
         </td>
         <td>
@@ -80,6 +80,7 @@
   td, tr {
     padding: 8px;
     border: 1px solid white;
+    text-align: center;
   }
 
 </style>

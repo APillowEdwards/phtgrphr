@@ -1,27 +1,27 @@
 <template>
   <div>
-    <p><a class="btn btn-primary px-4 py-2 btn-sm" @click="back">&lt; Back</a></p>
+    <h2>{{this.id == 0 ? "New" : "Edit"}} Gallery </h2>
+
     <p v-if="errorMessage.length > 0" style="color: red">{{errorMessage}}</p>
 
-    <div class="row">
-      <div class="col-6 text-right">
-        <label for="name">Name: </label>
-      </div>
-      <div class="col-6 text-left">
-        <input id="name" v-model="name">
-      </div>
+    <label for="gallery-name">Name</label>
+    <div class="input-group mb-3">
+      <input v-model="name" type="text" class="form-control" id="gallery-name" />
     </div>
 
-    <div class="row">
-      <div class="col-6 text-right">
-        <label for="password">Password: </label>
-      </div>
-      <div class="col-6 text-left">
-        <input id="password" v-model="password">
-      </div>
+    <label for="gallery-password">Password</label>
+    <div class="input-group mb-3">
+      <input v-model="password" type="text" class="form-control" id="gallery-password" />
     </div>
 
-    <button class="btn btn-primary px-4 py-2 btn-sm mt-3" @click="submit">Submit</button>
+    <div class="row mt-3">
+      <div class="col-6 text-right">
+        <a class="w-100 btn btn-primary px-4 py-2 btn-sm" @click="back">&lt; Back</a>
+      </div>
+      <div class="col-6 text-left">
+        <a class="w-100 btn btn-primary px-4 py-2 btn-sm" @click="submit">Submit</a>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -39,13 +39,7 @@
       return {
         name: null,
         password: null,
-        errorMessage: "",
-        imageState: 1,
-        IMAGES_STATES: {
-          ADD: 1,
-          DELETE: 2,
-          SORT: 3
-        }
+        errorMessage: ""
       }
     },
     methods: {

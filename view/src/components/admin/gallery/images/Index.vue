@@ -1,7 +1,6 @@
 <template>
   <div>
-
-    <p><a class="btn btn-primary px-4 py-2 btn-sm" @click="back">&lt; Back</a></p>
+    <p class="text-left"><a class="btn btn-primary px-4 py-2 btn-sm" @click="back">&lt; Back</a></p>
 
     <div class="image-options">
       <a @click="changeView(IMAGES_STATES.ADD)" :class="imageState == IMAGES_STATES.ADD ? 'active' : ''">Upload</a>

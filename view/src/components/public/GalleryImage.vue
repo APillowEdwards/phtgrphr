@@ -46,8 +46,6 @@
     max-width: 250px;
     margin: 10px;
     position: relative;
-    top: 50%;
-    transform: translateY(-50%);
 
     border: 2px solid rgba(255,255,255,0.25);
 
@@ -56,16 +54,13 @@
     box-shadow: 5px 5px 2px 0px rgba(255,255,255,0.25);
   }
 
-  .modal-image {
-    max-height: 80vh;
-    max-width: 100%;
-  }
+  div {
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
 
-</style>
-
-<style>
-  .modal-box {
-    background-color: transparent !important;
-    box-shadow: none !important;
+    align-items:center;
+    justify-content:center;
   }
 </style>
