@@ -706,3 +706,14 @@ a {
   margin-left: 5%;
   margin-right: 5%;
 }
+
+.pagination .page-link {
+  background: #333;
+}
+.pagination .page-item.disabled .page-link {
+  background: #555;
+}
+
+h1, h2 {
+  text-align: center;
+}

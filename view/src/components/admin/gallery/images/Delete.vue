@@ -6,8 +6,8 @@
         v-for="image in images"
         :key="image.id">
 
+        <a class="delete-image btn btn-primary px-4 py-2 btn-sm" @click="deleteImage(image.id)">Delete</a>
         <img class="gallery-image" :src="imageUrl(image.id)" />
-        <a @click="deleteImage(image.id)">&lt;- Delete</a>
 
       </div>
     </div>
@@ -61,8 +61,17 @@
 <style scoped>
 
   .gallery-wrapper {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
     display: flex;
-    flex-wrap: wrap;
+
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+
+    justify-content: center;
 
     margin-bottom: 30px;
   }
@@ -71,14 +80,23 @@
     max-width: 250px;
     margin: 10px;
     position: relative;
-    top: 50%;
-    transform: translateY(-50%);
 
     border: 2px solid rgba(255,255,255,0.25);
 
     -webkit-box-shadow: 5px 5px 2px 0px rgba(255,255,255,0.25);
     -moz-box-shadow: 5px 5px 2px 0px rgba255,255,255,0.25);
     box-shadow: 5px 5px 2px 0px rgba(255,255,255,0.25);
+  }
+
+  .delete-image {
+    position: absolute;
+    z-index: 2;
+
+    background: #c00 !important;
+  }
+
+  .delete-image:hover {
+    background: #a00   !important;
   }
 
 </style>
