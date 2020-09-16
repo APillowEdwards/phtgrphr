@@ -1,31 +1,56 @@
 <template>
   <div>
-    <h2>{{ galleryName }}</h2>
+    <h1>{{ galleryName }}</h1>
     <hr class="grey-hr">
     <div class="row">
-      <div class="col-6">
-        <label for="page-size">Page Size: </label>
-          <select v-model="pageSize">
-          <option>16</option>
-          <option>32</option>
-          <option>64</option>
-        </select>
+      <div class="col-12 col-md-6">
+        <div class="row mb-4 mb-md-0">
+          <div class="col-4 vertical-center">
+            <label class="w-100 mb-0 text-right" for="page-size">Page Size: </label>
+          </div>
+          <div class="col-8">
+            <select id="page-size" class="form-control" v-model="pageSize" @change="page = 1">
+              <option>16</option>
+              <option>32</option>
+              <option>64</option>
+            </select>
+          </div>
+        </div>
+
       </div>
-      <div class="col-6">
-        <label for="page-size">Page Number: </label>
-        <select v-model="page">
-          <option v-for="n in Math.ceil(numberOfPages / pageSize)" :key="n" :value="n">{{n}}</option>
-        </select>
+      <div class="col-12 col-md-6">
+        <b-pagination
+          v-model="page"
+          :total-rows="numberOfPages"
+          :per-page="1"
+          align="center">
+        </b-pagination>
       </div>
     </div>
 
     <div class="gallery-wrapper">
       <gallery-image
-        v-for="image in images"
+        v-for="(image, index) in images"
         :token="token"
         :image-id="image.id"
+        :media="media"
+        :index="index"
         :key="image.id">
       </gallery-image>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-xs-6">
+
+      </div>
+      <div class="col-12 col-xs-6">
+        <b-pagination
+          v-model="page"
+          :total-rows="numberOfPages"
+          :per-page="1"
+          align="center">
+        </b-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +59,8 @@
   import API from "@/api"
 
   import GalleryImage from "./GalleryImage.vue"
+
+  require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
 
   export default {
     name: "ImageGallery",
@@ -50,16 +77,29 @@
         numberOfPages: 1
       }
     },
+    computed: {
+      media: function() {
+        if (typeof this.images == `undefined`) {
+          return []
+        }
+
+        var v = this;
+        return this.images.map(function(image) {
+          return {
+            thumb: API.defaults.baseURL + "image?token=" + v.token + "&id=" + image.id,
+            src: API.defaults.baseURL + "image?token=" + v.token + "&id=" + image.id,
+          }
+        });
+      }
+    },
     asyncComputed: {
       images: function() {
         // Get the list of image ids based on the page size and number
         var v = this;
         return API.get("/gallery/images?page=" + this.page + "&pageSize=" + this.pageSize + "&token=" + this.token)
           .then(function (response) {
-            v.numberOfPages = response.data.count;
-            if (v.numberOfPages < v.page) {
-              v.page = v.numberOfPages;
-            }
+            v.numberOfPages = Math.ceil(response.data.count / v.pageSize);
+
             return response.data.images;
           });
       },
@@ -77,11 +117,33 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-  .gallery-wrapper {
+  .vertical-center {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .gallery-wrapper {
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+
+    justify-content: center;
 
     margin-bottom: 30px;
+  }
+
+  .gallery-wrapper > * {
+    flex-shrink: 0;
+    -webkit-flex-shrink: 0;
+    -moz-flex-shrink: 0;
+    -ms-flex-shrink: 0;
   }
 
 </style>

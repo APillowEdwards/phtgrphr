@@ -3,25 +3,17 @@
     <h2>Login</h2>
     <p v-if="errorMessage.length > 0" style="color: red">{{errorMessage}}</p>
 
-    <div class="row">
-      <div class="col-6 text-right">
-        <label for="username">Username: </label>
-      </div>
-      <div class="col-6 text-left">
-        <input id="username" v-model="username">
-      </div>
+    <label for="username">Username</label>
+    <div class="input-group mb-3">
+      <input v-model="username" type="text" class="form-control" id="username" />
     </div>
 
-    <div class="row">
-      <div class="col-6 text-right">
-        <label for="password">Password: </label>
-      </div>
-      <div class="col-6 text-left">
-        <input id="password" v-model="password" type="password">
-      </div>
+    <label for="password">Password</label>
+    <div class="input-group mb-3">
+      <input v-model="password" type="password" class="form-control" id="password">
     </div>
 
-    <button class="btn btn-primary px-4 py-2 btn-sm mt-2" @click="authorise">Submit</button>
+    <button class="w-100 btn btn-primary px-4 py-2 btn-sm mt-2" @click="authorise">Submit</button>
   </div>
 </template>
 

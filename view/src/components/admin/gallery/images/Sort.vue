@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2>SORT</h2>
+    <h2>ORDER</h2>
 
-    <a class="btn btn-primary px-4 py-2 btn-sm" @click="saveOrder" :disabled="saving">Save Order</a>
+    <a class="w-100 btn btn-primary px-4 py-2 btn-sm" @click="saveOrder" :disabled="saving">Save Order</a>
     <p v-if="showSuccess">Success!</p>
 
     <draggable class="gallery-wrapper" v-model="images">
@@ -12,6 +12,8 @@
         <img class="gallery-image" :src="imageUrl(image.id)" style="max-width:250px" />
       </div>
     </draggable>
+
+    <a class="w-100 btn btn-primary px-4 py-2 btn-sm" @click="saveOrder" :disabled="saving">Save Order</a>
   </div>
 </template>
 
@@ -79,8 +81,17 @@
 <style scoped>
 
   .gallery-wrapper {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
     display: flex;
-    flex-wrap: wrap;
+
+    -webkit-flex-flow: row wrap;
+    -moz-flex-flow: row wrap;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+
+    justify-content: center;
 
     margin-bottom: 30px;
   }

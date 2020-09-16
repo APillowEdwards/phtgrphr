@@ -18,8 +18,6 @@
       v-if="haveGalleryAuthToken"
       :token="galleryAuthToken">
     </image-gallery>
-
-    <v-dialog />
   </div>
 </template>
 

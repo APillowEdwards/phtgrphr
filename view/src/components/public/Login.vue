@@ -2,9 +2,20 @@
   <div>
     <h2>Your Gallery Login</h2>
     <p v-if="errorMessage.length > 0" style="color: red">{{errorMessage}}</p>
-    <label for="password">Please enter the password you were provided with and press Go:</label><br/>
-    <input id="password" v-model="password" type="password">
-    <button class="btn btn-primary px-4 py-2 btn-sm" @click="authorise">Go</button>
+
+    <label for="password">Please enter the password you were provided with and press Go:</label>
+    <div class="row">
+      <div class="col-8">
+        <div class="input-group mb-3">
+          <input v-model="password" type="password" class="form-control" id="password" />
+        </div>
+      </div>
+      <div class="col-4">
+        <a class="w-100 btn btn-primary px-4 py-2 btn-sm" @click="authorise">Go</a>
+      </div>
+    </div>
+
+
 	</div>
 </template>
 
