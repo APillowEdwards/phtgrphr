@@ -34,7 +34,7 @@
     methods: {
       refresh: function() {
         var v = this;
-        return API.get("/admin/gallery/images?id=" + this.galleryId  + "&token=" + this.token)
+        return API.get(`/admin/gallery/images/${this.token}/${this.galleryId}`)
           .then(function (response) {
             v.images = response.data;
           });

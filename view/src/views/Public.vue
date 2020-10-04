@@ -1,17 +1,15 @@
 <template>
   <div>
     <gallery-exists
-      v-if="!(galleryExistsResponseReceived && galleryExists)"
+      v-if="!galleryExists"
       :guid="galleryGuid"
-      :reponse-received="galleryExistsResponseReceived"
-      :exists="galleryExists"
-      @galleryexistsresponse="SetGalleryExistsResponseData($event)">
+      @galleryexists="SetGalleryExists">
     </gallery-exists>
 
     <login
       v-if="galleryExists && !haveGalleryAuthToken"
       :guid="galleryGuid"
-      @galleryauthresponse="SetGalleryAuthToken($event)">
+      @recievedgalleryauthtoken="SetGalleryAuthToken($event)">
     </login>
 
     <image-gallery
@@ -37,13 +35,13 @@
     },
     data: function () {
       return {
-        galleryExistsResponseData: null,
+        galleryExists: false,
         galleryAuthToken: null
       }
     },
     methods: {
-      SetGalleryExistsResponseData: function (e) {
-        this.galleryExistsResponseData = e
+      SetGalleryExists: function () {
+        this.galleryExists = true
       },
       SetGalleryAuthToken: function (e) {
         this.galleryAuthToken = e
@@ -52,18 +50,6 @@
     computed: {
       galleryGuid: function() {
         return urlParams.get("gallery");
-      },
-      galleryExistsResponseReceived: function() {
-        return this.galleryExistsResponseData !== null
-      },
-      galleryExists: function() {
-        if (this.galleryExistsResponseData === null) {
-          return false;
-        }
-        if (this.galleryExistsResponseData.hasError) {
-          return false;
-        }
-        return this.galleryExistsResponseData.exists;
       },
       haveGalleryAuthToken: function () {
         return this.galleryAuthToken !== null;

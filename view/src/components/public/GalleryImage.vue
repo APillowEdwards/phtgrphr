@@ -28,7 +28,7 @@
     },
     computed: {
       source: function() {
-        return API.defaults.baseURL + "image?token=" + this.token + "&id=" + this.imageId
+        return `${API.defaults.baseURL}gallery/image/${this.token}/${this.imageId}`
       }
     },
     methods: {

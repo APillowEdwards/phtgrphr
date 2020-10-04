@@ -4,7 +4,7 @@
 
     <login
       v-if="!haveAdminAuthToken"
-      @adminauthresponse="SetAdminAuthToken($event)">
+      @recievedadminauthtoken="SetAdminAuthToken($event)">
     </login>
 
     <admin-menu

@@ -109,3 +109,7 @@ dist
 # Other
 node-api/defaultStore.js
 image-store
+
+api/PhtgrphrAPI/appsettings.json
+api/PhtgrphrAPI/Properties/launchSettings.json
+view/src/api.js

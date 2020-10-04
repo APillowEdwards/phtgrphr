@@ -33,16 +33,12 @@
       authorise: function () {
         // Attempt to get an auth token
         var v = this;
-        API.post("/admin/auth", {
-            username: this.username,
-            password: this.password
-          })
+        API.post(`/admin/user/authenticate/${this.username}`, `"${this.password}"`, {headers: { "Content-Type": "application/json" }})
           .then(function (response) {
-            if (response.data.hasError) {
-              v.errorMessage = response.data.error.message;
-            } else {
-              v.$emit("adminauthresponse", response.data.token)
-            }
+            v.$emit("recievedadminauthtoken", response.data.result.token)
+          })
+          .catch(function (error) {
+            v.errorMessage = error.response.data.messages.friendlyError;
           });
       }
     }

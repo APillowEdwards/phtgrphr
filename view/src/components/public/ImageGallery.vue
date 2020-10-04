@@ -10,9 +10,9 @@
           </div>
           <div class="col-8">
             <select id="page-size" class="form-control" v-model="pageSize" @change="page = 1">
-              <option>16</option>
-              <option>32</option>
-              <option>64</option>
+              <option>12</option>
+              <option>24</option>
+              <option>48</option>
             </select>
           </div>
         </div>
@@ -72,7 +72,7 @@
     },
     data: function () {
       return {
-        pageSize: 16,
+        pageSize: 12,
         page: 1,
         numberOfPages: 1
       }
@@ -86,8 +86,8 @@
         var v = this;
         return this.images.map(function(image) {
           return {
-            thumb: API.defaults.baseURL + "image?token=" + v.token + "&id=" + image.id,
-            src: API.defaults.baseURL + "image?token=" + v.token + "&id=" + image.id,
+            thumb: `${API.defaults.baseURL}gallery/image/${v.token}/${image.id}`,
+            src: `${API.defaults.baseURL}gallery/image/${v.token}/${image.id}`
           }
         });
       }
@@ -96,18 +96,20 @@
       images: function() {
         // Get the list of image ids based on the page size and number
         var v = this;
-        return API.get("/gallery/images?page=" + this.page + "&pageSize=" + this.pageSize + "&token=" + this.token)
+        return API.get(`/public/gallery/images/${this.token}/${this.pageSize}/${this.page}`)
           .then(function (response) {
-            v.numberOfPages = Math.ceil(response.data.count / v.pageSize);
+            console.log(v.pageSize)
+            console.log(response.data.result.images.totalCount)
+            v.numberOfPages = Math.ceil(response.data.result.images.totalCount / v.pageSize);
 
-            return response.data.images;
+            return response.data.result.images;
           });
       },
       galleryName: function() {
         // Get gallery metadata
-        return API.get("/gallery?token=" + this.token)
+        return API.get(`/public/gallery/${this.token}`)
           .then(function (response) {
-            return response.data.name;
+            return response.data.result.gallery.name;
           });
       }
     }
