@@ -1,7 +1,7 @@
 <template>
   <div>
-    <span v-if="!reponseReceived">Checking the gallery exists...</span>
-    <span v-if="reponseReceived && !exists">This gallery doesn't exist, please contact the link provider.</span>
+    <span v-if="exists === null">Checking the gallery exists...</span>
+    <span v-if="exists !== null && !exists">This gallery doesn't exist, please contact the link provider.</span>
   </div>
 </template>
 
@@ -11,16 +11,28 @@
   export default {
     name: "GalleryExists",
     props: {
-      guid: String,
-      reponseReceived: Boolean,
-      exists: Boolean
+      guid: String
+    },
+    data: function() {
+      return {
+        exists: null
+      }
     },
     created: function() {
-      // Check Guid Exists
+      // if the guid isn't valid, just set exists to false
+      if (!/^[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}$/.test(this.guid)) {
+          this.exists = false;
+          return;
+      }
+
       var v = this;
-      API.get("/gallery/exists?guid=" + this.guid)
+      API.get(`/public/gallery/exists/${this.guid}`)
         .then(function (response) {
-          v.$emit("galleryexistsresponse", response.data)
+          v.exists = response.data.result.exists
+
+          if (v.exists) {
+            v.$emit("galleryexists")
+          }
         });
     }
   }

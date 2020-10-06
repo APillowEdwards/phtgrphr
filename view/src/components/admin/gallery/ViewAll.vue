@@ -1,6 +1,9 @@
 <template>
   <div>
     <p class="text-left"><a class="btn btn-primary px-4 py-2 btn-sm" @click="back">&lt; Back</a></p>
+
+    <p v-if="errorMessage.length > 0" style="color: red">{{errorMessage}}</p>
+
     <table>
       <tr>
         <th>Name</th>
@@ -33,7 +36,8 @@
     },
     data: function() {
       return {
-        galleries: []
+        galleries: [],
+        errorMessage: ""
       }
     },
     methods: {
@@ -42,9 +46,12 @@
       },
       refresh: function() {
         var v = this;
-        return API.get("/admin/gallery/list?token=" + this.token)
+        return API.get(`/admin/gallery/${this.token}`)
           .then(function (response) {
-            v.galleries = response.data.galleries;
+            v.galleries = response.data.result.galleries;
+          })
+          .catch(function (error) {
+            v.errorMessage = error.response.data.messages.friendlyError;
           });
       },
       editGallery: function(id) {
@@ -56,11 +63,14 @@
       deleteGallery: function(id, name) {
         if(confirm(`Are you sure you wish to delete gallery "${name}"?`)) {
           var v = this;
-          API.delete(`/admin/gallery?id=${id}&token=${this.token}`)
+          API.post(`/admin/gallery/delete/${this.token}/${id}`)
             .then(function (response) {
               if (!response.data.hasError) {
                 v.refresh();
               }
+            })
+            .catch(function (error) {
+              v.errorMessage = error.response.data.messages.friendlyError;
             });
         }
       },
