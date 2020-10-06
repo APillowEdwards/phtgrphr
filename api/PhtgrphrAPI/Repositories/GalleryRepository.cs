@@ -117,5 +117,32 @@ namespace PhtgrphrAPI.Repositories
 
             return result > 0;
         }
+
+        public bool UpdateImage(Image image)
+        {
+            Image dbImage = context.Images
+                .Where(i => i.ID == image.ID)
+                .SingleOrDefault();
+
+            if (dbImage == null)
+            {
+                return false;
+            }
+
+            dbImage.Sort = image.Sort;
+
+            int result = context.SaveChanges();
+
+            return result > 0;
+        }
+
+        public bool DeleteImage(Image image)
+        {
+            context.Images.Remove(image);
+
+            int result = context.SaveChanges();
+
+            return result > 0;
+        }
     }
 }

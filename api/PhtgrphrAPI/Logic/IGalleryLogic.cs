@@ -38,10 +38,12 @@ namespace PhtgrphrAPI.Logic
 
         PhtgrphrResponse<Dictionary<string, bool>> AddImagesToGallery(Guid token, int galleryId, List<IFormFile> files, IFileManager fileManager);
 
-        Image GetImageById(int id);
-
         FileManagerFile GetImageFileWithGalleryAccessToken(Guid token, int imageId, IFileManager fileManager);
 
         FileManagerFile GetImageFileWithUserAccessToken(Guid token, int imageId, IFileManager fileManager);
+
+        PhtgrphrResponse<Dictionary<string, bool>> SortImages(Guid token, int galleryId, List<Image> images);
+
+        PhtgrphrResponse<Dictionary<string, bool>> DeleteImageByImageId(Guid token, int imageid);
     }
 }

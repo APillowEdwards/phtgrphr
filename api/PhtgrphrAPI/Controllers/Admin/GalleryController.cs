@@ -73,10 +73,23 @@ namespace PhtgrphrAPI.Controllers.Admin
 
         [HttpPost]
         [Route("images/{token}/{galleryId}")]
-        public ActionResult<PhtgrphrResponse<Dictionary<string, bool>>> UploadImages(Guid token, int galleryId, List<IFormFile> files, [FromServices] IFileManager fileManager, [FromServices] IGalleryLogic galleryLogic)
+        public ActionResult<PhtgrphrResponse<Dictionary<string, bool>>> UploadImages(Guid token, int galleryId, [FromForm] List<IFormFile> images, [FromServices] IFileManager fileManager, [FromServices] IGalleryLogic galleryLogic)
         {
-            return AsActionResult<Dictionary<string, bool>>(galleryLogic.AddImagesToGallery(token, galleryId, files, fileManager));
+            return AsActionResult<Dictionary<string, bool>>(galleryLogic.AddImagesToGallery(token, galleryId, images, fileManager));
         }
 
+        [HttpPost]
+        [Route("images/sort/{token}/{galleryId}")]
+        public ActionResult<PhtgrphrResponse<Dictionary<string, bool>>> SortImages(Guid token, int galleryId, [FromBody] List<Image> images, [FromServices] IGalleryLogic galleryLogic)
+        {
+            return AsActionResult<Dictionary<string, bool>>(galleryLogic.SortImages(token, galleryId, images));
+        }
+
+        [HttpPost]
+        [Route("image/delete/{token}/{imageId}")]
+        public ActionResult<PhtgrphrResponse<Dictionary<string, bool>>> DeleteImage(Guid token, int imageid, [FromServices] IGalleryLogic galleryLogic)
+        {
+            return AsActionResult<Dictionary<string, bool>>(galleryLogic.DeleteImageByImageId(token, imageid));
+        }
     }
 }

@@ -215,7 +215,9 @@ namespace PhtgrphrAPI.Logic
                 return PhtgrphrResponse<ImageListResponse>.UnauthorisedResponse(messages);
             }
 
-            List<Image> images = gallery.Images.ToList();
+            List<Image> images = gallery.Images
+                .OrderBy(i => i.Sort)
+                .ToList();
 
             ImageListResponse response = new ImageListResponse(images, images.Count);
 
@@ -391,7 +393,8 @@ namespace PhtgrphrAPI.Logic
                     image.Gallery = gallery;
 
                     galleryRepository.CreateImage(image);
-                } else
+                }
+                else
                 {
                     throw new Exception("Failed to save " + file.FileName + " to gallery " + gallery.Name + " (" + gallery.ID + ")");
                 }
@@ -405,9 +408,95 @@ namespace PhtgrphrAPI.Logic
             return PhtgrphrResponse<Dictionary<string, bool>>.OkResponse(result);
         }
 
-        public Image GetImageById(int id)
+        public PhtgrphrResponse<Dictionary<string, bool>> SortImages(Guid token, int galleryId, List<Image> images)
         {
-            return galleryRepository.GetImageById(id);
+            UserAccessToken userAccessToken = userRepository.GetUserAccessTokenByToken(token);
+
+            if (userAccessToken == null)
+            {
+                Dictionary<string, string> messages = new Dictionary<string, string>();
+
+                messages.Add("friendlyError", "Token does not exist or has expired. Please refresh the page and log-in again.");
+
+                return PhtgrphrResponse<Dictionary<string, bool>>.UnauthorisedResponse(messages);
+            }
+
+            Gallery gallery = userAccessToken.User.Galleries
+                .Where(g => g.ID == galleryId)
+                .SingleOrDefault();
+
+            if (gallery == null)
+            {
+                Dictionary<string, string> messages = new Dictionary<string, string>();
+
+                messages.Add("friendlyError", "You are not authorised to add images to this gallery.");
+
+                return PhtgrphrResponse<Dictionary<string, bool>>.UnauthorisedResponse(messages);
+            }
+
+            bool success = true;
+
+            try
+            {
+                int sort = 0;
+                foreach (Image image in images)
+                {
+                    // If we're not changing the sort value, we don't need to bother the DB
+                    if (image.Sort != sort)
+                    {
+                        image.Sort = sort;
+
+                        if (!galleryRepository.UpdateImage(image))
+                        {
+                            throw new Exception("Failed to save image sort.");
+                        }
+                    }
+
+                    sort++;
+                }
+            } catch
+            {
+                success = false;
+            }
+
+            Dictionary<string, bool> result = new Dictionary<string, bool>();
+            result.Add("success", success);
+
+            return PhtgrphrResponse<Dictionary<string, bool>>.OkResponse(result);
+        }
+
+        public PhtgrphrResponse<Dictionary<string, bool>> DeleteImageByImageId(Guid token, int imageId)
+        {
+            Image image = galleryRepository.GetImageById(imageId);
+
+            if (image == null)
+            {
+                Dictionary<string, string> messages = new Dictionary<string, string>();
+
+                messages.Add("friendlyError", "Image doesn't exist. It may have already been deleted.");
+
+                return PhtgrphrResponse<Dictionary<string, bool>>.NotFoundResponse(messages);
+            }
+
+            UserAccessToken userAccessToken = image.Gallery.User.UserAccessTokens
+                .Where(uat => uat.Token == token)
+                .SingleOrDefault();
+
+            if (userAccessToken == null)
+            {
+                Dictionary<string, string> messages = new Dictionary<string, string>();
+
+                messages.Add("friendlyError", "Token does not exist or has expired. Please refresh the page and log-in again.");
+
+                return PhtgrphrResponse<Dictionary<string, bool>>.UnauthorisedResponse(messages);
+            }
+
+            bool success = galleryRepository.DeleteImage(image);
+
+            Dictionary<string, bool> response = new Dictionary<string, bool>();
+            response.Add("success", success);
+
+            return PhtgrphrResponse<Dictionary<string, bool>>.OkResponse(response);
         }
     }
 }

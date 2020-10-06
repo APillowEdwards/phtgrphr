@@ -44,7 +44,22 @@ namespace PhtgrphrAPI.FileManagers
 
         public bool StoreFile(IFormFile file, string fileName)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+                string imageStorePath = Configuration["ImagePath"] + fileName;
+
+                using (Stream stream = new FileStream(imageStorePath, FileMode.Create))
+                {
+                    file.CopyTo(stream);
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

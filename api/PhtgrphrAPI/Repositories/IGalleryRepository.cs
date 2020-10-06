@@ -23,8 +23,15 @@ namespace PhtgrphrAPI.Repositories
         public int GetTotalImageCount(Gallery gallery);
 
         bool UpdateGallery(Gallery gallery);
+
         bool DeleteGallery(Gallery gallery);
+
         Image GetImageById(int id);
+
         bool CreateImage(Image image);
+
+        bool UpdateImage(Image image);
+
+        bool DeleteImage(Image image);
     }
 }
