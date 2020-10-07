@@ -48,7 +48,7 @@
       },
       submit: function () {
         var v = this;
-        API.post(`/admin/gallery/${this.token}`, {
+        API.post(`/v1/admin/gallery/${this.token}`, {
             id: this.id,
             name: this.name,
             password: this.password,
@@ -69,7 +69,7 @@
     created: function() {
       if (this.id != 0) {
         var v = this;
-        return API.get(`/admin/gallery/${this.token}/${this.id}`)
+        return API.get(`/v1/admin/gallery/${this.token}/${this.id}`)
           .then(function (response) {
             v.name = response.data.result.gallery.name;
             v.password = response.data.result.gallery.password;

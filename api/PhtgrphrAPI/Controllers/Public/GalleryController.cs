@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace PhtgrphrAPI.Controllers
 {
     [ApiController]
-    [Route("public/gallery")]
+    [Route("v1/public/gallery")]
     public class GalleryController : PhtgrphrController
     {
         private readonly IConfiguration _configuration;

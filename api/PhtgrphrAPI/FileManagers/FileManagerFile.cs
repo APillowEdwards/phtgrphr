@@ -4,10 +4,10 @@ namespace PhtgrphrAPI.FileManagers
 {
     public class FileManagerFile
     {
-        public FileStream File;
+        public Stream File;
         public string MimeType;
 
-        public FileManagerFile(FileStream file, string mimeType)
+        public FileManagerFile(Stream file, string mimeType)
         {
             File = file;
             MimeType = mimeType;

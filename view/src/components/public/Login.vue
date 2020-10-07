@@ -37,7 +37,7 @@
       authorise: function () {
         // Get auth token for this gallery
         var v = this;
-        API.post(`/public/gallery/authenticate/${this.guid}`, `"${this.password}"`, {headers: { "Content-Type": "application/json" }})
+        API.post(`/v1/public/gallery/authenticate/${this.guid}`, `"${this.password}"`, {headers: { "Content-Type": "application/json" }})
           .then(function (response) {
             v.$emit("recievedgalleryauthtoken", response.data.result.token);
           })

@@ -379,7 +379,15 @@ namespace PhtgrphrAPI.Logic
                 return PhtgrphrResponse<Dictionary<string, bool>>.UnauthorisedResponse(messages);
             }
 
-            int sort = gallery.Images.Max(i => i.Sort) + 1;
+            int sort;
+            if (gallery.Images.Count() == 0)
+            {
+                sort = 1;
+            } else
+            {
+                sort = gallery.Images.Max(i => i.Sort) + 1;
+            }
+
             foreach (IFormFile file in files)
             {
                 string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);

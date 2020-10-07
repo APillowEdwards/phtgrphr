@@ -42,10 +42,20 @@ namespace PhtgrphrAPI
 
             services.AddTransient<IUserLogic, UserLogic>();
             services.AddTransient<IUserRepository, UserRepository>();
-            
+
             // File Manager
-            // Will move the one it loads to a config soon
-            services.AddTransient<IFileManager, LocalFileManager>();
+            if (Configuration.GetValue<string>("FileManager") == "Azure")
+            {
+                services.AddTransient<IFileManager, AzureFilesManager>();
+            } 
+            else if (Configuration.GetValue<string>("FileManager") == "Local")
+            {
+                services.AddTransient<IFileManager, LocalFileManager>();
+            } 
+            else
+            {
+                throw new Exception("File manager not set");
+            }
 
             services.AddControllers()
                 .AddNewtonsoftJson();

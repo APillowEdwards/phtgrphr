@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace PhtgrphrAPI.Controllers
 {
     [ApiController]
-    [Route("admin/user")]
+    [Route("v1/admin/user")]
     public class UserController : PhtgrphrController
     {
         [HttpPost]

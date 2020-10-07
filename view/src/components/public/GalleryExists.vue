@@ -26,7 +26,7 @@
       }
 
       var v = this;
-      API.get(`/public/gallery/exists/${this.guid}`)
+      API.get(`/v1/public/gallery/exists/${this.guid}`)
         .then(function (response) {
           v.exists = response.data.result.exists
 

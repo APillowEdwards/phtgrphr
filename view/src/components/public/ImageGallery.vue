@@ -86,8 +86,8 @@
         var v = this;
         return this.images.map(function(image) {
           return {
-            thumb: `${API.defaults.baseURL}gallery/image/${v.token}/${image.id}`,
-            src: `${API.defaults.baseURL}gallery/image/${v.token}/${image.id}`
+            thumb: `${API.defaults.baseURL}v1/public/gallery/image/${v.token}/${image.id}`,
+            src: `${API.defaults.baseURL}v1/public/gallery/image/${v.token}/${image.id}`
           }
         });
       }
@@ -96,7 +96,7 @@
       images: function() {
         // Get the list of image ids based on the page size and number
         var v = this;
-        return API.get(`/public/gallery/images/${this.token}/${this.pageSize}/${this.page}`)
+        return API.get(`/v1/public/gallery/images/${this.token}/${this.pageSize}/${this.page}`)
           .then(function (response) {
             console.log(v.pageSize)
             console.log(response.data.result.images.totalCount)
@@ -107,7 +107,7 @@
       },
       galleryName: function() {
         // Get gallery metadata
-        return API.get(`/public/gallery/${this.token}`)
+        return API.get(`/v1/public/gallery/${this.token}`)
           .then(function (response) {
             return response.data.result.gallery.name;
           });
