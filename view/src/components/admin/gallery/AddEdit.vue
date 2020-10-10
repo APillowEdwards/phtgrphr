@@ -70,8 +70,8 @@
         var v = this;
         return API.get(`/v1/admin/gallery/${this.token}/${this.id}`)
           .then(function (response) {
-            v.name = response.data.result.gallery.Name;
-            v.password = response.data.result.gallery.Password;
+            v.name = response.data.result.gallery.name;
+            v.password = response.data.result.gallery.password;
           });
       }
     }

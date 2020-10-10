@@ -31,6 +31,7 @@ namespace PhtgrphrAPI.Repositories
             return context.UserAccessTokens 
                 .Where(uat => uat.Token == token)
                 .Where(uat => uat.Expiry > DateTime.UtcNow)
+                .Include("User.Galleries")
                 .SingleOrDefault();
         }
 

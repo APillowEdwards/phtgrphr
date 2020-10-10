@@ -32,8 +32,7 @@ namespace PhtgrphrAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<PhtgrphrContext>(options =>
-                options.UseLazyLoadingProxies()
-                    .UseMySQL(Configuration.GetConnectionString("db")));
+                options.UseMySQL(Configuration.GetConnectionString("db")));
 
             services.AddCors();
 

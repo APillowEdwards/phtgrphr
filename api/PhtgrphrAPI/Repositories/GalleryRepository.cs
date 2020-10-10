@@ -55,6 +55,7 @@ namespace PhtgrphrAPI.Repositories
             return context.GalleryAccessTokens
                 .Where(gat => gat.Token == token)
                 .Where(gat => gat.Expiry > DateTime.UtcNow)
+                .Include("Gallery.Images")
                 .SingleOrDefault();
         }
 
@@ -71,7 +72,8 @@ namespace PhtgrphrAPI.Repositories
 
         public int GetTotalImageCount(Gallery gallery)
         {
-            return gallery.Images.Count();
+            return gallery.Images
+                .Count();
         }
 
         public bool UpdateGallery(Gallery gallery)
@@ -106,6 +108,7 @@ namespace PhtgrphrAPI.Repositories
         {
             return context.Images
                 .Where(i => i.ID == id)
+                .Include("Gallery.User")
                 .SingleOrDefault();
         }
 
@@ -143,6 +146,14 @@ namespace PhtgrphrAPI.Repositories
             int result = context.SaveChanges();
 
             return result > 0;
+        }
+
+        public List<Image> GetImagesByGalleryId(int id)
+        {
+            return context.Images
+                .Where(i => i.Gallery.ID == id)
+                .OrderBy(i => i.Sort)
+                .ToList();
         }
     }
 }

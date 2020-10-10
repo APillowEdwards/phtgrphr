@@ -14,8 +14,7 @@ namespace PhtgrphrAPIFunctions
         {
             string connectionString = Environment.GetEnvironmentVariable("SqlConnectionString");
 
-            optionsBuilder.UseLazyLoadingProxies()
-                .UseMySQL(connectionString);
+            optionsBuilder.UseMySQL(connectionString);
         }
     }
 }

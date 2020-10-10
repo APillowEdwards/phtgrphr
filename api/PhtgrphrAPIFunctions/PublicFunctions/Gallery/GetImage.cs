@@ -30,7 +30,7 @@ namespace PhtgrphrAPIFunctions.Public.Gallery
 
         [FunctionName("PublicGalleryGetImage")]
         public ActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "v1/public/gallery/image/{token}/{imageId}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/public/gallery/image/{token}/{imageId}")] HttpRequest req,
             Guid token,
             int imageId)
         {

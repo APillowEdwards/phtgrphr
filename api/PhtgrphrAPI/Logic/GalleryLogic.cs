@@ -215,9 +215,7 @@ namespace PhtgrphrAPI.Logic
                 return PhtgrphrResponse<ImageListResponse>.UnauthorisedResponse(messages);
             }
 
-            List<Image> images = gallery.Images
-                .OrderBy(i => i.Sort)
-                .ToList();
+            List<Image> images = galleryRepository.GetImagesByGalleryId(gallery.ID);
 
             ImageListResponse response = new ImageListResponse(images, images.Count);
 
@@ -322,7 +320,9 @@ namespace PhtgrphrAPI.Logic
                 return null;
             }
 
-            Image image = galleryAccessToken.Gallery.Images.Where(i => i.ID == imageId).SingleOrDefault();
+            Image image = galleryAccessToken.Gallery.Images
+                .Where(i => i.ID == imageId)
+                .SingleOrDefault();
 
             if (image == null)
             {
@@ -341,11 +341,9 @@ namespace PhtgrphrAPI.Logic
                 return null;
             }
 
-            UserAccessToken userAccessToken = image.Gallery.User.UserAccessTokens
-                .Where(uat => uat.Token == token)
-                .SingleOrDefault();
+            UserAccessToken userAccessToken = userRepository.GetUserAccessTokenByToken(token);
 
-            if (userAccessToken == null)
+            if (userAccessToken.User.ID != image.Gallery.User.ID)
             {
                 return null;
             }
@@ -380,7 +378,7 @@ namespace PhtgrphrAPI.Logic
             }
 
             int sort;
-            if (gallery.Images.Count() == 0)
+            if (galleryRepository.GetImagesByGalleryId(gallery.ID).Count() == 0)
             {
                 sort = 1;
             } else
