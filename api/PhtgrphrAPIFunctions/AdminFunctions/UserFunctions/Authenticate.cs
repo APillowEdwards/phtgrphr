@@ -11,7 +11,7 @@ using PhtgrphrAPI.Logic;
 using PhtgrphrAPI.Responses;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 
-[assembly: FunctionsStartup(typeof(PhtgrphrAPIFunctions.Startup))]
+
 
 namespace PhtgrphrAPIFunctions.Admin.User
 {
@@ -19,9 +19,10 @@ namespace PhtgrphrAPIFunctions.Admin.User
     {
         private IUserLogic _userLogic;
 
-        public Authenticate(IUserLogic userLogic)
+        //public Authenticate(IUserLogic userLogic)
+        public Authenticate()
         {
-            _userLogic = userLogic;
+            _userLogic = GetUserLogic();
         }
 
         [FunctionName("AdminUserAuthenticate")]

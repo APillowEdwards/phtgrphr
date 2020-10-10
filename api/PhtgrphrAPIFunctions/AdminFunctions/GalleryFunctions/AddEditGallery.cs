@@ -13,7 +13,7 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using PhtgrphrAPI.FileManagers;
 using System.Text.Json.Serialization;
 
-[assembly: FunctionsStartup(typeof(PhtgrphrAPIFunctions.Startup))]
+
 
 namespace PhtgrphrAPIFunctions.Admin.Gallery
 {
@@ -21,20 +21,20 @@ namespace PhtgrphrAPIFunctions.Admin.Gallery
     {
         private IGalleryLogic _galleryLogic;
 
-        public AddEditGallery(IGalleryLogic galleryLogic)
+        //public AddEditGallery(IGalleryLogic galleryLogic)
+        public AddEditGallery()
         {
-            _galleryLogic = galleryLogic;
+            _galleryLogic = GetGalleryLogic();
         }
 
         [FunctionName("AdminGalleryAddEditGallery")]
         public ActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "v1/admin/gallery/{token}")] HttpRequest req,
-            Guid token,
-            int imageId)
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "v1/admin/gallery/{token}/")] HttpRequest req,
+            Guid token)
         {
             string galleryString = new StreamReader(req.Body).ReadToEnd();
 
-            PhtgrphrAPI.Models.Gallery gallery = (PhtgrphrAPI.Models.Gallery) JsonConvert.DeserializeObject(galleryString);
+            var gallery = JsonConvert.DeserializeObject<PhtgrphrAPI.Models.Gallery>(galleryString);
 
             return AsActionResult(_galleryLogic.AddEditGallery(token, gallery));
         }

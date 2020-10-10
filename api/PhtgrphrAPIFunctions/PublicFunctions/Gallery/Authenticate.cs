@@ -11,7 +11,7 @@ using PhtgrphrAPI.Logic;
 using PhtgrphrAPI.Responses;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 
-[assembly: FunctionsStartup(typeof(PhtgrphrAPIFunctions.Startup))]
+
 
 namespace PhtgrphrAPIFunctions.Public.Gallery
 {
@@ -19,9 +19,10 @@ namespace PhtgrphrAPIFunctions.Public.Gallery
     {
         private IGalleryLogic _galleryLogic;
 
-        public Authenticate(IGalleryLogic galleryLogic)
+        //public Authenticate(IGalleryLogic galleryLogic)
+        public Authenticate()
         {
-            _galleryLogic = galleryLogic;
+            _galleryLogic = GetGalleryLogic();
         }
 
         [FunctionName("PublicGalleryAuthenticate")]

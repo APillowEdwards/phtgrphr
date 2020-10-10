@@ -49,10 +49,9 @@
       submit: function () {
         var v = this;
         API.post(`/v1/admin/gallery/${this.token}`, {
-            id: this.id,
-            name: this.name,
-            password: this.password,
-            token: this.token
+            ID: this.id,
+            Name: this.name,
+            Password: this.password
           })
           .then(function (response) {
             if (response.data.hasError) {
@@ -71,8 +70,8 @@
         var v = this;
         return API.get(`/v1/admin/gallery/${this.token}/${this.id}`)
           .then(function (response) {
-            v.name = response.data.result.gallery.name;
-            v.password = response.data.result.gallery.password;
+            v.name = response.data.result.gallery.Name;
+            v.password = response.data.result.gallery.Password;
           });
       }
     }

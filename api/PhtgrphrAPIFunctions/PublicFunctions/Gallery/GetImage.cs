@@ -12,7 +12,7 @@ using PhtgrphrAPI.Responses;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using PhtgrphrAPI.FileManagers;
 
-[assembly: FunctionsStartup(typeof(PhtgrphrAPIFunctions.Startup))]
+
 
 namespace PhtgrphrAPIFunctions.Public.Gallery
 {
@@ -21,10 +21,11 @@ namespace PhtgrphrAPIFunctions.Public.Gallery
         private IGalleryLogic _galleryLogic;
         private IFileManager _fileManager;
 
-        public GetImage(IGalleryLogic galleryLogic, IFileManager fileManager)
+        //public GetImage(IGalleryLogic galleryLogic, IFileManager fileManager)
+        public GetImage()
         {
-            _galleryLogic = galleryLogic;
-            _fileManager = fileManager;
+            _galleryLogic = GetGalleryLogic();
+            _fileManager = GetFileManager();
         }
 
         [FunctionName("PublicGalleryGetImage")]

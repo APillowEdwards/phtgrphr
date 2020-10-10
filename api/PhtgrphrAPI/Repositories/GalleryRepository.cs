@@ -54,7 +54,7 @@ namespace PhtgrphrAPI.Repositories
         {
             return context.GalleryAccessTokens
                 .Where(gat => gat.Token == token)
-                .Where(gat => gat.Expiry > DateTime.Now)
+                .Where(gat => gat.Expiry > DateTime.UtcNow)
                 .SingleOrDefault();
         }
 

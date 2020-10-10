@@ -11,7 +11,7 @@ using PhtgrphrAPI.Logic;
 using PhtgrphrAPI.Responses;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 
-[assembly: FunctionsStartup(typeof(PhtgrphrAPIFunctions.Startup))]
+
 
 namespace PhtgrphrAPIFunctions.Admin.Gallery
 {
@@ -19,9 +19,10 @@ namespace PhtgrphrAPIFunctions.Admin.Gallery
     {
         private IGalleryLogic _galleryLogic;
 
-        public GetGalleryImagesByGallery(IGalleryLogic galleryLogic)
+        //public GetGalleryImagesByGallery(IGalleryLogic galleryLogic)
+        public GetGalleryImagesByGallery()
         {
-            _galleryLogic = galleryLogic;
+            _galleryLogic = GetGalleryLogic();
         }
 
         [FunctionName("AdminGalleryGetGalleryImagesByGallery")]

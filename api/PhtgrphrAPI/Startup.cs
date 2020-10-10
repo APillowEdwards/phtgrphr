@@ -37,17 +37,21 @@ namespace PhtgrphrAPI
 
             services.AddCors();
 
-            services.AddTransient<IGalleryLogic, GalleryLogic>();
             services.AddTransient<IGalleryRepository, GalleryRepository>();
-
-            services.AddTransient<IUserLogic, UserLogic>();
             services.AddTransient<IUserRepository, UserRepository>();
 
+            services.AddTransient<IGalleryLogic, GalleryLogic>();
+            services.AddTransient<IUserLogic, UserLogic>();
+
             // File Manager
-            if (Configuration.GetValue<string>("FileManager") == "Azure")
+            if (Configuration.GetValue<string>("FileManager") == "AzureBlob")
+            {
+                services.AddTransient<IFileManager, AzureBlobFileManager>();
+            }
+            else if (Configuration.GetValue<string>("FileManager") == "AzureFiles")
             {
                 services.AddTransient<IFileManager, AzureFilesManager>();
-            } 
+            }
             else if (Configuration.GetValue<string>("FileManager") == "Local")
             {
                 services.AddTransient<IFileManager, LocalFileManager>();

@@ -10,33 +10,35 @@ using Newtonsoft.Json;
 using PhtgrphrAPI.Logic;
 using PhtgrphrAPI.Responses;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Linq;
 using PhtgrphrAPI.FileManagers;
 
 
 
 namespace PhtgrphrAPIFunctions.Admin.Gallery
 {
-    public class GetImage : BaseFunction
+    public class UploadImages : BaseFunction
     {
         private IGalleryLogic _galleryLogic;
         private IFileManager _fileManager;
 
-        //public GetImage(IGalleryLogic galleryLogic, IFileManager fileManager)
-        public GetImage()
+        //public UploadImages(IGalleryLogic galleryLogic, IFileManager fileManager)
+        public UploadImages()
         {
             _galleryLogic = GetGalleryLogic();
             _fileManager = GetFileManager();
         }
 
-        [FunctionName("AdminGalleryGetImage")]
+        [FunctionName("AdminGalleryUploadImages")]
         public ActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "v1/admin/gallery/image/{token}/{imageId}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "v1/admin/gallery/images/{token}/{galleryId}")] HttpRequest req,
             Guid token,
-            int imageId)
+            int galleryId)
         {
-            FileManagerFile file = _galleryLogic.GetImageFileWithUserAccessToken(token, imageId, _fileManager);
+            List<IFormFile> files = req.Form.Files.ToList();
 
-            return new FileStreamResult(file.File, file.MimeType);
+            return AsActionResult(_galleryLogic.AddImagesToGallery(token, galleryId, files, _fileManager));
         }
     }
 }

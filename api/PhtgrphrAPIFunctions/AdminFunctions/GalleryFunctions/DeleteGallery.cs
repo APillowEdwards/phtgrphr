@@ -15,23 +15,23 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 
 namespace PhtgrphrAPIFunctions.Admin.Gallery
 {
-    public class GetGalleryDetails : BaseFunction
+    public class DeleteGallery : BaseFunction
     {
         private IGalleryLogic _galleryLogic;
 
-        //public GetGalleryDetails(IGalleryLogic galleryLogic)
-        public GetGalleryDetails()
+        //public DeleteGallery(IGalleryLogic galleryLogic)
+        public DeleteGallery()
         {
             _galleryLogic = GetGalleryLogic();
         }
 
-        [FunctionName("AdminGalleryGetGalleryDetails")]
+        [FunctionName("AdminGalleryDeleteGallery")]
         public ActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "v1/admin/gallery/{token}/{galleryId}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = "v1/admin/gallery/delete/{token}/{galleryId}")] HttpRequest req,
             Guid token,
             int galleryId)
         {
-            return AsActionResult(_galleryLogic.GetGalleryDetailsByGalleryId(token, galleryId));
+            return AsActionResult(_galleryLogic.DeleteGalleryByGalleryId(token, galleryId));
         }
     }
 }

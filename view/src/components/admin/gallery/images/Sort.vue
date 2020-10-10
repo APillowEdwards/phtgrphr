@@ -47,7 +47,7 @@
           });
       },
       imageUrl: function(id) {
-        return API.defaults.baseURL + `v1/v1/admin/gallery/image/${this.token}/${id}`;
+        return API.defaults.baseURL + `v1/admin/gallery/image/${this.token}/${id}`;
       },
       saveOrder: function() {
         this.saving = true;

@@ -37,7 +37,7 @@
         });
       },
       imageUrl: function(id) {
-        return API.defaults.baseURL + `v1/v1/admin/gallery/image/${this.token}/${id}`;
+        return API.defaults.baseURL + `v1/admin/gallery/image/${this.token}/${id}`;
       },
       deleteImage: function(id) {
         if(confirm(`Are you sure you wish to delete this image?`)) {

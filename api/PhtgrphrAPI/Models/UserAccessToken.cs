@@ -12,7 +12,7 @@ namespace PhtgrphrAPI.Models
         public UserAccessToken(User user, DateTime? expiry = null)
         {
             Token = System.Guid.NewGuid();
-            Expiry = expiry ?? DateTime.Now.AddHours(1);
+            Expiry = expiry ?? DateTime.UtcNow.AddHours(1);
             User = user;
         }
 

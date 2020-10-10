@@ -14,17 +14,20 @@ namespace PhtgrphrAPI.FileManagers
 {
     public class AzureFilesManager : IFileManager
     {
-        private IConfiguration Configuration;
+        private string ConnectionString;
 
         public AzureFilesManager(IConfiguration configuration)
         {
-            Configuration = configuration;
+            ConnectionString = configuration["AzureStorageConnectionString"];
+        }
+
+        public AzureFilesManager(String connectionString)
+        {
+            ConnectionString = connectionString;
         }
 
         public FileManagerFile RetrieveImage(Image image)
         {
-            string connectionString = Configuration["AzureStorageConnectionString"];
-
             string dirName = "images";
             string shareName = "phtgrphr-images";
 
@@ -44,27 +47,25 @@ namespace PhtgrphrAPI.FileManagers
             }
 
             // Get a reference to the file
-            ShareClient share = new ShareClient(connectionString, shareName);
+            ShareClient share = new ShareClient(ConnectionString, shareName);
             ShareDirectoryClient directory = share.GetDirectoryClient(dirName);
             ShareFileClient fileClient = directory.GetFileClient(image.FileName);
 
             // Download the file
-            ShareFileDownloadInfo download = fileClient.Download();
+            Stream stream = fileClient.OpenRead();
             
-            return new FileManagerFile(download.Content, mimeType);
+            return new FileManagerFile(stream, mimeType);
         }
 
         public bool StoreFile(IFormFile file, string fileName)
         {
-            string connectionString = Configuration["AzureStorageConnectionString"];
-
             string dirName = "images";
             string shareName = "phtgrphr-images";
 
             try
             {
                 // Get a reference to a share and create it
-                ShareClient share = new ShareClient(connectionString, shareName);
+                ShareClient share = new ShareClient(ConnectionString, shareName);
                 share.CreateAsync();
 
                 // Get a reference to a directory and create it
