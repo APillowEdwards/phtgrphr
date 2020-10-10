@@ -17,7 +17,7 @@ using PhtgrphrAPI.FileManagers;
 namespace PhtgrphrAPI.Controllers.Admin
 {
     [ApiController]
-    [Route("admin/gallery")]
+    [Route("v1/admin/gallery")]
     public class GalleryController : PhtgrphrController
     {
         private readonly IConfiguration _configuration;

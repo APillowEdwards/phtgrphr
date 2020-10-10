@@ -33,5 +33,7 @@ namespace PhtgrphrAPI.Repositories
         bool UpdateImage(Image image);
 
         bool DeleteImage(Image image);
+
+        List<Image> GetImagesByGalleryId(int iD);
     }
 }

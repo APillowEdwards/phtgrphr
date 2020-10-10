@@ -12,7 +12,7 @@ namespace PhtgrphrAPI.Models
         public GalleryAccessToken(Gallery gallery, DateTime? expiry = null)
         {
             Token = System.Guid.NewGuid();
-            Expiry = expiry ?? DateTime.Now.AddHours(1);
+            Expiry = expiry ?? DateTime.UtcNow.AddHours(1);
             Gallery = gallery;
         }
 

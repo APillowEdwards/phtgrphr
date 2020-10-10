@@ -41,19 +41,19 @@
     methods: {
       refresh: function() {
         var v = this;
-        return API.get(`/admin/gallery/images/${this.token}/${this.galleryId}`)
+        return API.get(`/v1/admin/gallery/images/${this.token}/${this.galleryId}`)
           .then(function (response) {
             v.images = response.data.result.images;
           });
       },
       imageUrl: function(id) {
-        return API.defaults.baseURL + `admin/gallery/image/${this.token}/${id}`;
+        return API.defaults.baseURL + `v1/admin/gallery/image/${this.token}/${id}`;
       },
       saveOrder: function() {
         this.saving = true;
 
         var v = this;
-        return API.post(`/admin/gallery/images/sort/${this.token}/${this.galleryId}`, this.images)
+        return API.post(`/v1/admin/gallery/images/sort/${this.token}/${this.galleryId}`, this.images)
           .then(function (response) {
             v.saving = false;
 

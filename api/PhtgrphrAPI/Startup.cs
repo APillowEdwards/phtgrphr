@@ -32,20 +32,33 @@ namespace PhtgrphrAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<PhtgrphrContext>(options =>
-                options.UseLazyLoadingProxies()
-                    .UseMySQL(Configuration.GetConnectionString("db")));
+                options.UseMySQL(Configuration.GetConnectionString("db")));
 
             services.AddCors();
 
-            services.AddTransient<IGalleryLogic, GalleryLogic>();
             services.AddTransient<IGalleryRepository, GalleryRepository>();
-
-            services.AddTransient<IUserLogic, UserLogic>();
             services.AddTransient<IUserRepository, UserRepository>();
-            
+
+            services.AddTransient<IGalleryLogic, GalleryLogic>();
+            services.AddTransient<IUserLogic, UserLogic>();
+
             // File Manager
-            // Will move the one it loads to a config soon
-            services.AddTransient<IFileManager, LocalFileManager>();
+            if (Configuration.GetValue<string>("FileManager") == "AzureBlob")
+            {
+                services.AddTransient<IFileManager, AzureBlobFileManager>();
+            }
+            else if (Configuration.GetValue<string>("FileManager") == "AzureFiles")
+            {
+                services.AddTransient<IFileManager, AzureFilesManager>();
+            }
+            else if (Configuration.GetValue<string>("FileManager") == "Local")
+            {
+                services.AddTransient<IFileManager, LocalFileManager>();
+            } 
+            else
+            {
+                throw new Exception("File manager not set");
+            }
 
             services.AddControllers()
                 .AddNewtonsoftJson();

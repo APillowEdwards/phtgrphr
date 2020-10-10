@@ -46,7 +46,7 @@
       },
       refresh: function() {
         var v = this;
-        return API.get(`/admin/gallery/${this.token}`)
+        return API.get(`/v1/admin/gallery/${this.token}`)
           .then(function (response) {
             v.galleries = response.data.result.galleries;
           })
@@ -63,7 +63,7 @@
       deleteGallery: function(id, name) {
         if(confirm(`Are you sure you wish to delete gallery "${name}"?`)) {
           var v = this;
-          API.post(`/admin/gallery/delete/${this.token}/${id}`)
+          API.post(`/v1/admin/gallery/delete/${this.token}/${id}`)
             .then(function (response) {
               if (!response.data.hasError) {
                 v.refresh();

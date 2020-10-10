@@ -33,7 +33,7 @@
       authorise: function () {
         // Attempt to get an auth token
         var v = this;
-        API.post(`/admin/user/authenticate/${this.username}`, `"${this.password}"`, {headers: { "Content-Type": "application/json" }})
+        API.post(`/v1/admin/user/authenticate/${this.username}`, `"${this.password}"`, {headers: { "Content-Type": "application/json" }})
           .then(function (response) {
             v.$emit("recievedadminauthtoken", response.data.result.token)
           })
