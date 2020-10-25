@@ -59,7 +59,7 @@
             } else {
               v.errorMessage = "Success";
               setTimeout(function() {
-                v.$emit("gallerysaved", response.data.id);
+                v.$emit("gallerysaved", response.data.result.gallery.id);
               }, 2000);
             }
           });
