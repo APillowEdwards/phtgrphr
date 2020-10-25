@@ -15,6 +15,7 @@ namespace PhtgrphrAPI.FileManagers
     public class AzureBlobFileManager : IFileManager
     {
         private string ConnectionString;
+        private static Dictionary<string, byte[]> Cache = new Dictionary<string, byte[]>();
 
         public AzureBlobFileManager(IConfiguration configuration)
         {
@@ -44,15 +45,28 @@ namespace PhtgrphrAPI.FileManagers
                 default:
                     throw new NotImplementedException("Cannot serve file with extension: " + Path.GetExtension(image.FileName));
             }
-            // Get a reference to the file
-            BlobServiceClient serviceClient = new BlobServiceClient(ConnectionString);
-            BlobContainerClient containerClient = serviceClient.GetBlobContainerClient(containerName);
-            BlobClient blobClient = containerClient.GetBlobClient(image.FileName);
 
-            // Download the file
-            Stream stream = blobClient.OpenRead();
+            // If the cache doesn't contain the image, we need to get it first
+            if (!Cache.ContainsKey(image.FileName))
+            {
 
-            return new FileManagerFile(stream, mimeType);
+                // Get a reference to the file
+                BlobServiceClient serviceClient = new BlobServiceClient(ConnectionString);
+                BlobContainerClient containerClient = serviceClient.GetBlobContainerClient(containerName);
+                BlobClient blobClient = containerClient.GetBlobClient(image.FileName);
+
+                // Download the file
+                Stream stream = blobClient.OpenRead();
+
+                MemoryStream memoryStream = new MemoryStream();
+                stream.CopyTo(memoryStream);
+
+                Cache.Add(image.FileName, memoryStream.ToArray());
+            }
+
+            MemoryStream cacheMemoryStream = new MemoryStream(Cache[image.FileName]);
+
+            return new FileManagerFile(cacheMemoryStream, mimeType);
         }
 
         public bool StoreFile(IFormFile file, string fileName)
