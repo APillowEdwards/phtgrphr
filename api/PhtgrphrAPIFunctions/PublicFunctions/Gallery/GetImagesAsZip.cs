@@ -14,18 +14,18 @@ using PhtgrphrAPI.FileManagers;
 
 namespace PhtgrphrAPIFunctions.Public.Gallery
 {
-    public class GetImageAsZip : BaseFunction
+    public class GetImagesAsZip : BaseFunction
     {
         private IGalleryLogic _galleryLogic;
         private IFileManager _fileManager;
 
-        public GetImageAsZip()
+        public GetImagesAsZip()
         {
             _galleryLogic = GetGalleryLogic();
             _fileManager = GetFileManager();
         }
 
-        [FunctionName("PublicGalleryGetImage")]
+        [FunctionName("PublicGalleryGetImagesAsZip")]
         public ActionResult Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/public/gallery/images/download/{token}")] HttpRequest req,
             Guid token)
