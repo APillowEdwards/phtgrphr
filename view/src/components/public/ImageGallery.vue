@@ -98,9 +98,7 @@
         var v = this;
         return API.get(`/v1/public/gallery/images/${this.token}/${this.pageSize}/${this.page}`)
           .then(function (response) {
-            console.log(v.pageSize)
-            console.log(response.data.result.images.totalCount)
-            v.numberOfPages = Math.ceil(response.data.result.images.totalCount / v.pageSize);
+            v.numberOfPages = Math.ceil(response.data.result.totalCount / v.pageSize);
 
             return response.data.result.images;
           });
