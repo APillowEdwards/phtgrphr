@@ -5,6 +5,7 @@ using PhtgrphrAPI.Logic;
 using PhtgrphrAPI.Responses;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace PhtgrphrAPI.Controllers
 {
@@ -54,6 +55,15 @@ namespace PhtgrphrAPI.Controllers
             FileManagerFile file = galleryLogic.GetImageFileWithGalleryAccessToken(token, imageId, fileManager);
 
             return File(file.File, file.MimeType);
+        }
+
+        [HttpGet]
+        [Route("images/download/{token}")]
+        public ActionResult GetGalleryImagesAsZip(Guid token, [FromServices] IFileManager fileManager, [FromServices] IGalleryLogic galleryLogic)
+        {
+            Stream stream = galleryLogic.GetGalleryImagesAsZipByGalleryAccessToken(token, fileManager);
+
+            return File(stream, "application/zip");
         }
     }
 }

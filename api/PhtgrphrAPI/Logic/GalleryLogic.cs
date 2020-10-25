@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -503,6 +504,44 @@ namespace PhtgrphrAPI.Logic
             response.Add("success", success);
 
             return PhtgrphrResponse<Dictionary<string, bool>>.OkResponse(response);
+        }
+
+        // Since the result is always a zip, only need to return the stream from here
+        public Stream GetGalleryImagesAsZipByGalleryAccessToken(Guid token, IFileManager fileManager)
+        {
+            GalleryAccessToken galleryAccessToken = galleryRepository.GetGalleryAccessTokenByToken(token);
+
+            if (galleryAccessToken == null)
+            {
+                return null;
+            }
+
+            Gallery gallery = galleryAccessToken.Gallery;
+
+            var memoryStream = new MemoryStream();
+            
+            using (var archive = new ZipArchive(memoryStream, ZipArchiveMode.Create, true))
+            {
+                int count = 1;
+
+                foreach(var image in gallery.Images)
+                {
+                    var newFile = archive.CreateEntry(count + Path.GetExtension(image.FileName));
+
+                    using (var entryStream = newFile.Open())
+                    {
+                        FileManagerFile imageFile = fileManager.RetrieveImage(image);
+
+                        imageFile.File.CopyTo(entryStream);
+                    }
+
+                    count += 1;
+                }
+            }
+
+            memoryStream.Position = 0;
+
+            return memoryStream;
         }
     }
 }
