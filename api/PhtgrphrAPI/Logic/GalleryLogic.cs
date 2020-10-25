@@ -344,6 +344,11 @@ namespace PhtgrphrAPI.Logic
 
             UserAccessToken userAccessToken = userRepository.GetUserAccessTokenByToken(token);
 
+            if (userAccessToken == null)
+            {
+                return null;
+            }
+
             if (userAccessToken.User.ID != image.Gallery.User.ID)
             {
                 return null;
