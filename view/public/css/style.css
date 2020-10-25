@@ -277,7 +277,8 @@ a {
     color: #fff; }
     .btn.btn-primary:hover, .btn.btn-primary:active, .btn.btn-primary:focus {
       background: #444444;
-      border-color: #aaaaaa; }
+      border-color: #aaaaaa;
+      color: #cccccc;}
 
 .progress {
   overflow: visible;

@@ -19,7 +19,7 @@
 
       </div>
       <div class="col-12 col-md-4">
-        <a :href="zipSource" class="w-100 btn btn-primary px-4 py-2 btn-sm" target="_blank">Download ZIP</a>
+        <a :href="zipSource" class="w-100 btn btn-primary px-4 py-2 btn-sm" target="_blank">Download All Photos</a>
       </div>
       <div class="col-12 col-md-4">
         <b-pagination
