@@ -45,5 +45,7 @@ namespace PhtgrphrAPI.Logic
         PhtgrphrResponse<Dictionary<string, bool>> SortImages(Guid token, int galleryId, List<Image> images);
 
         PhtgrphrResponse<Dictionary<string, bool>> DeleteImageByImageId(Guid token, int imageid);
+
+        Stream GetGalleryImagesAsZipByGalleryAccessToken(Guid token, IFileManager fileManager); 
     }
 }

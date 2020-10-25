@@ -3,7 +3,7 @@
     <h1>{{ galleryName }}</h1>
     <hr class="grey-hr">
     <div class="row">
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-4">
         <div class="row mb-4 mb-md-0">
           <div class="col-4 vertical-center">
             <label class="w-100 mb-0 text-right" for="page-size">Page Size: </label>
@@ -18,7 +18,10 @@
         </div>
 
       </div>
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-4">
+        <a :href="zipSource" class="w-100 btn btn-primary px-4 py-2 btn-sm" target="_blank">Download ZIP</a>
+      </div>
+      <div class="col-12 col-md-4">
         <b-pagination
           v-model="page"
           :total-rows="numberOfPages"
@@ -90,6 +93,9 @@
             src: `${API.defaults.baseURL}v1/public/gallery/image/${v.token}/${image.id}`
           }
         });
+      },
+      zipSource: function() {
+        return `${API.defaults.baseURL}v1/public/gallery/images/download/${this.token}`
       }
     },
     asyncComputed: {
@@ -98,9 +104,7 @@
         var v = this;
         return API.get(`/v1/public/gallery/images/${this.token}/${this.pageSize}/${this.page}`)
           .then(function (response) {
-            console.log(v.pageSize)
-            console.log(response.data.result.images.totalCount)
-            v.numberOfPages = Math.ceil(response.data.result.images.totalCount / v.pageSize);
+            v.numberOfPages = Math.ceil(response.data.result.totalCount / v.pageSize);
 
             return response.data.result.images;
           });
