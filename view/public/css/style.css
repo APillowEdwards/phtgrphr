@@ -273,9 +273,11 @@ a {
     box-shadow: none !important; }
   .btn.btn-primary {
     background: transparent;
+    border-color: #dddddd;
     color: #fff; }
     .btn.btn-primary:hover, .btn.btn-primary:active, .btn.btn-primary:focus {
-      background: #444444; }
+      background: #444444;
+      border-color: #aaaaaa; }
 
 .progress {
   overflow: visible;
