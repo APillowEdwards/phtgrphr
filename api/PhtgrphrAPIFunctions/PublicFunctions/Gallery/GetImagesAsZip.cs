@@ -30,9 +30,12 @@ namespace PhtgrphrAPIFunctions.Public.Gallery
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "v1/public/gallery/images/download/{token}")] HttpRequest req,
             Guid token)
         {
-            Stream stream = _galleryLogic.GetGalleryImagesAsZipByGalleryAccessToken(token, _fileManager);
+            ResponseFile file = _galleryLogic.GetGalleryImagesAsZipByGalleryAccessToken(token, _fileManager);
 
-            return new FileStreamResult(stream, "application/zip");
+            var result = new FileStreamResult(file.File, file.MimeType);
+            result.FileDownloadName = file.Name;
+
+            return result;
         }
     }
 }
