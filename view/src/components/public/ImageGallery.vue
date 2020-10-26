@@ -3,22 +3,25 @@
     <h1>{{ galleryName }}</h1>
     <hr class="grey-hr">
     <div class="row">
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-4">
         <div class="row mb-4 mb-md-0">
           <div class="col-4 vertical-center">
             <label class="w-100 mb-0 text-right" for="page-size">Page Size: </label>
           </div>
           <div class="col-8">
             <select id="page-size" class="form-control" v-model="pageSize" @change="page = 1">
-              <option>16</option>
-              <option>32</option>
-              <option>64</option>
+              <option>12</option>
+              <option>24</option>
+              <option>48</option>
             </select>
           </div>
         </div>
 
       </div>
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-4">
+        <a :href="zipSource" class="w-100 btn btn-primary px-4 py-2 btn-sm" target="_blank">Download All Photos</a>
+      </div>
+      <div class="col-12 col-md-4">
         <b-pagination
           v-model="page"
           :total-rows="numberOfPages"
@@ -72,7 +75,7 @@
     },
     data: function () {
       return {
-        pageSize: 16,
+        pageSize: 12,
         page: 1,
         numberOfPages: 1
       }
@@ -86,28 +89,31 @@
         var v = this;
         return this.images.map(function(image) {
           return {
-            thumb: API.defaults.baseURL + "image?token=" + v.token + "&id=" + image.id,
-            src: API.defaults.baseURL + "image?token=" + v.token + "&id=" + image.id,
+            thumb: `${API.defaults.baseURL}v1/public/gallery/image/${v.token}/${image.id}`,
+            src: `${API.defaults.baseURL}v1/public/gallery/image/${v.token}/${image.id}`
           }
         });
+      },
+      zipSource: function() {
+        return `${API.defaults.baseURL}v1/public/gallery/images/download/${this.token}`
       }
     },
     asyncComputed: {
       images: function() {
         // Get the list of image ids based on the page size and number
         var v = this;
-        return API.get("/gallery/images?page=" + this.page + "&pageSize=" + this.pageSize + "&token=" + this.token)
+        return API.get(`/v1/public/gallery/images/${this.token}/${this.pageSize}/${this.page}`)
           .then(function (response) {
-            v.numberOfPages = Math.ceil(response.data.count / v.pageSize);
+            v.numberOfPages = Math.ceil(response.data.result.totalCount / v.pageSize);
 
-            return response.data.images;
+            return response.data.result.images;
           });
       },
       galleryName: function() {
         // Get gallery metadata
-        return API.get("/gallery?token=" + this.token)
+        return API.get(`/v1/public/gallery/${this.token}`)
           .then(function (response) {
-            return response.data.name;
+            return response.data.result.gallery.name;
           });
       }
     }

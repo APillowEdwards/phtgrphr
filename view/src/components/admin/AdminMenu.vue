@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="text-center">
     <p><a class="btn btn-primary px-4 py-2 btn-sm" @click="selectAddGallery">Add Gallery</a></p>
     <p><a class="btn btn-primary px-4 py-2 btn-sm" @click="selectViewAllGalleries">View All Galleries</a></p>
   </div>

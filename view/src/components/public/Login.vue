@@ -37,15 +37,15 @@
       authorise: function () {
         // Get auth token for this gallery
         var v = this;
-        API.post("/gallery/auth", {
-            guid: v.guid,
-            password: v.password
-          })
+        API.post(`/v1/public/gallery/authenticate/${this.guid}`, `"${this.password}"`, {headers: { "Content-Type": "application/json" }})
           .then(function (response) {
-            if (response.data.hasError) {
-              v.errorMessage = response.data.error.message;
-            } else {
-              v.$emit("galleryauthresponse", response.data.token)
+            v.$emit("recievedgalleryauthtoken", response.data.result.token);
+          })
+          .catch(function (error) {
+            // Unauthorised
+            console.log(error.response)
+            if (error.response.data.code == 401) {
+              v.errorMessage = error.response.data.messages.friendlyError;
             }
           });
       }

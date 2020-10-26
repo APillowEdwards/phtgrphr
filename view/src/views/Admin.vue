@@ -4,7 +4,7 @@
 
     <login
       v-if="!haveAdminAuthToken"
-      @adminauthresponse="SetAdminAuthToken($event)">
+      @recievedadminauthtoken="SetAdminAuthToken($event)">
     </login>
 
     <admin-menu
@@ -97,7 +97,6 @@
         this.pageState = this.PAGE_STATES.EDIT_GALLERY
       },
       SetGalleryImagesId: function (id) {
-        console.log("settomgga;;eruoagesms")
         this.galleryImagesId = id;
         this.pageState = this.PAGE_STATES.GALLERY_IMAGES
       },

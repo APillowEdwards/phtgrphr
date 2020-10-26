@@ -34,13 +34,13 @@
     methods: {
       refresh: function() {
         var v = this;
-        return API.get("/admin/gallery/images?id=" + this.galleryId  + "&token=" + this.token)
+        return API.get(`/v1/admin/gallery/images/${this.token}/${this.galleryId}`)
           .then(function (response) {
-            v.images = response.data;
+            v.images = response.data.result.images;
           });
       },
       imageUrl: function(id) {
-        return API.defaults.baseURL + "admin/gallery/image?token=" + this.token + "&id=" + id;
+        return API.defaults.baseURL + `v1/admin/gallery/image/${this.token}/${id}`;
       },
       uploadImages: function(e) {
         var images = e.target.files || e.dataTransfer.files;
@@ -54,7 +54,7 @@
         }
 
         var v = this;
-        API.post("/admin/gallery/images?id=" + this.galleryId + "&token=" + this.token, data, {headers: {"Content-Type": "multipart/form-data"}})
+        API.post(`/v1/admin/gallery/images/${this.token}/${this.galleryId}`, data, {headers: {"Content-Type": "multipart/form-data"}})
           .then(function () {
             v.refresh();
           });

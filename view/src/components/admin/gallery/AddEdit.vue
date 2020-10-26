@@ -48,11 +48,10 @@
       },
       submit: function () {
         var v = this;
-        API.post("/admin/gallery", {
-            id: this.id,
-            name: this.name,
-            password: this.password,
-            token: this.token
+        API.post(`/v1/admin/gallery/${this.token}`, {
+            ID: this.id,
+            Name: this.name,
+            Password: this.password
           })
           .then(function (response) {
             if (response.data.hasError) {
@@ -60,7 +59,7 @@
             } else {
               v.errorMessage = "Success";
               setTimeout(function() {
-                v.$emit("gallerysaved", response.data.id);
+                v.$emit("gallerysaved", response.data.result.gallery.id);
               }, 2000);
             }
           });
@@ -69,10 +68,10 @@
     created: function() {
       if (this.id != 0) {
         var v = this;
-        return API.get("/admin/gallery?id=" + this.id + "&token=" + this.token)
+        return API.get(`/v1/admin/gallery/${this.token}/${this.id}`)
           .then(function (response) {
-            v.name = response.data.name;
-            v.password = response.data.password;
+            v.name = response.data.result.gallery.name;
+            v.password = response.data.result.gallery.password;
           });
       }
     }

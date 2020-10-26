@@ -29,20 +29,20 @@
       }
     },
     methods: {
-      refresh: function() {
-        var v = this;
-        return API.get("/admin/gallery/images?id=" + this.galleryId  + "&token=" + this.token)
-          .then(function (response) {
-            v.images = response.data;
-          });
+    refresh: function() {
+      var v = this;
+      return API.get(`/v1/admin/gallery/images/${this.token}/${this.galleryId}`)
+        .then(function (response) {
+          v.images = response.data.result.images;
+        });
       },
       imageUrl: function(id) {
-        return API.defaults.baseURL + "admin/gallery/image?token=" + this.token + "&id=" + id;
+        return API.defaults.baseURL + `v1/admin/gallery/image/${this.token}/${id}`;
       },
       deleteImage: function(id) {
         if(confirm(`Are you sure you wish to delete this image?`)) {
           var v = this;
-          API.delete(`/admin/gallery/image?id=${id}&token=${this.token}`)
+          API.post(`/v1/admin/gallery/image/delete/${this.token}/${id}`)
             .then(function (response) {
               if (!response.data.hasError) {
                 v.refresh();
