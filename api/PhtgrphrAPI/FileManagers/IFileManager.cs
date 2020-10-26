@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PhtgrphrAPI.Models;
+using PhtgrphrAPI.Responses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +12,7 @@ namespace PhtgrphrAPI.FileManagers
 {
     public interface IFileManager
     {
-        FileManagerFile RetrieveImage(Image image);
+        ResponseFile RetrieveImage(Image image);
 
         bool StoreFile(IFormFile file, string fileName);
     }

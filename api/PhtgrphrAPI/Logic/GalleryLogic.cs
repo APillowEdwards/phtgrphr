@@ -312,7 +312,7 @@ namespace PhtgrphrAPI.Logic
             return PhtgrphrResponse<Dictionary<string, bool>>.OkResponse(response);
         }
 
-        public FileManagerFile GetImageFileWithGalleryAccessToken(Guid token, int imageId, IFileManager fileManager)
+        public ResponseFile GetImageFileWithGalleryAccessToken(Guid token, int imageId, IFileManager fileManager)
         {
             GalleryAccessToken galleryAccessToken = galleryRepository.GetGalleryAccessTokenByToken(token);
 
@@ -333,7 +333,7 @@ namespace PhtgrphrAPI.Logic
             return fileManager.RetrieveImage(image);
         }
 
-        public FileManagerFile GetImageFileWithUserAccessToken(Guid token, int imageId, IFileManager fileManager)
+        public ResponseFile GetImageFileWithUserAccessToken(Guid token, int imageId, IFileManager fileManager)
         {
             Image image = galleryRepository.GetImageById(imageId);
 
@@ -512,7 +512,7 @@ namespace PhtgrphrAPI.Logic
         }
 
         // Since the result is always a zip, only need to return the stream from here
-        public Stream GetGalleryImagesAsZipByGalleryAccessToken(Guid token, IFileManager fileManager)
+        public ResponseFile GetGalleryImagesAsZipByGalleryAccessToken(Guid token, IFileManager fileManager)
         {
             GalleryAccessToken galleryAccessToken = galleryRepository.GetGalleryAccessTokenByToken(token);
 
@@ -535,7 +535,7 @@ namespace PhtgrphrAPI.Logic
 
                     using (var entryStream = newFile.Open())
                     {
-                        FileManagerFile imageFile = fileManager.RetrieveImage(image);
+                        ResponseFile imageFile = fileManager.RetrieveImage(image);
 
                         imageFile.File.CopyTo(entryStream);
                     }
@@ -546,7 +546,7 @@ namespace PhtgrphrAPI.Logic
 
             memoryStream.Position = 0;
 
-            return memoryStream;
+            return new ResponseFile(memoryStream, gallery.Name.Replace(" ", "") + ".zip", "application/zip");
         }
     }
 }

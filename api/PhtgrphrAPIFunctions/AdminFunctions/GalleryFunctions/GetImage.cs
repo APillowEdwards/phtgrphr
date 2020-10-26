@@ -34,7 +34,7 @@ namespace PhtgrphrAPIFunctions.Admin.Gallery
             Guid token,
             int imageId)
         {
-            FileManagerFile file = _galleryLogic.GetImageFileWithUserAccessToken(token, imageId, _fileManager);
+            ResponseFile file = _galleryLogic.GetImageFileWithUserAccessToken(token, imageId, _fileManager);
 
             return new FileStreamResult(file.File, file.MimeType);
         }

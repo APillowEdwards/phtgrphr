@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System.IO;
 using Azure.Storage.Blobs;
+using PhtgrphrAPI.Responses;
 
 namespace PhtgrphrAPI.FileManagers
 {
@@ -27,7 +28,7 @@ namespace PhtgrphrAPI.FileManagers
             ConnectionString = connectionString;
         }
 
-        public FileManagerFile RetrieveImage(Image image)
+        public ResponseFile RetrieveImage(Image image)
         {
             string containerName = "phtgrphr-images";
 
@@ -66,7 +67,7 @@ namespace PhtgrphrAPI.FileManagers
 
             MemoryStream cacheMemoryStream = new MemoryStream(Cache[image.FileName]);
 
-            return new FileManagerFile(cacheMemoryStream, mimeType);
+            return new ResponseFile(cacheMemoryStream, image.FileName, mimeType);
         }
 
         public bool StoreFile(IFormFile file, string fileName)
