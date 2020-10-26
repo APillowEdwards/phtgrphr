@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using PhtgrphrAPI.Models;
+using PhtgrphrAPI.Responses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +19,7 @@ namespace PhtgrphrAPI.FileManagers
             Configuration = configuration;
         }
 
-        public FileManagerFile RetrieveImage(Image image)
+        public ResponseFile RetrieveImage(Image image)
         {
             string imagePath = Configuration["ImagePath"] + image.FileName;
 
@@ -39,7 +40,7 @@ namespace PhtgrphrAPI.FileManagers
                     throw new NotImplementedException("Cannot serve file with extension: " + Path.GetExtension(imagePath));
             }
 
-            return new FileManagerFile(imageFile, mimeType);
+            return new ResponseFile(imageFile, image.FileName, mimeType);
         }
 
         public bool StoreFile(IFormFile file, string fileName)

@@ -52,7 +52,7 @@ namespace PhtgrphrAPI.Controllers.Admin
         [Route("image/{token}/{imageId}")]
         public ActionResult GetImage(Guid token, int imageId, [FromServices] IFileManager fileManager, [FromServices] IGalleryLogic galleryLogic)
         {
-            FileManagerFile file = galleryLogic.GetImageFileWithUserAccessToken(token, imageId, fileManager);
+            ResponseFile file = galleryLogic.GetImageFileWithUserAccessToken(token, imageId, fileManager);
 
             return File(file.File, file.MimeType);
         }

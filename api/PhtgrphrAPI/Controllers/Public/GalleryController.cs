@@ -52,7 +52,7 @@ namespace PhtgrphrAPI.Controllers
         [Route("image/{token}/{imageId}")]
         public ActionResult GetImage(Guid token, int imageId, [FromServices] IFileManager fileManager, [FromServices] IGalleryLogic galleryLogic)
         {
-            FileManagerFile file = galleryLogic.GetImageFileWithGalleryAccessToken(token, imageId, fileManager);
+            ResponseFile file = galleryLogic.GetImageFileWithGalleryAccessToken(token, imageId, fileManager);
 
             return File(file.File, file.MimeType);
         }
@@ -61,9 +61,9 @@ namespace PhtgrphrAPI.Controllers
         [Route("images/download/{token}")]
         public ActionResult GetGalleryImagesAsZip(Guid token, [FromServices] IFileManager fileManager, [FromServices] IGalleryLogic galleryLogic)
         {
-            Stream stream = galleryLogic.GetGalleryImagesAsZipByGalleryAccessToken(token, fileManager);
+            ResponseFile file = galleryLogic.GetGalleryImagesAsZipByGalleryAccessToken(token, fileManager);
 
-            return File(stream, "application/zip");
+            return File(file.File, file.MimeType, file.Name);
         }
     }
 }

@@ -4,6 +4,7 @@ using Azure.Storage.Files.Shares.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using PhtgrphrAPI.Models;
+using PhtgrphrAPI.Responses;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,7 +27,7 @@ namespace PhtgrphrAPI.FileManagers
             ConnectionString = connectionString;
         }
 
-        public FileManagerFile RetrieveImage(Image image)
+        public ResponseFile RetrieveImage(Image image)
         {
             string dirName = "images";
             string shareName = "phtgrphr-images";
@@ -54,7 +55,7 @@ namespace PhtgrphrAPI.FileManagers
             // Download the file
             Stream stream = fileClient.OpenRead();
             
-            return new FileManagerFile(stream, mimeType);
+            return new ResponseFile(stream, image.FileName, mimeType);
         }
 
         public bool StoreFile(IFormFile file, string fileName)
