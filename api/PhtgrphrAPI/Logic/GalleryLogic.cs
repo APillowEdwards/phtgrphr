@@ -490,15 +490,22 @@ namespace PhtgrphrAPI.Logic
                 return PhtgrphrResponse<Dictionary<string, bool>>.NotFoundResponse(messages);
             }
 
-            UserAccessToken userAccessToken = image.Gallery.User.UserAccessTokens
-                .Where(uat => uat.Token == token)
-                .SingleOrDefault();
+            UserAccessToken userAccessToken = userRepository.GetUserAccessTokenByToken(token);
 
             if (userAccessToken == null)
             {
                 Dictionary<string, string> messages = new Dictionary<string, string>();
 
                 messages.Add("friendlyError", "Token does not exist or has expired. Please refresh the page and log-in again.");
+
+                return PhtgrphrResponse<Dictionary<string, bool>>.UnauthorisedResponse(messages);
+            }
+
+            if (userAccessToken.User.ID != image.Gallery.User.ID)
+            {
+                Dictionary<string, string> messages = new Dictionary<string, string>();
+
+                messages.Add("friendlyError", "You aren't authorised to delete this image.");
 
                 return PhtgrphrResponse<Dictionary<string, bool>>.UnauthorisedResponse(messages);
             }
