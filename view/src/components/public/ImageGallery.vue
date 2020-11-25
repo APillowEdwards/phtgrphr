@@ -10,9 +10,7 @@
           </div>
           <div class="col-8">
             <select id="page-size" class="form-control" v-model="pageSize" @change="page = 1">
-              <option>12</option>
-              <option>24</option>
-              <option>48</option>
+              <option v-for="option in pageSizeOptions" :key="option">{{option}}</option>
             </select>
           </div>
         </div>
@@ -23,6 +21,7 @@
       </div>
       <div class="col-12 col-md-4">
         <b-pagination
+          v-if="numberOfPages > 1"
           v-model="page"
           :total-rows="numberOfPages"
           :per-page="1"
@@ -49,6 +48,7 @@
       </div>
       <div class="col-12 col-xs-6">
         <b-pagination
+          v-if="numberOfPages > 1"
           v-model="page"
           :total-rows="numberOfPages"
           :per-page="1"
@@ -76,12 +76,27 @@
     },
     data: function () {
       return {
-        pageSize: 12,
+        pageSize: 10,
         page: 1,
-        numberOfPages: 1
+        totalCount: 10
       }
     },
     computed: {
+      pageSizeOptions: function () {
+        var count = 10;
+        var options = [];
+
+        while (count < this.totalCount) {
+          options.push(count);
+          count = count * 2;
+        }
+        options.push("All");
+
+        return options;
+      },
+      numberOfPages: function () {
+        return Math.ceil(this.totalCount / this.pageSize)
+      },
       media: function() {
         if (typeof this.images == `undefined`) {
           return []
@@ -103,9 +118,20 @@
       images: function() {
         // Get the list of image ids based on the page size and number
         var v = this;
-        return API.get(`/v1/public/gallery/images/${this.token}/${this.pageSize}/${this.page}`)
+
+        // If all is selected, just make it a huge number
+        var pageSizeParameter = this.pageSize;
+        if (pageSizeParameter == "All") {
+          pageSizeParameter = 1000;
+        }
+
+        return API.get(`/v1/public/gallery/images/${this.token}/${pageSizeParameter}/${this.page}`)
           .then(function (response) {
-            v.numberOfPages = Math.ceil(response.data.result.totalCount / v.pageSize);
+            v.totalCount = response.data.result.totalCount;
+
+            if (v.totalCount <= 10) {
+              v.pageSize = "All";
+            }
 
             return response.data.result.images;
           });
