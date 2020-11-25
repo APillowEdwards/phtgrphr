@@ -151,7 +151,7 @@ namespace PhtgrphrAPI.Logic
                     continue;
                 }
 
-                if (count >= skip + pageSize)
+                if (count > skip + pageSize)
                 {
                     continue;
                 }
