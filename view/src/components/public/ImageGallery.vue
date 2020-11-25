@@ -36,6 +36,7 @@
         v-for="(image, index) in images"
         :token="token"
         :image-id="image.id"
+        :visible="image.visible"
         :media="media"
         :index="index"
         :key="image.id">

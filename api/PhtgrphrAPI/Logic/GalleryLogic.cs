@@ -128,10 +128,36 @@ namespace PhtgrphrAPI.Logic
                 return PhtgrphrResponse<ImageListResponse>.UnauthorisedResponse(messages);
             }
 
-            Gallery gallery = galleryAccessToken.Gallery;
+            //List<Image> images = galleryRepository.GetImagesByPage(gallery, pageSize, pageNumber);
+            //int imageCount = galleryRepository.GetTotalImageCount(gallery);
 
-            List<Image> images = galleryRepository.GetImagesByPage(gallery, pageSize, pageNumber);
-            int imageCount = galleryRepository.GetTotalImageCount(gallery);
+            List<Image> images = galleryAccessToken.Gallery.Images
+                .OrderBy(i => i.Sort)
+                .ToList();
+            int imageCount = images.Count;
+
+
+            int count = 0;
+            int skip = (pageNumber - 1) * pageSize;
+
+            foreach (Image image in images)
+            {
+                count++;
+
+                image.Visible = false;
+
+                if (count <= skip)
+                {
+                    continue;
+                }
+
+                if (count >= skip + pageSize)
+                {
+                    continue;
+                }
+
+                image.Visible = true;
+            }
 
             if (images.Count == 0)
             {

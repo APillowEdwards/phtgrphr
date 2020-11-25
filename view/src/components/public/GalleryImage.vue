@@ -1,11 +1,11 @@
 <template>
   <div>
-    <img class="gallery-image" :src="source" @click="openModal"/>
+    <img v-if="visible" class="gallery-image" :src="source" @click="openModal"/>
 
     <LightBox
       ref="lightbox"
       :media="media"
-      :show-caption="true"
+      :show-caption="false"
       :show-light-box="false">
     </LightBox>
   </div>
@@ -23,6 +23,7 @@
     props: {
       token: String,
       imageId: Number,
+      visible: Boolean,
       media: Array,
       index: Number
     },
