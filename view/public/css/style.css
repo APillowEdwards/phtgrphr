@@ -720,3 +720,17 @@ a {
 h1, h2 {
   text-align: center;
 }
+
+@media (max-height:480px) {
+  .vue-lb-thumbnail {
+    display: none;
+  }
+
+  .vue-lb-content {
+    margin-bottom: 0px;
+  }
+
+  img.vue-lb-modal-image {
+    max-height: 80vh;
+  }
+}
