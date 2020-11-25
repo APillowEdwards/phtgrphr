@@ -734,3 +734,7 @@ h1, h2 {
     max-height: 80vh;
   }
 }
+
+.vue-lb-container {
+  background-color: rgba(0,0,0,.95);
+}
