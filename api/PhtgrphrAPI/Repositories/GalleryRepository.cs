@@ -59,22 +59,22 @@ namespace PhtgrphrAPI.Repositories
                 .SingleOrDefault();
         }
 
-        public List<Image> GetImagesByPage(Gallery gallery, int pageSize, int pageNumber)
-        {
-            int skip = (pageNumber - 1) * pageSize;
+        //public List<Image> GetImagesByPage(Gallery gallery, int pageSize, int pageNumber)
+        //{
+        //    int skip = (pageNumber - 1) * pageSize;
 
-            return gallery.Images
-                .OrderBy(i => i.Sort)
-                .Skip(skip)
-                .Take(pageSize)
-                .ToList();
-        }
+        //    return gallery.Images
+        //        .OrderBy(i => i.Sort)
+        //        .Skip(skip)
+        //        .Take(pageSize)
+        //        .ToList();
+        //}
 
-        public int GetTotalImageCount(Gallery gallery)
-        {
-            return gallery.Images
-                .Count();
-        }
+        //public int GetTotalImageCount(Gallery gallery)
+        //{
+        //    return gallery.Images
+        //        .Count();
+        //}
 
         public bool UpdateGallery(Gallery gallery)
         {
