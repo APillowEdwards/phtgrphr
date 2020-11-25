@@ -18,9 +18,9 @@ namespace PhtgrphrAPI.Repositories
 
         GalleryAccessToken GetGalleryAccessTokenByToken(Guid token);
 
-        public List<Image> GetImagesByPage(Gallery gallery, int pageSize, int pageNumber);
+        //public List<Image> GetImagesByPage(Gallery gallery, int pageSize, int pageNumber);
 
-        public int GetTotalImageCount(Gallery gallery);
+        //public int GetTotalImageCount(Gallery gallery);
 
         bool UpdateGallery(Gallery gallery);
 
