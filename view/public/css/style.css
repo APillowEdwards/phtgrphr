@@ -721,6 +721,10 @@ h1, h2 {
   text-align: center;
 }
 
+img.vue-lb-modal-image {
+  max-height: calc(90vh - 140px);
+}
+
 @media (max-height:480px) {
   .vue-lb-thumbnail {
     display: none;
@@ -733,6 +737,29 @@ h1, h2 {
   img.vue-lb-modal-image {
     max-height: 80vh;
   }
+}
+
+.vue-lb-thumbnail-wrapper {
+  z-index: -1;
+}
+
+.vue-lb-figure {
+  padding-bottom: 2%;
+}
+
+.vue-lb-footer {
+  padding-top: 2%;
+}
+
+.vue-lb-info {
+  background-color: initial;
+  bottom: 5px;
+  width: calc(100% - 60px);
+}
+
+.vue-lb-footer {
+  padding-top: 10px;
+  margin-bottom: 5px;
 }
 
 .vue-lb-container {

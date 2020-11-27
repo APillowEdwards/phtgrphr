@@ -17,7 +17,7 @@
 
       </div>
       <div class="col-12 col-md-4">
-        <a :href="zipSource" class="w-100 btn btn-primary px-4 py-2 btn-sm" target="_blank">Download All Photos</a>
+        <a v-if="showZipDownload" :href="zipSource" class="w-100 btn btn-primary px-4 py-2 btn-sm" target="_blank">Download All Photos</a>
       </div>
       <div class="col-12 col-md-4">
         <b-pagination
@@ -31,15 +31,13 @@
     </div>
 
     <div class="gallery-wrapper">
-      <gallery-image
-        v-for="(image, index) in images"
-        :token="token"
-        :image-id="image.id"
-        :visible="image.visible"
-        :media="media"
-        :index="index"
-        :key="image.id">
-      </gallery-image>
+      <div v-for="(image, index) in images" :key="image.id" @click="openModal(index)">
+        <gallery-image
+          :token="token"
+          :image-id="image.id"
+          :visible="image.visible">
+        </gallery-image>
+      </div>
     </div>
 
     <div class="row">
@@ -56,6 +54,15 @@
         </b-pagination>
       </div>
     </div>
+
+    <LightBox
+      v-if="images"
+      ref="lightbox"
+      :media="media"
+      :show-caption="true"
+      :show-light-box="false"
+      :n-thumbs="numberOfThumbnails">
+    </LightBox>
   </div>
 </template>
 
@@ -63,16 +70,23 @@
   import API from "@/api"
 
   import GalleryImage from "./GalleryImage.vue"
+  import LightBox from 'vue-image-lightbox'
 
   require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
 
   export default {
     name: "ImageGallery",
     components: {
-      GalleryImage
+      GalleryImage,
+      LightBox
     },
     props: {
       token: String
+    },
+    methods: {
+      openModal: function(index) {
+        this.$refs.lightbox.showImage(index)
+      }
     },
     data: function () {
       return {
@@ -97,6 +111,9 @@
       numberOfPages: function () {
         return Math.ceil(this.totalCount / this.pageSize)
       },
+      numberOfThumbnails: function () {
+        return (window.innerWidth < 505 || window.innerHeight < 505) ? 5 : 7;
+      },
       media: function() {
         if (typeof this.images == `undefined`) {
           return []
@@ -106,9 +123,13 @@
         return this.images.map(function(image) {
           return {
             thumb: `${API.defaults.baseURL}v1/public/gallery/image/${v.token}/${image.id}`,
-            src: `${API.defaults.baseURL}v1/public/gallery/image/${v.token}/${image.id}`
+            src: `${API.defaults.baseURL}v1/public/gallery/image/${v.token}/${image.id}`,
+            caption:`<a href="${API.defaults.baseURL}v1/public/gallery/image/${v.token}/${image.id}" class="w-100 btn btn-primary px-4 py-2 btn-sm" download>Download</a>`
           }
         });
+      },
+      showZipDownload: function () {
+        return !/(iPad|iPhone|iPod)/g.test(navigator.userAgent);
       },
       zipSource: function() {
         return `${API.defaults.baseURL}v1/public/gallery/images/download/${this.token}`

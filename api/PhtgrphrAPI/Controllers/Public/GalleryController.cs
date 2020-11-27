@@ -54,6 +54,8 @@ namespace PhtgrphrAPI.Controllers
         {
             ResponseFile file = galleryLogic.GetImageFileWithGalleryAccessToken(token, imageId, fileManager);
 
+            Request.HttpContext.Response.Headers.Add("Content-Disposition", "attachment");
+
             return File(file.File, file.MimeType);
         }
 

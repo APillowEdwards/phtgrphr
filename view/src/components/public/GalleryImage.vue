@@ -1,40 +1,22 @@
 <template>
   <div>
-    <img v-if="visible" class="gallery-image" :src="source" @click="openModal"/>
-
-    <LightBox
-      ref="lightbox"
-      :media="media"
-      :show-caption="false"
-      :show-light-box="false">
-    </LightBox>
+    <img v-if="visible" class="gallery-image" :src="source"/>
   </div>
 </template>
 
 <script>
   import API from "@/api"
-  import LightBox from 'vue-image-lightbox'
 
   export default {
     name: "GalleryImage",
-    components: {
-      LightBox
-    },
     props: {
       token: String,
       imageId: Number,
-      visible: Boolean,
-      media: Array,
-      index: Number
+      visible: Boolean
     },
     computed: {
       source: function() {
         return `${API.defaults.baseURL}v1/public/gallery/image/${this.token}/${this.imageId}`
-      }
-    },
-    methods: {
-      openModal: function() {
-         this.$refs.lightbox.showImage(this.index)
       }
     }
   }
