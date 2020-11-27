@@ -35,6 +35,7 @@ namespace PhtgrphrAPIFunctions.Admin.Gallery
             int imageId)
         {
             ResponseFile file = _galleryLogic.GetImageFileWithUserAccessToken(token, imageId, _fileManager);
+
             req.HttpContext.Response.Headers.Add("Content-Disposition", "attachment");
 
             return new FileStreamResult(file.File, file.MimeType);
