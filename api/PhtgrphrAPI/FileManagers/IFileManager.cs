@@ -15,5 +15,7 @@ namespace PhtgrphrAPI.FileManagers
         ResponseFile RetrieveImage(Image image);
 
         bool StoreFile(IFormFile file, string fileName);
+
+        bool DeleteImage(Image image);
     }
 }

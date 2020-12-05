@@ -304,7 +304,7 @@ namespace PhtgrphrAPI.Logic
             return PhtgrphrResponse<GalleryResponse>.OkResponse(response);
         }
 
-        public PhtgrphrResponse<Dictionary<string, bool>> DeleteGalleryByGalleryId(Guid token, int galleryId)
+        public PhtgrphrResponse<Dictionary<string, bool>> DeleteGalleryByGalleryId(Guid token, int galleryId, IFileManager fileManager)
         {
             UserAccessToken userAccessToken = userRepository.GetUserAccessTokenByToken(token);
 
@@ -330,7 +330,23 @@ namespace PhtgrphrAPI.Logic
                 return PhtgrphrResponse<Dictionary<string, bool>>.UnauthorisedResponse(messages);
             }
 
-            bool success = galleryRepository.DeleteGallery(gallery);
+            bool success = true;
+
+            List<Image> images = galleryRepository.GetImagesByGalleryId(gallery.ID);
+
+            // Delete all of the images in the gallery
+            foreach (Image image in images)
+            {
+                if (fileManager.DeleteImage(image))
+                {
+                    success = success && galleryRepository.DeleteImage(image);
+                }
+            }
+
+            if(success)
+            {
+                success = galleryRepository.DeleteGallery(gallery);
+            }
 
             Dictionary<string, bool> response = new Dictionary<string, bool>();
             response.Add("success", success);
@@ -503,7 +519,7 @@ namespace PhtgrphrAPI.Logic
             return PhtgrphrResponse<Dictionary<string, bool>>.OkResponse(result);
         }
 
-        public PhtgrphrResponse<Dictionary<string, bool>> DeleteImageByImageId(Guid token, int imageId)
+        public PhtgrphrResponse<Dictionary<string, bool>> DeleteImageByImageId(Guid token, int imageId, IFileManager fileManager)
         {
             Image image = galleryRepository.GetImageById(imageId);
 
@@ -536,7 +552,12 @@ namespace PhtgrphrAPI.Logic
                 return PhtgrphrResponse<Dictionary<string, bool>>.UnauthorisedResponse(messages);
             }
 
-            bool success = galleryRepository.DeleteImage(image);
+            bool success = fileManager.DeleteImage(image);
+
+            if (success)
+            {
+                success = galleryRepository.DeleteImage(image);
+            }
 
             Dictionary<string, bool> response = new Dictionary<string, bool>();
             response.Add("success", success);
