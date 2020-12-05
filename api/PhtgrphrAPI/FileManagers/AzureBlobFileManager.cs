@@ -62,7 +62,11 @@ namespace PhtgrphrAPI.FileManagers
                 MemoryStream memoryStream = new MemoryStream();
                 stream.CopyTo(memoryStream);
 
-                Cache.Add(image.FileName, memoryStream.ToArray());
+                // Double-check it's not been added already in the interim
+                if (!Cache.ContainsKey(image.FileName))
+                {
+                    Cache.Add(image.FileName, memoryStream.ToArray());
+                }
             }
 
             MemoryStream cacheMemoryStream = new MemoryStream(Cache[image.FileName]);
