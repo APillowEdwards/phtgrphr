@@ -9,6 +9,7 @@ using PhtgrphrAPI.Responses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Blurhash;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -434,6 +435,8 @@ namespace PhtgrphrAPI.Logic
                 sort = gallery.Images.Max(i => i.Sort) + 1;
             }
 
+            Encoder blurHashEncoder = new Encoder();
+
             foreach (IFormFile file in files)
             {
                 string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
@@ -441,10 +444,15 @@ namespace PhtgrphrAPI.Logic
                 if (fileManager.StoreFile(file, fileName))
                 {
                     // If we successfully store the file, create the record
+                    System.Drawing.Image actualImage = System.Drawing.Image.FromStream(file.OpenReadStream());
+
                     Image image = new Image();
                     image.FileName = fileName;
                     image.Sort = sort;
                     image.Gallery = gallery;
+                    image.BlurHash = blurHashEncoder.Encode(actualImage, 7, 7);
+                    image.Width = actualImage.Width;
+                    image.Height = actualImage.Height;
 
                     galleryRepository.CreateImage(image);
                 }

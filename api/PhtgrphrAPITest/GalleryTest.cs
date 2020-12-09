@@ -19,142 +19,142 @@ namespace PhtgrphrAPITest
         {
         }
 
-        [Test]
-        public void Gallery_GetGalleryImagesByPage_InBounds()
-        {
-            var galleryRepository = A.Fake<IGalleryRepository>();
+        //[Test]
+        //public void Gallery_GetGalleryImagesByPage_InBounds()
+        //{
+        //    var galleryRepository = A.Fake<IGalleryRepository>();
 
-            var gallery = new Gallery { ID = 1, Name = "Test Gallery", Password = "password", Guid = System.Guid.NewGuid() };
+        //    var gallery = new Gallery { ID = 1, Name = "Test Gallery", Password = "password", Guid = System.Guid.NewGuid() };
 
-            var galleryAccessToken = new GalleryAccessToken { ID = 1, Expiry = DateTime.Now.AddHours(1), Token = System.Guid.NewGuid(), Gallery = gallery };
+        //    var galleryAccessToken = new GalleryAccessToken { ID = 1, Expiry = DateTime.Now.AddHours(1), Token = System.Guid.NewGuid(), Gallery = gallery };
 
-            var images = new List<Image>();
-            foreach (var i in Enumerable.Range(13, 4))
-            {
-                images.Add(new Image() { ID = i, Sort = i, Gallery = gallery });
-            }
+        //    var images = new List<Image>();
+        //    foreach (var i in Enumerable.Range(13, 4))
+        //    {
+        //        images.Add(new Image() { ID = i, Sort = i, Gallery = gallery });
+        //    }
 
-            gallery.Images = images;
+        //    gallery.Images = images;
 
-            A.CallTo(() => galleryRepository.GetGalleryAccessTokenByToken(galleryAccessToken.Token)).Returns(galleryAccessToken);
-            A.CallTo(() => galleryRepository.GetImagesByPage(gallery, 4, 4)).Returns(images);
-            A.CallTo(() => galleryRepository.GetTotalImageCount(gallery)).Returns(20);
+        //    A.CallTo(() => galleryRepository.GetGalleryAccessTokenByToken(galleryAccessToken.Token)).Returns(galleryAccessToken);
+        //    A.CallTo(() => galleryRepository.GetImagesByPage(gallery, 4, 4)).Returns(images);
+        //    A.CallTo(() => galleryRepository.GetTotalImageCount(gallery)).Returns(20);
 
-            GalleryLogic g = new GalleryLogic(galleryRepository, null);
+        //    GalleryLogic g = new GalleryLogic(galleryRepository, null);
 
-            var response = g.GetGalleryImagesByPage(galleryAccessToken.Token, 4, 4);
-            response.Code.ShouldBe(200);
+        //    var response = g.GetGalleryImagesByPage(galleryAccessToken.Token, 4, 4);
+        //    response.Code.ShouldBe(200);
 
-            response.Result.TotalCount.ShouldBe(20);
+        //    response.Result.TotalCount.ShouldBe(20);
 
-            List<ImageResponseImage> responseImages = response.Result.Images;
-            responseImages.Count.ShouldBe(4);
+        //    List<ImageResponseImage> responseImages = response.Result.Images;
+        //    responseImages.Count.ShouldBe(4);
 
-            foreach (var i in Enumerable.Range(0, 3))
-            {
-                responseImages[i].ID.ShouldBe(i + 13);
-            }
-        }
+        //    foreach (var i in Enumerable.Range(0, 3))
+        //    {
+        //        responseImages[i].ID.ShouldBe(i + 13);
+        //    }
+        //}
 
-        [Test]
-        public void Gallery_GetGalleryImagesByPage_OutOfBounds()
-        {
-            var galleryRepository = A.Fake<IGalleryRepository>();
+        //[Test]
+        //public void Gallery_GetGalleryImagesByPage_OutOfBounds()
+        //{
+        //    var galleryRepository = A.Fake<IGalleryRepository>();
 
-            var gallery = new Gallery { ID = 1, Name = "Test Gallery", Password = "password", Guid = System.Guid.NewGuid() };
+        //    var gallery = new Gallery { ID = 1, Name = "Test Gallery", Password = "password", Guid = System.Guid.NewGuid() };
 
-            var galleryAccessToken = new GalleryAccessToken { ID = 1, Expiry = DateTime.Now.AddHours(1), Token = System.Guid.NewGuid(), Gallery = gallery };
+        //    var galleryAccessToken = new GalleryAccessToken { ID = 1, Expiry = DateTime.Now.AddHours(1), Token = System.Guid.NewGuid(), Gallery = gallery };
 
-            var images = new List<Image>();
+        //    var images = new List<Image>();
 
-            gallery.Images = images;
+        //    gallery.Images = images;
 
-            A.CallTo(() => galleryRepository.GetGalleryAccessTokenByToken(galleryAccessToken.Token)).Returns(galleryAccessToken);
-            A.CallTo(() => galleryRepository.GetImagesByPage(gallery, 4, 4)).Returns(images);
-            A.CallTo(() => galleryRepository.GetTotalImageCount(gallery)).Returns(20);
+        //    A.CallTo(() => galleryRepository.GetGalleryAccessTokenByToken(galleryAccessToken.Token)).Returns(galleryAccessToken);
+        //    A.CallTo(() => galleryRepository.GetImagesByPage(gallery, 4, 4)).Returns(images);
+        //    A.CallTo(() => galleryRepository.GetTotalImageCount(gallery)).Returns(20);
 
-            GalleryLogic g = new GalleryLogic(galleryRepository, null);
+        //    GalleryLogic g = new GalleryLogic(galleryRepository, null);
 
-            var response = g.GetGalleryImagesByPage(galleryAccessToken.Token, 4, 4);
-            response.Code.ShouldBe(404);
-            response.Result.ShouldBeNull();
-        }
+        //    var response = g.GetGalleryImagesByPage(galleryAccessToken.Token, 4, 4);
+        //    response.Code.ShouldBe(404);
+        //    response.Result.ShouldBeNull();
+        //}
 
-        [Test]
-        public void GalleryRepository_GetImagesByPage_InBounds()
-        {
-            GalleryRepository repo = new GalleryRepository(null); // Can only do this for methods that don't touch the context directly
+        //[Test]
+        //public void GalleryRepository_GetImagesByPage_InBounds()
+        //{
+        //    GalleryRepository repo = new GalleryRepository(null); // Can only do this for methods that don't touch the context directly
 
-            var gallery = new Gallery { ID = 1, Name = "Test Gallery", Password = "password", Guid = System.Guid.NewGuid() };
+        //    var gallery = new Gallery { ID = 1, Name = "Test Gallery", Password = "password", Guid = System.Guid.NewGuid() };
 
-            var images = new List<Image>();
-            foreach (var i in Enumerable.Range(1, 20))
-            {
-                images.Add(new Image() { ID = i, Sort = i, Gallery = gallery });
-            }
+        //    var images = new List<Image>();
+        //    foreach (var i in Enumerable.Range(1, 20))
+        //    {
+        //        images.Add(new Image() { ID = i, Sort = i, Gallery = gallery });
+        //    }
 
-            var random = new System.Random();
-            images = images.OrderBy(a => random.Next()).ToList();
+        //    var random = new System.Random();
+        //    images = images.OrderBy(a => random.Next()).ToList();
 
-            gallery.Images = images;
+        //    gallery.Images = images;
 
-            List<Image> returnImages = repo.GetImagesByPage(gallery, 4, 4);
-            returnImages.Count.ShouldBe(4);
+        //    List<Image> returnImages = repo.GetImagesByPage(gallery, 4, 4);
+        //    returnImages.Count.ShouldBe(4);
 
-            foreach (var i in Enumerable.Range(0, 3))
-            {
-                returnImages[i].ID.ShouldBe(i + 13);
-            }
-        }
+        //    foreach (var i in Enumerable.Range(0, 3))
+        //    {
+        //        returnImages[i].ID.ShouldBe(i + 13);
+        //    }
+        //}
 
-        [Test]
-        public void GalleryRepository_GetGalleryImagesByPage_PartiallyInBounds()
-        {
-            GalleryRepository repo = new GalleryRepository(null); // Can only do this for methods that don't touch the context directly
+        //[Test]
+        //public void GalleryRepository_GetGalleryImagesByPage_PartiallyInBounds()
+        //{
+        //    GalleryRepository repo = new GalleryRepository(null); // Can only do this for methods that don't touch the context directly
 
-            var gallery = new Gallery { ID = 1, Name = "Test Gallery", Password = "password", Guid = System.Guid.NewGuid() };
+        //    var gallery = new Gallery { ID = 1, Name = "Test Gallery", Password = "password", Guid = System.Guid.NewGuid() };
 
-            var images = new List<Image>();
-            foreach (var i in Enumerable.Range(1, 20))
-            {
-                images.Add(new Image() { ID = i, Sort = i, Gallery = gallery });
-            }
+        //    var images = new List<Image>();
+        //    foreach (var i in Enumerable.Range(1, 20))
+        //    {
+        //        images.Add(new Image() { ID = i, Sort = i, Gallery = gallery });
+        //    }
 
-            var random = new System.Random();
-            images = images.OrderBy(a => random.Next()).ToList();
+        //    var random = new System.Random();
+        //    images = images.OrderBy(a => random.Next()).ToList();
 
-            gallery.Images = images;
+        //    gallery.Images = images;
 
-            List<Image> returnImages = repo.GetImagesByPage(gallery, 8, 3);
-            returnImages.Count.ShouldBe(4);
+        //    List<Image> returnImages = repo.GetImagesByPage(gallery, 8, 3);
+        //    returnImages.Count.ShouldBe(4);
 
-            foreach (var i in Enumerable.Range(0, 3))
-            {
-                returnImages[i].ID.ShouldBe(i + 17);
-            }
-        }
+        //    foreach (var i in Enumerable.Range(0, 3))
+        //    {
+        //        returnImages[i].ID.ShouldBe(i + 17);
+        //    }
+        //}
 
-        [Test]
-        public void GalleryRepository_GetGalleryImagesByPage_OutOfBounds()
-        {
-            GalleryRepository repo = new GalleryRepository(null); // Can only do this for methods that don't touch the context directly
+        //[Test]
+        //public void GalleryRepository_GetGalleryImagesByPage_OutOfBounds()
+        //{
+        //    GalleryRepository repo = new GalleryRepository(null); // Can only do this for methods that don't touch the context directly
 
-            var gallery = new Gallery { ID = 1, Name = "Test Gallery", Password = "password", Guid = System.Guid.NewGuid() };
+        //    var gallery = new Gallery { ID = 1, Name = "Test Gallery", Password = "password", Guid = System.Guid.NewGuid() };
 
-            var images = new List<Image>();
-            foreach (var i in Enumerable.Range(1, 20))
-            {
-                images.Add(new Image() { ID = i, Sort = i, Gallery = gallery });
-            }
+        //    var images = new List<Image>();
+        //    foreach (var i in Enumerable.Range(1, 20))
+        //    {
+        //        images.Add(new Image() { ID = i, Sort = i, Gallery = gallery });
+        //    }
 
-            var random = new System.Random();
-            images = images.OrderBy(a => random.Next()).ToList();
+        //    var random = new System.Random();
+        //    images = images.OrderBy(a => random.Next()).ToList();
 
-            gallery.Images = images;
+        //    gallery.Images = images;
 
-            List<Image> returnImages = repo.GetImagesByPage(gallery, 8, 4);
-            returnImages.Count.ShouldBe(0);
-        }
+        //    List<Image> returnImages = repo.GetImagesByPage(gallery, 8, 4);
+        //    returnImages.Count.ShouldBe(0);
+        //}
 
         [Test]
         public void Gallery_Authenticate_GalleryDoesntExist()

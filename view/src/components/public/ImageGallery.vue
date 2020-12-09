@@ -1,15 +1,16 @@
 <template>
   <div>
     <h1>{{ galleryName }}</h1>
-    <hr class="grey-hr">
+    <hr v-if="hasLoadedOnce" class="grey-hr">
+
     <div class="row">
       <div class="col-12 col-md-4">
         <div class="row mb-4 mb-md-0">
           <div class="col-4 vertical-center">
-            <label class="w-100 mb-0 text-right" for="page-size">Page Size: </label>
+            <label v-if="pageSizeOptions.length > 1" class="w-100 mb-0 text-right" for="page-size">Page Size: </label>
           </div>
           <div class="col-8">
-            <select id="page-size" class="form-control" v-model="pageSize" @change="page = 1">
+            <select v-if="pageSizeOptions.length > 1" id="page-size" class="form-control" v-model="pageSize" @change="page = 1">
               <option v-for="option in pageSizeOptions" :key="option">{{option}}</option>
             </select>
           </div>
@@ -17,7 +18,7 @@
 
       </div>
       <div class="col-12 col-md-4">
-        <a :href="zipSource" class="w-100 btn btn-primary px-4 py-2 btn-sm" target="_blank">Download All Photos</a>
+        <a v-if="hasLoadedOnce" :href="zipSource" class="w-100 btn btn-primary px-4 py-2 btn-sm" target="_blank" style="">Download All Photos</a>
       </div>
       <div class="col-12 col-md-4">
         <b-pagination
@@ -30,16 +31,21 @@
       </div>
     </div>
 
-    <div class="gallery-wrapper">
-      <gallery-image
-        v-for="(image, index) in images"
-        :token="token"
-        :image-id="image.id"
-        :visible="image.visible"
-        :media="media"
-        :index="index"
-        :key="image.id">
-      </gallery-image>
+    <img v-if="isLoading" class="loading-spinner" :src="$loadingSpinner" />
+
+    <div v-if="!isLoading && images" class="gallery-wrapper" >
+      <div  v-for="(image, index) in images" :key="image.id">
+        <gallery-image
+          v-if="image.visible"
+          :token="token"
+          :image-id="image.id"
+          :index="index"
+          :lightbox="$refs.lightbox"
+          :blurhash="image.blurHash"
+          :width="image.width"
+          :height="image.height">
+        </gallery-image>
+      </div>
     </div>
 
     <div class="row">
@@ -56,6 +62,13 @@
         </b-pagination>
       </div>
     </div>
+
+    <LightBox
+      ref="lightbox"
+      :media="media"
+      :show-caption="false"
+      :show-light-box="false">
+    </LightBox>
   </div>
 </template>
 
@@ -64,18 +77,22 @@
 
   import GalleryImage from "./GalleryImage.vue"
 
+  import LightBox from 'vue-image-lightbox'
   require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
 
   export default {
     name: "ImageGallery",
     components: {
-      GalleryImage
+      GalleryImage,
+      LightBox
     },
     props: {
       token: String
     },
     data: function () {
       return {
+        isLoading: true,
+        hasLoadedOnce: false,
         pageSize: 10,
         page: 1,
         totalCount: 10
@@ -98,7 +115,7 @@
         return Math.ceil(this.totalCount / this.pageSize)
       },
       media: function() {
-        if (typeof this.images == `undefined`) {
+        if (!this.images) {
           return []
         }
 
@@ -116,6 +133,8 @@
     },
     asyncComputed: {
       images: function() {
+        this.isLoading = true;
+
         // Get the list of image ids based on the page size and number
         var v = this;
 
@@ -134,6 +153,10 @@
             }
 
             return response.data.result.images;
+          })
+          .finally(function() {
+            v.isLoading = false
+            v.hasLoadedOnce = true;
           });
       },
       galleryName: function() {

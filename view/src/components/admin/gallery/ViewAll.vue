@@ -75,7 +75,7 @@
         }
       },
       makeUrl: function(guid) {
-        return this.baseUrl + "?gallery=" + guid
+        return this.$baseUrl + "?gallery=" + guid
       }
     },
     created: function() {
