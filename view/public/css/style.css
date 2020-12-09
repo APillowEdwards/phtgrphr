@@ -741,6 +741,7 @@ h1, h2 {
 
 .loading-spinner {
   margin-top: 20px;
+  margin-bottom: 20px;
   width: 100%;
-  height: 200px;
+  height: 150px;
 }

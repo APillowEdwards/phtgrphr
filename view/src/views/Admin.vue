@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Phtgrphr Admin</h1>
+    <h1>Admin</h1>
 
     <login
       v-if="!haveAdminAuthToken"
