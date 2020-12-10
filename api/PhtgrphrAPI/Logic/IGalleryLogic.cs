@@ -34,7 +34,7 @@ namespace PhtgrphrAPI.Logic
 
         PhtgrphrResponse<GalleryResponse> AddEditGallery(Guid token, Gallery gallery);
 
-        PhtgrphrResponse<Dictionary<string, bool>> DeleteGalleryByGalleryId(Guid token, int galleryId);
+        PhtgrphrResponse<Dictionary<string, bool>> DeleteGalleryByGalleryId(Guid token, int galleryId, IFileManager fileManager);
 
         PhtgrphrResponse<Dictionary<string, bool>> AddImagesToGallery(Guid token, int galleryId, List<IFormFile> files, IFileManager fileManager);
 
@@ -44,7 +44,7 @@ namespace PhtgrphrAPI.Logic
 
         PhtgrphrResponse<Dictionary<string, bool>> SortImages(Guid token, int galleryId, List<Image> images);
 
-        PhtgrphrResponse<Dictionary<string, bool>> DeleteImageByImageId(Guid token, int imageid);
+        PhtgrphrResponse<Dictionary<string, bool>> DeleteImageByImageId(Guid token, int imageid, IFileManager fileManager);
 
         ResponseFile GetGalleryImagesAsZipByGalleryAccessToken(Guid token, IFileManager fileManager); 
     }

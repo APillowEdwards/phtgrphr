@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhtgrphrAPI.DbContexts;
 
 namespace PhtgrphrAPI.Migrations
 {
     [DbContext(typeof(PhtgrphrContext))]
-    partial class PhtgrphrContextModelSnapshot : ModelSnapshot
+    [Migration("20201206000023_AddBlurHash")]
+    partial class AddBlurHash
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,13 +83,7 @@ namespace PhtgrphrAPI.Migrations
                     b.Property<int?>("GalleryID")
                         .HasColumnType("int");
 
-                    b.Property<int>("Height")
-                        .HasColumnType("int");
-
                     b.Property<int>("Sort")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Width")
                         .HasColumnType("int");
 
                     b.HasKey("ID");

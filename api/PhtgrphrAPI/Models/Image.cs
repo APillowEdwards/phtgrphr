@@ -12,6 +12,10 @@ namespace PhtgrphrAPI.Models
         public string FileName { get; set; }
         public int Sort { get; set; }
 
+        public string BlurHash { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+
         [NotMapped]
         public bool Visible { get; set; }
 

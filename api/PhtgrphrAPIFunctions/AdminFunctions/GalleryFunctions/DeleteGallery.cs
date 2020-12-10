@@ -10,19 +10,20 @@ using Newtonsoft.Json;
 using PhtgrphrAPI.Logic;
 using PhtgrphrAPI.Responses;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
-
-
+using PhtgrphrAPI.FileManagers;
 
 namespace PhtgrphrAPIFunctions.Admin.Gallery
 {
     public class DeleteGallery : BaseFunction
     {
         private IGalleryLogic _galleryLogic;
+        private IFileManager _fileManager;
 
         //public DeleteGallery(IGalleryLogic galleryLogic)
         public DeleteGallery()
         {
             _galleryLogic = GetGalleryLogic();
+            _fileManager = GetFileManager();
         }
 
         [FunctionName("AdminGalleryDeleteGallery")]
@@ -31,7 +32,7 @@ namespace PhtgrphrAPIFunctions.Admin.Gallery
             Guid token,
             int galleryId)
         {
-            return AsActionResult(_galleryLogic.DeleteGalleryByGalleryId(token, galleryId));
+            return AsActionResult(_galleryLogic.DeleteGalleryByGalleryId(token, galleryId, _fileManager));
         }
     }
 }

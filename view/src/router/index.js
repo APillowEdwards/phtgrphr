@@ -16,6 +16,11 @@ Vue.use(VueRouter)
     component: () => import("../views/Admin.vue")
   },
   {
+    path: "/stats",
+    name: "Stats",
+    component: () => import("../views/Stats.vue")
+  },
+  {
     path: "*",
     name: "NotFound",
     component: () => import("../views/NotFound.vue")

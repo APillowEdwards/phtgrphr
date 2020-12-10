@@ -22,6 +22,16 @@ namespace PhtgrphrAPIFunctions
             );
         }
 
+        protected IStatsLogic GetStatsLogic()
+        {
+            var context = new FunctionContext(new Microsoft.EntityFrameworkCore.DbContextOptions<PhtgrphrContext>());
+
+            return new StatsLogic(
+                new GalleryRepository(context),
+                new UserRepository(context)
+            );
+        }
+
         protected IUserLogic GetUserLogic()
         {
             var context = new FunctionContext(new Microsoft.EntityFrameworkCore.DbContextOptions<PhtgrphrContext>());

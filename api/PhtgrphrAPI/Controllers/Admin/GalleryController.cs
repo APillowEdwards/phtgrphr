@@ -66,9 +66,9 @@ namespace PhtgrphrAPI.Controllers.Admin
 
         [HttpPost]
         [Route("delete/{token}/{galleryId}")]
-        public ActionResult<PhtgrphrResponse<Dictionary<string, bool>>> DeleteGallery(Guid token, int galleryId, [FromServices] IGalleryLogic galleryLogic)
+        public ActionResult<PhtgrphrResponse<Dictionary<string, bool>>> DeleteGallery(Guid token, int galleryId, [FromServices] IFileManager fileManager, [FromServices] IGalleryLogic galleryLogic)
         {
-            return AsActionResult<Dictionary<string, bool>>(galleryLogic.DeleteGalleryByGalleryId(token, galleryId));
+            return AsActionResult<Dictionary<string, bool>>(galleryLogic.DeleteGalleryByGalleryId(token, galleryId, fileManager));
         }
 
         [HttpPost]
@@ -87,9 +87,9 @@ namespace PhtgrphrAPI.Controllers.Admin
 
         [HttpPost]
         [Route("image/delete/{token}/{imageId}")]
-        public ActionResult<PhtgrphrResponse<Dictionary<string, bool>>> DeleteImage(Guid token, int imageid, [FromServices] IGalleryLogic galleryLogic)
+        public ActionResult<PhtgrphrResponse<Dictionary<string, bool>>> DeleteImage(Guid token, int imageid, [FromServices] IFileManager fileManager, [FromServices] IGalleryLogic galleryLogic)
         {
-            return AsActionResult<Dictionary<string, bool>>(galleryLogic.DeleteImageByImageId(token, imageid));
+            return AsActionResult<Dictionary<string, bool>>(galleryLogic.DeleteImageByImageId(token, imageid, fileManager));
         }
     }
 }

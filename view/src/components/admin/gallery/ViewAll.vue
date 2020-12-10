@@ -4,7 +4,9 @@
 
     <p v-if="errorMessage.length > 0" style="color: red">{{errorMessage}}</p>
 
-    <table>
+    <img v-if="galleries === null" class="loading-spinner" :src="$loadingSpinner" />
+
+    <table v-else>
       <tr>
         <th>Name</th>
         <th>Link</th>
@@ -36,7 +38,7 @@
     },
     data: function() {
       return {
-        galleries: [],
+        galleries: null,
         errorMessage: ""
       }
     },
@@ -75,7 +77,7 @@
         }
       },
       makeUrl: function(guid) {
-        return this.baseUrl + "?gallery=" + guid
+        return this.$baseUrl + "?gallery=" + guid
       }
     },
     created: function() {

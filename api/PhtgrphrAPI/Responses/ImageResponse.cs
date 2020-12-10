@@ -11,7 +11,7 @@ namespace PhtgrphrAPI.Responses
 
         public ImageResponse(Models.Image image)
         {
-            Image = new ImageResponseImage(image.ID, image.Sort, image.Visible);
+            Image = new ImageResponseImage(image.ID, image.Sort, image.Visible, image.BlurHash, image.Width, image.Height);
         }
     }
     public class ImageListResponse
@@ -24,7 +24,7 @@ namespace PhtgrphrAPI.Responses
             Images = new List<ImageResponseImage>();
             foreach (Models.Image image in images)
             {
-                Images.Add(new ImageResponseImage(image.ID, image.Sort, image.Visible));
+                Images.Add(new ImageResponseImage(image.ID, image.Sort, image.Visible, image.BlurHash, image.Width, image.Height));
             }
 
             TotalCount = totalCount;
@@ -37,11 +37,18 @@ namespace PhtgrphrAPI.Responses
         public int Sort { get; set; }
         public bool Visible { get; set; }
 
-        public ImageResponseImage(int id, int sort, bool visible)
+        public string BlurHash { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        public ImageResponseImage(int id, int sort, bool visible, string blurHash, int width, int height)
         {
             ID = id;
             Sort = sort;
             Visible = visible;
+            BlurHash = blurHash;
+            Width = width;
+            Height = height;
         }
     }
 }

@@ -62,7 +62,11 @@ namespace PhtgrphrAPI.FileManagers
                 MemoryStream memoryStream = new MemoryStream();
                 stream.CopyTo(memoryStream);
 
-                Cache.Add(image.FileName, memoryStream.ToArray());
+                // Double-check it's not been added already in the interim
+                if (!Cache.ContainsKey(image.FileName))
+                {
+                    Cache.Add(image.FileName, memoryStream.ToArray());
+                }
             }
 
             MemoryStream cacheMemoryStream = new MemoryStream(Cache[image.FileName]);
@@ -92,6 +96,29 @@ namespace PhtgrphrAPI.FileManagers
             {
                 return false;
             }
+        }
+
+        public bool DeleteImage(Image image)
+        {
+            string containerName = "phtgrphr-images";
+
+            try
+            {
+                // Get a reference to the new file
+                BlobServiceClient serviceClient = new BlobServiceClient(ConnectionString);
+                BlobContainerClient containerClient = serviceClient.GetBlobContainerClient(containerName);
+                BlobClient blobClient = containerClient.GetBlobClient(image.FileName);
+
+                blobClient.Delete();
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
+            throw new NotImplementedException();
         }
     }
 }

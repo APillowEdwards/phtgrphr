@@ -88,5 +88,10 @@ namespace PhtgrphrAPI.FileManagers
                 return false;
             }
         }
+
+        public bool DeleteImage(Image image)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

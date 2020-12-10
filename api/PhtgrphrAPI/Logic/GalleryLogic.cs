@@ -9,6 +9,7 @@ using PhtgrphrAPI.Responses;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Blurhash;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -304,7 +305,7 @@ namespace PhtgrphrAPI.Logic
             return PhtgrphrResponse<GalleryResponse>.OkResponse(response);
         }
 
-        public PhtgrphrResponse<Dictionary<string, bool>> DeleteGalleryByGalleryId(Guid token, int galleryId)
+        public PhtgrphrResponse<Dictionary<string, bool>> DeleteGalleryByGalleryId(Guid token, int galleryId, IFileManager fileManager)
         {
             UserAccessToken userAccessToken = userRepository.GetUserAccessTokenByToken(token);
 
@@ -330,7 +331,23 @@ namespace PhtgrphrAPI.Logic
                 return PhtgrphrResponse<Dictionary<string, bool>>.UnauthorisedResponse(messages);
             }
 
-            bool success = galleryRepository.DeleteGallery(gallery);
+            bool success = true;
+
+            List<Image> images = galleryRepository.GetImagesByGalleryId(gallery.ID);
+
+            // Delete all of the images in the gallery
+            foreach (Image image in images)
+            {
+                if (fileManager.DeleteImage(image))
+                {
+                    success = success && galleryRepository.DeleteImage(image);
+                }
+            }
+
+            if(success)
+            {
+                success = galleryRepository.DeleteGallery(gallery);
+            }
 
             Dictionary<string, bool> response = new Dictionary<string, bool>();
             response.Add("success", success);
@@ -418,6 +435,8 @@ namespace PhtgrphrAPI.Logic
                 sort = gallery.Images.Max(i => i.Sort) + 1;
             }
 
+            Encoder blurHashEncoder = new Encoder();
+
             foreach (IFormFile file in files)
             {
                 string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
@@ -425,10 +444,15 @@ namespace PhtgrphrAPI.Logic
                 if (fileManager.StoreFile(file, fileName))
                 {
                     // If we successfully store the file, create the record
+                    System.Drawing.Image actualImage = System.Drawing.Image.FromStream(file.OpenReadStream());
+
                     Image image = new Image();
                     image.FileName = fileName;
                     image.Sort = sort;
                     image.Gallery = gallery;
+                    image.BlurHash = blurHashEncoder.Encode(actualImage, 7, 7);
+                    image.Width = actualImage.Width;
+                    image.Height = actualImage.Height;
 
                     galleryRepository.CreateImage(image);
                 }
@@ -503,7 +527,7 @@ namespace PhtgrphrAPI.Logic
             return PhtgrphrResponse<Dictionary<string, bool>>.OkResponse(result);
         }
 
-        public PhtgrphrResponse<Dictionary<string, bool>> DeleteImageByImageId(Guid token, int imageId)
+        public PhtgrphrResponse<Dictionary<string, bool>> DeleteImageByImageId(Guid token, int imageId, IFileManager fileManager)
         {
             Image image = galleryRepository.GetImageById(imageId);
 
@@ -536,7 +560,12 @@ namespace PhtgrphrAPI.Logic
                 return PhtgrphrResponse<Dictionary<string, bool>>.UnauthorisedResponse(messages);
             }
 
-            bool success = galleryRepository.DeleteImage(image);
+            bool success = fileManager.DeleteImage(image);
+
+            if (success)
+            {
+                success = galleryRepository.DeleteImage(image);
+            }
 
             Dictionary<string, bool> response = new Dictionary<string, bool>();
             response.Add("success", success);
