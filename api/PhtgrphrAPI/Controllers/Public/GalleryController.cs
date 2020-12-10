@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace PhtgrphrAPI.Controllers
+namespace PhtgrphrAPI.Controllers.Public
 {
     [ApiController]
     [Route("v1/public/gallery")]

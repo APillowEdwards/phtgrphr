@@ -35,5 +35,9 @@ namespace PhtgrphrAPI.Repositories
         bool DeleteImage(Image image);
 
         List<Image> GetImagesByGalleryId(int iD);
+
+        int GetGalleryAccessTokenCount();
+
+        int GetImageCount();
     }
 }

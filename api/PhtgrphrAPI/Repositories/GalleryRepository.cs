@@ -155,5 +155,22 @@ namespace PhtgrphrAPI.Repositories
                 .OrderBy(i => i.Sort)
                 .ToList();
         }
+
+        public int GetGalleryAccessTokenCount()
+        {
+            return context.GalleryAccessTokens.Count();
+        }
+
+
+        public int GetImageCount()
+        {
+            // Temporary hack as cascade delete isn't working
+            var count = 0;
+            foreach (var gallery in context.Galleries.Include("Images"))
+            {
+                count += gallery.Images.Count();
+            }
+            return count;
+        }
     }
 }

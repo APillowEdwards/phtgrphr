@@ -40,6 +40,7 @@ namespace PhtgrphrAPI
             services.AddTransient<IUserRepository, UserRepository>();
 
             services.AddTransient<IGalleryLogic, GalleryLogic>();
+            services.AddTransient<IStatsLogic, StatsLogic>();
             services.AddTransient<IUserLogic, UserLogic>();
 
             // File Manager
