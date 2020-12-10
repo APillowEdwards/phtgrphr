@@ -1,10 +1,10 @@
 <template>
   <div class="gallery-image-container-container">
-    <div class="gallery-image-container" @click="openModal">
+    <div v-if="imageIsLoaded" class="gallery-image-container" @click="openModal">
       <img class="gallery-image" :src="imageUrl" />
-
+    </div>
+    <div v-else class="gallery-image-container">
       <blur-hash-canvas
-        v-if="!imageIsLoaded"
         class="gallery-image"
         :hash="blurhash || 'LEHV6nWB2yk8pyo0adR*.7kCMdnj'"
         :width="100"
@@ -111,6 +111,10 @@
   .gallery-image {
     max-width: 250px;
     max-height: 250px;
+  }
+  
+  canvas {
+    display: block;
   }
 
 </style>
