@@ -450,7 +450,7 @@ namespace PhtgrphrAPI.Logic
                     image.FileName = fileName;
                     image.Sort = sort;
                     image.Gallery = gallery;
-                    image.BlurHash = blurHashEncoder.Encode(actualImage, 7, 7);
+                    image.BlurHash = blurHashEncoder.Encode(actualImage.GetThumbnailImage(40, 40, null, IntPtr.Zero), 7, 7);
                     image.Width = actualImage.Width;
                     image.Height = actualImage.Height;
 
