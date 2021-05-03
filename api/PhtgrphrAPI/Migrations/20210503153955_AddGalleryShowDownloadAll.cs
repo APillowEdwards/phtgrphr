@@ -10,7 +10,7 @@ namespace PhtgrphrAPI.Migrations
                 name: "ShowDownloadAll",
                 table: "Galleries",
                 nullable: false,
-                defaultValue: false);
+                defaultValue: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
