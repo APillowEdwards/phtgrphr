@@ -11,7 +11,7 @@ namespace PhtgrphrAPI.Responses
 
         public GalleryResponse(Models.Gallery gallery)
         {
-            Gallery = new GalleryResponseGallery(gallery.ID, gallery.Name, gallery.Password, gallery.Guid);
+            Gallery = new GalleryResponseGallery(gallery.ID, gallery.Name, gallery.Password, gallery.Guid, gallery.ShowDownloadAll);
         }
     }
     public class GalleryListResponse
@@ -23,7 +23,7 @@ namespace PhtgrphrAPI.Responses
             Galleries = new List<GalleryResponseGallery>();
             foreach (Models.Gallery gallery in galleries)
             {
-                Galleries.Add(new GalleryResponseGallery(gallery.ID, gallery.Name, gallery.Password, gallery.Guid));
+                Galleries.Add(new GalleryResponseGallery(gallery.ID, gallery.Name, gallery.Password, gallery.Guid, gallery.ShowDownloadAll));
             }
         }
     }
@@ -34,13 +34,15 @@ namespace PhtgrphrAPI.Responses
         public string Name { get; set; }
         public string Password { get; set; }
         public Guid Guid { get; set; }
+        public bool ShowDownloadAll { get; set; }
 
-        public GalleryResponseGallery(int id, string name, string password, Guid guid)
+        public GalleryResponseGallery(int id, string name, string password, Guid guid, bool showDownloadAll)
         {
             ID = id;
             Name = name;
             Password = password;
             Guid = guid;
+            ShowDownloadAll = showDownloadAll;
         }
     }
 }

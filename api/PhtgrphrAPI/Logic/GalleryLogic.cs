@@ -1,19 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.JsonPatch.Internal;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using PhtgrphrAPI.FileManagers;
 using PhtgrphrAPI.Models;
 using PhtgrphrAPI.Repositories;
 using PhtgrphrAPI.Responses;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing.Blurhash;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PhtgrphrAPI.Logic
 {
@@ -292,10 +287,7 @@ namespace PhtgrphrAPI.Logic
             }
             else // Edit
             {
-                if (!galleryRepository.UpdateGallery(gallery))
-                {
-                    throw new Exception("Failed to update gallery.");
-                }
+                galleryRepository.UpdateGallery(gallery);
             }
 
             Gallery sanitisedGallery = SanitiseGallery(gallery);
@@ -590,6 +582,12 @@ namespace PhtgrphrAPI.Logic
             }
 
             Gallery gallery = galleryAccessToken.Gallery;
+
+            // If the download all button isn't shown, the zip should not be downloadable
+            if (!gallery.ShowDownloadAll)
+            {
+                return null;
+            }
 
             var memoryStream = new MemoryStream();
             

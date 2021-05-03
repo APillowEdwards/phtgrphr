@@ -84,6 +84,7 @@ namespace PhtgrphrAPI.Repositories
 
             dbGallery.Name = gallery.Name ?? dbGallery.Name;
             dbGallery.Password = gallery.Password ?? dbGallery.Password;
+            dbGallery.ShowDownloadAll = gallery.ShowDownloadAll;
 
             int result = context.SaveChanges();
 

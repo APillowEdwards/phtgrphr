@@ -18,7 +18,7 @@
 
       </div>
       <div class="col-12 col-md-4">
-        <a v-if="hasLoadedOnce" :href="zipSource" class="w-100 btn btn-primary px-4 py-2 btn-sm" target="_blank" style="">Download All Photos</a>
+        <a v-if="hasLoadedOnce && showDownloadAll" :href="zipSource" class="w-100 btn btn-primary px-4 py-2 btn-sm" target="_blank" style="">Download All Photos</a>
       </div>
       <div class="col-12 col-md-4">
         <b-pagination
@@ -129,6 +129,12 @@
       },
       zipSource: function() {
         return `${API.defaults.baseURL}v1/public/gallery/images/download/${this.token}`
+      },
+      galleryName: function () {
+        return this.galleryMetadata?.name;
+      },
+      showDownloadAll: function () {
+        return this.galleryMetadata?.showDownloadAll;
       }
     },
     asyncComputed: {
@@ -159,11 +165,14 @@
             v.hasLoadedOnce = true;
           });
       },
-      galleryName: function() {
+      galleryMetadata: function() {
         // Get gallery metadata
         return API.get(`/v1/public/gallery/${this.token}`)
           .then(function (response) {
-            return response.data.result.gallery.name;
+            return {
+              name: response.data.result.gallery.name,
+              showDownloadAll: response.data.result.gallery.showDownloadAll
+            };
           });
       }
     }

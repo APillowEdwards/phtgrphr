@@ -9,10 +9,15 @@
       <input v-model="name" type="text" class="form-control" id="gallery-name" />
     </div>
 
-    <label for="gallery-password">Password</label>
-    <div class="input-group mb-3">
-      <input v-model="password" type="text" class="form-control" id="gallery-password" />
-    </div>
+      <label for="gallery-password">Password</label>
+      <div class="input-group mb-3">
+        <input v-model="password" type="text" class="form-control" id="gallery-password" placeholder="********" />
+      </div>
+
+      <label for="gallery-show-download-all">Show "Download All" Button</label>
+      <div class="w-100 pl-2">
+        <input v-model="showDownloadAll" type="checkbox" id="gallery-show-download-all" />
+      </div>
 
     <div class="row mt-3">
       <div class="col-6 text-right">
@@ -39,6 +44,7 @@
       return {
         name: null,
         password: null,
+        showDownloadAll: null,
         errorMessage: ""
       }
     },
@@ -47,11 +53,12 @@
         this.$emit("backbuttonpressed");
       },
       submit: function () {
-        var v = this;
+        let v = this;
         API.post(`/v1/admin/gallery/${this.token}`, {
             ID: this.id,
             Name: this.name,
-            Password: this.password
+            Password: this.password,
+            ShowDownloadAll: this.showDownloadAll
           })
           .then(function (response) {
             if (response.data.hasError) {
@@ -67,11 +74,12 @@
     },
     created: function() {
       if (this.id != 0) {
-        var v = this;
+        let  v = this;
         return API.get(`/v1/admin/gallery/${this.token}/${this.id}`)
           .then(function (response) {
-            v.name = response.data.result.gallery.name;
-            v.password = response.data.result.gallery.password;
+            let gallery = response.data.result.gallery;
+            v.name = gallery.name;
+            v.showDownloadAll = gallery.showDownloadAll;
           });
       }
     }

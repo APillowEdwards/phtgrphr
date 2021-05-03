@@ -14,6 +14,7 @@ namespace PhtgrphrAPI.Models
         public string Name { get; set; }
         public string Password { get; set; }
         public Guid Guid { get; set; }
+        public bool ShowDownloadAll { get; set; }
 
         public virtual ICollection<GalleryAccessToken> GalleryAccessTokens { get; set; }
         public virtual ICollection<Image> Images { get; set; }
