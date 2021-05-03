@@ -9,7 +9,6 @@ namespace PhtgrphrAPI.Repositories
     public interface IUserRepository
     {
         UserAccessToken GetUserAccessTokenByToken(Guid token);
-        IList<User> GetUsers();
         User GetUserByUsername(string username);
         bool CreateUserAccessToken(UserAccessToken userAccessToken);
     }

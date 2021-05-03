@@ -46,15 +46,15 @@ namespace PhtgrphrAPI
             // File Manager
             if (Configuration.GetValue<string>("FileManager") == "AzureBlob")
             {
-                services.AddTransient<IFileManager, AzureBlobFileManager>();
+                services.AddSingleton<IFileManager, AzureBlobFileManager>();
             }
             else if (Configuration.GetValue<string>("FileManager") == "AzureFiles")
             {
-                services.AddTransient<IFileManager, AzureFilesManager>();
+                services.AddSingleton<IFileManager, AzureFilesManager>();
             }
             else if (Configuration.GetValue<string>("FileManager") == "Local")
             {
-                services.AddTransient<IFileManager, LocalFileManager>();
+                services.AddSingleton<IFileManager, LocalFileManager>();
             } 
             else
             {

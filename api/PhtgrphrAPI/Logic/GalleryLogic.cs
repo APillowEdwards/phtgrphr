@@ -427,7 +427,7 @@ namespace PhtgrphrAPI.Logic
             }
 
             int sort;
-            if (galleryRepository.GetImagesByGalleryId(gallery.ID).Count() == 0)
+            if (galleryRepository.GetImagesByGalleryId(galleryId).Count() == 0)
             {
                 sort = 1;
             } else
@@ -440,12 +440,13 @@ namespace PhtgrphrAPI.Logic
             foreach (IFormFile file in files)
             {
                 string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+                
 
                 if (fileManager.StoreFile(file, fileName))
                 {
-                    // If we successfully store the file, create the record
-                    System.Drawing.Image actualImage = System.Drawing.Image.FromStream(file.OpenReadStream());
+                    System.Drawing.Image actualImage = GetImageFromFile(file);
 
+                    // If we successfully store the file, create the record
                     Image image = new Image();
                     image.FileName = fileName;
                     image.Sort = sort;
@@ -468,6 +469,11 @@ namespace PhtgrphrAPI.Logic
             result.Add("success", true);
 
             return PhtgrphrResponse<Dictionary<string, bool>>.OkResponse(result);
+        }
+
+        private System.Drawing.Image GetImageFromFile(IFormFile file)
+        {
+            return System.Drawing.Image.FromStream(file.OpenReadStream());
         }
 
         public PhtgrphrResponse<Dictionary<string, bool>> SortImages(Guid token, int galleryId, List<Image> images)

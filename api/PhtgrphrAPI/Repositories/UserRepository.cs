@@ -35,11 +35,6 @@ namespace PhtgrphrAPI.Repositories
                 .SingleOrDefault();
         }
 
-        public IList<User> GetUsers()
-        {
-            return context.Users.ToList();
-        }
-
         public User GetUserByUsername(string username)
         {
             return context.Users

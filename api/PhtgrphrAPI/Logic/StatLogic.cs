@@ -24,7 +24,7 @@ namespace PhtgrphrAPI.Logic
             StatsResponse response = new StatsResponse();
 
             response.TotalAccesses = galleryRepository.GetGalleryAccessTokenCount();
-            response.TotalGalleries = galleryRepository.GetGalleries().Count();
+            response.TotalGalleries = galleryRepository.GetGalleryCount();
             response.TotalImages = galleryRepository.GetImageCount();
 
             return PhtgrphrResponse<StatsResponse>.OkResponse(response);

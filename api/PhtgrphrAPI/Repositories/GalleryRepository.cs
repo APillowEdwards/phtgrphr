@@ -38,11 +38,6 @@ namespace PhtgrphrAPI.Repositories
             return result > 0;
         }
 
-        public List<Gallery> GetGalleries()
-        {
-            return context.Galleries.ToList();
-        }
-
         public Gallery GetGalleryByGuid(Guid guid)
         {
             return context.Galleries
@@ -171,6 +166,11 @@ namespace PhtgrphrAPI.Repositories
                 count += gallery.Images.Count();
             }
             return count;
+        }
+
+        public int GetGalleryCount()
+        {
+            return context.Galleries.Count();
         }
     }
 }
