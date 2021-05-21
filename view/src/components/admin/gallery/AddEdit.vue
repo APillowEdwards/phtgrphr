@@ -42,9 +42,9 @@
     },
     data: function () {
       return {
-        name: null,
-        password: null,
-        showDownloadAll: null,
+        name: "",
+        password: "",
+        showDownloadAll: false,
         errorMessage: ""
       }
     },
